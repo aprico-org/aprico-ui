@@ -1,0 +1,184 @@
+/* montale-defaults.css | (c) Pino Ceniccola | MIT License */
+
+@custom-media --breakpoint-sm (min-width: 40em);
+@custom-media --breakpoint-md (min-width: 47.5em);
+@custom-media --breakpoint-lg (min-width: 64em);
+
+:root {
+	--breakpoint-sm-value: 40em;
+	--breakpoint-md-value: 47.5em;
+	--breakpoint-lg-value: 64em;	
+
+	/* base defaults */
+	--body-font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+	--body-line-height: 1.5;
+	--body-font-size: var(--h4);
+	--body-font-weight: normal;
+	--heading-font-family: var(--body-font-family);
+	--heading-font-weight: 300;
+	--heading-line-height: 1.3;
+	--heading-margin-top: 0;
+	--heading-margin-bottom: 1.5rem; /*.5em;*/
+	--monospace-font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
+	--bold-font-weight: 700;
+	--block-margin-top: 0;
+	--block-margin-bottom: 1.5rem;
+	--pre-font-size: inherit;	
+
+	/* base colors */
+	--body-background-color: var(--white);
+	--body-color: var(--black);/*color(var(--body-background-color) contrast(70%));*/
+	--heading-color: inherit;
+	--link-color: var(--blue);
+	--link-hover-color: color(var(--link-color) lightness(+10%));
+	--link-visited-color: inherit; /*color(var(--link-color) blackness(10%));*/
+	--link-text-decoration: none;
+	--link-hover-text-decoration: underline;
+	--pre-color: var(--black);
+	--pre-background-color: var(--gray-1);
+	--pre-border-radius: var(--border-radius);
+	--rule-border-style: inset;
+	--rule-border-width: 1px;
+	--rule-border-color: gray;
+	--selection-color: white;
+	--selection-background-color: var(--red);  
+
+	/* base tables  */
+	--table-header-font-weight: var(--bold-font-weight);
+	--table-cell-padding-x: 0;
+	--table-cell-padding-y: .5rem;
+	--table-row-border-color: var(--darken-1);  
+
+	/* base forms */
+	--form-field-font-size: inherit;
+	--form-field-background-color: var(--white);
+	--form-field-color: var(--black);
+	--form-field-border-color: var(--gray-2);
+	--form-field-focus-border-color: var(--red); /*var(--gray-3);*/
+	--form-field-label-color: var(--black);
+	--form-field-padding-x: 0.5rem;
+	--form-field-padding-y: 0.5rem;	
+
+	/* typography */
+	--line-height-1: 1;
+	--line-height-2: 1.125;
+	--line-height-3: 1.25;
+	--line-height-4: 1.5;
+	--letter-spacing: 1;
+	--caps-letter-spacing: .1em;	
+	/*--bold-font-weight: bold;*/
+
+	/* base typographic scale */
+	--h1: 2rem;
+	--h2: 1.5rem;
+	--h3: 1.25rem;
+	--h4: 1rem;
+	--h5: .875rem;
+	--h6: .75rem;	
+
+	/*
+		experimental modular typographic scale
+		ref: https://cloudfour.com/thinks/responsive-guide-to-type-sizing/
+	*/
+	--ratio: 1.25;
+	--base: 1.25;
+	--base-rem: calc(var(--base) * 1rem);
+	--ms0:1;
+	--ms1:var(--ratio);
+	--ms2:calc(var(--ratio) * var(--ms1));
+	--ms3:calc(var(--ratio) * var(--ms2));
+	--ms4:calc(var(--ratio) * var(--ms3));
+	--ms5:calc(var(--ratio) * var(--ms4));
+	--ms6:calc(var(--ratio) * var(--ms5));
+	--ms7:calc(var(--ratio) * var(--ms6));
+	--h00:calc(var(--base-rem) * var(--ms5));
+	--h0:calc(var(--base-rem) * var(--ms4));
+	--h1:calc(var(--base-rem) * var(--ms3));
+	--h2:calc(var(--base-rem) * var(--ms2));
+	--h3:calc(var(--base-rem) * var(--ms1));
+	--h4:calc(var(--base-rem) * var(--ms0));
+	--h5:calc(var(--base-rem) / var(--ms1));
+	--h6:calc(var(--base-rem) / var(--ms2));	
+
+	/* layout */
+	--width-1:24rem;
+	--width-2:32rem;
+	--width-3:48rem;
+	--width-4:74rem; /*64rem;*/
+
+	/* white space */
+	--space-1:.75rem;
+	--space-2:1.5rem;
+	--space-3:3rem;
+	--space-4:6rem;	
+
+	/* border */
+	--border-width: 1px;
+	--border-radius: 3px;	
+
+	/* position */
+	--z1:1;
+	--z2:2;
+	--z3:3;
+	--z4:4;	
+
+	/* motion */
+	--transition-timing: 0.25s;
+	--transition-timing-fast: 0.1s;
+	--transition-timing-slow: 0.5s;
+	--transition-easing: cubic-bezier(0.455, 0.03, 0.515, 0.955);	
+
+	/* button */
+	--button-font-family: inherit;
+	--button-font-size: var(--h4);
+	--button-font-weight: 700;
+	--button-line-height: 1.125rem;
+	--button-padding-y: 0.7rem; /*var(--form-field-padding-y);*/
+	--button-padding-x: 1.5rem;
+	--button-color: var(--white);
+	--button-background-color: var(--red);	
+
+	/* button sizes */
+	--button-small-padding-y: 0.3rem;
+	--button-small-padding-x: 1.5rem;
+	--button-big-padding-y: 1.5rem;
+	--button-big-padding-x: 1.5rem;
+	--button-narrow-padding-x: 3rem;	
+
+	/* darken */
+	--darken-1:rgba(0, 0, 0, .03);
+	--darken-2:rgba(0, 0, 0, .06);
+	--darken-3:rgba(0, 0, 0, .25);
+	--darken-4:rgba(0, 0, 0, .5);	
+
+	/* lighten */
+	--lighten-1:rgba(255, 255, 255, .0625);
+	--lighten-2:rgba(255, 255, 255, .125);
+	--lighten-3:rgba(255, 255, 255, .25);
+	--lighten-4:rgba(255, 255, 255, .5);	
+
+	/* colors */
+	--aqua: #7FDBFF;
+	--blue: #0074D9;
+	--navy: #001F3F;
+	--teal: #39CCCC;
+	--green: #2ECC40;
+	--olive: #3D9970;
+	--lime: #01FF70;
+	--yellow: #FFEC00;
+	--orange: orangered;
+	--red: #ef3d33;
+	--fuchsia: #F012BE;
+	--purple: #B10DC9;
+	--maroon: #85144B;
+	--white: #FFFFFF;
+	--silver: #DDDDDD;
+	--gray: #848484;
+	--black: #484848;	
+
+	/* neutral colors */
+	--gray-1:#FAFAFA;
+	--gray-2:#F0F0F0;
+	--gray-3:#aaaaaa;
+	--gray-4:#7E7E7E;
+}

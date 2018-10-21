@@ -1,0 +1,59 @@
+/*! montale-switch.css | (c) Pino Ceniccola | MIT License */
+
+input.switch-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+input.switch-toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+input.switch-toggle-round + label {
+  padding: 2px;
+  width: 60px;
+  height: 25px;
+  background-color: #dddddd;
+  border-radius: 25px;
+}
+
+input.switch-toggle-round + label:before, input.switch-toggle-round + label:after {
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  content: "";
+}
+
+input.switch-toggle-round + label:before {
+  right: 1px;
+  background-color: #f1f1f1;
+  border-radius: 25px;
+  transition: background var(--transition-timing-fast) var(--transition-easing);
+}
+
+input.switch-toggle-round + label:after {
+  width: 23px;
+  background-color: #fff;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: margin 0.4s;
+}
+
+input.switch-toggle-round:checked + label:before {
+  background-color: #8ce196;
+}
+
+input.switch-toggle-round:checked + label:after {
+  margin-left: 35px;
+}
+
+input.switch-toggle-round:disabled +label {
+  cursor: default;
+}

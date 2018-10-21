@@ -1,0 +1,49 @@
+{
+  "name": "aprico-ui",
+  "description": "Aprico is a modern, easy to use deterministic password manager. This is its UI implementation.",
+  "version": "1.0.0",
+  "main": "src/js/aprico-ui.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "postcss src/css/index.css -d dist/css --config postcss.config.js --verbose",
+    "build-js": "browserify -i buffer src/js/main.js | uglifyjs > dist/js/bundle.js",
+    "watch": "watchify -i buffer src/js/main.js -o dist/js/bundle.js -v",
+    "prepare": "npm run build-css && npm run build-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aprico-org/aprico-ui.git"
+  },
+  "keywords": [
+    "javascript",
+    "password-generator",
+    "scrypt"
+  ],
+  "author": "Pino Ceniccola",
+  "license": "GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/aprico-org/aprico-ui/issues"
+  },
+  "homepage": "https://github.com/aprico-org/aprico-ui",
+  "dependencies": {
+    "aprico-gen": "^1.0.0",
+    "identicon.js": "^2.3.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.2.1",
+    "basscss": "^8.0.10",
+    "basscss-addons": "^1.0.0",
+    "browserify": "^16.2.3",
+    "cssnano": "^4.1.5",
+    "postcss": "^7.0.5",
+    "postcss-calc": "^7.0.0",
+    "postcss-cli": "^6.0.1",
+    "postcss-color-function": "^4.0.1",
+    "postcss-custom-media": "^7.0.7",
+    "postcss-custom-properties": "^8.0.8",
+    "postcss-import": "^12.0.0",
+    "postcss-remove-root": "0.0.2",
+    "uglify-es": "^3.3.9",
+    "watchify": "^3.11.0"
+  }
+}

@@ -1,0 +1,216 @@
+/*! montale-extra.css | (c) Pino Ceniccola | MIT License */
+
+/*
+ *	MOTION
+ */
+
+.transition {
+	transition: all var(--transition-timing) var(--transition-easing);
+}
+
+.transition-fast {
+	transition: all var(--transition-timing-fast) var(--transition-easing);
+}
+
+.transition-slow {
+	transition: all var(--transition-timing-slow) var(--transition-easing);
+}
+
+:root {
+	--transition-timing: 0.25s;
+	--transition-timing-fast: 0.1s;
+	--transition-timing-slow: 0.5s;
+	--transition-easing: ease-in-out;
+}
+
+/*
+ *	TYPOGRAPHY
+ */
+
+/* http://kennethormandy.com/journal/normalize-opentype-css */
+
+html, body, table {
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+}
+
+abbr {
+	text-transform: uppercase;
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "smcp" 1, "c2sc" 1;
+}
+
+/* font-weight utilities */
+.weight-100 {
+	font-weight: 100
+}
+
+.weight-200 {
+	font-weight: 200
+}
+
+.weight-300 {
+	font-weight: 300
+}
+
+.weight-400 {
+	font-weight: 400
+}
+
+.weight-500 {
+	font-weight: 500
+}
+
+.weight-600 {
+	font-weight: 600
+}
+
+.weight-700 {
+	font-weight: 700
+}
+
+.weight-800 {
+	font-weight: 800
+}
+
+.weight-900 {
+	font-weight: 900
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.serif {
+	font-family: serif;
+}
+
+.monospace {
+	font-family: var(--monospace-font-family);
+}
+
+/*
+ *	COLORS
+ */
+:root {
+	--orange: orangered;
+	--white: #FFFFFF;
+	--black: #222;
+	--red: #FF4136;
+	--green: #2ECC40;
+	--blue: #0074D9;
+	--gray-1:#EEEEEE;
+	--gray-2:#DEDEDE;
+	--gray-3:#BEBEBE;
+	--gray-4:#7E7E7E;
+}
+
+.primary {
+	color: var(--primary);
+}
+
+.bg-primary {
+	background-color: var(--primary);
+}
+
+.border-primary {
+	border-color: var(--primary);
+}
+
+.orange {
+	color: var(--orange);
+}
+
+.white {
+	color: var(--white);
+}
+
+.black {
+	color: var(--black);
+}
+
+.bg-orange {
+	background-color: var(--orange);
+}
+
+.bg-white {
+	background-color: var(--white);
+}
+
+.bg-black {
+	background-color: var(--black);
+}
+
+.border-orange {
+	border-color: var(--orange);
+}
+
+.border-white {
+	border-color: var(--white);
+}
+
+.border-black {
+	border-color: var(--black);
+}
+
+.gray-1 {
+	color: var(--gray-1);
+}
+
+.gray-2 {
+	color: var(--gray-2);
+}
+
+.gray-3 {
+	color: var(--gray-3);
+}
+
+.gray-4 {
+	color: var(--gray-4);
+}
+
+.bg-gray-1 {
+	background-color: var(--gray-1);
+}
+
+.bg-gray-2 {
+	background-color: var(--gray-2);
+}
+
+.bg-gray-3 {
+	background-color: var(--gray-3);
+}
+
+.bg-gray-4 {
+	background-color: var(--gray-4);
+}
+
+.border-gray-1 {
+	border-color: var(--gray-1);
+}
+
+.border-gray-2 {
+	border-color: var(--gray-2);
+}
+
+.border-gray-3 {
+	border-color: var(--gray-3);
+}
+
+.border-gray-4 {
+	border-color: var(--gray-4);
+}
+
+/* extra color utils */
+.color-inherit {
+	color: inherit;
+}
+
+.current-color {
+	color: currentColor;
+}
+
+/*
+ *  Layout
+ */
+.sticky {
+	position: sticky;
+}

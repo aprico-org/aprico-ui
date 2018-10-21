@@ -1,0 +1,329 @@
+/*! montale-base.css | (c) Pino Ceniccola | MIT License */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+}
+
+body, .body-font {
+  font-family: var(--body-font-family);
+  line-height: var(--body-line-height);
+  font-size: var(--body-font-size);
+  font-weight: var(--body-font-weight);
+  color: var(--body-color);
+  background-color: var(--body-background-color);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+svg {
+  max-height: 100%;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: var(--link-text-decoration);
+}
+
+/*a:visited {color: var(--link-visited-color);}*/
+a:not(.btn):hover, a:not(.btn):focus {
+  color: var(--link-hover-color);
+  text-decoration: var(--link-hover-text-decoration);
+}
+
+a:active {
+}
+
+h1, h2, h3, h4, h5, h6, .h {
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
+  margin-top: var(--heading-margin-top);
+  margin-bottom: var(--heading-margin-bottom);
+  color: var(--heading-color);
+}
+
+h1 {
+  font-size: var(--h1);
+}
+
+h2 {
+  font-size: var(--h2);
+}
+
+h3 {
+  font-size: var(--h3);
+}
+
+h4 {
+  font-size: var(--h4);
+}
+
+h5 {
+  font-size: var(--h5);
+}
+
+h6 {
+  font-size: var(--h6);
+}
+
+p, dl, ol, ul, pre, figure, table, hr, address, .block-margin {
+  margin-top: var(--block-margin-top);
+  margin-bottom: var(--block-margin-bottom);
+}
+
+figure {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 100%;
+}
+
+li > ul, li > ol {
+  margin-bottom: 0;
+}
+
+b, strong {
+  font-weight: var(--bold-font-weight);
+}
+
+.monospace {
+  font-family: var(--monospace-font-family);
+}
+
+pre, code, kbd {
+  color: var(--pre-color);
+  font-family: var(--monospace-font-family);
+  font-size: var(--pre-font-size);
+  background-color: var(--pre-background-color);
+  border-radius: var(--pre-border-radius);
+}
+
+mark {
+  border-radius: var(--pre-border-radius);
+}
+
+code, mark, kbd {
+  padding: 0.5ex 0.5em;
+}
+
+pre {
+  padding: 1ex 1em;
+  overflow-x: scroll;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+address {
+  font-style: normal;
+  line-height: inherit;
+}
+
+dt {
+  font-weight: var(--bold-font-weight);
+}
+
+hr {
+  border: 0;
+  border-bottom-style: var(--rule-border-style);
+  border-bottom-width: var(--rule-border-width);
+  border-bottom-color: var(--rule-border-color);
+}
+
+small {
+  font-size: 1.5ex;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -.5ex;
+}
+
+sup {
+  top: -1ex;
+}
+
+::selection {
+  color: var(--selection-color);
+  background: var(--selection-background-color);
+  text-shadow: none;
+}
+
+/* table reset */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+  font-weight: var(--table-header-font-weight);
+  border-bottom: 1px solid var(--darken-1);
+}
+
+th, td {
+  padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+  line-height: inherit;
+}
+
+th {
+  vertical-align: bottom
+}
+
+td {
+  vertical-align: top;
+  border-top: 1px solid var(--table-row-border-color);
+}
+
+/* basic form reset */
+input {
+  margin: 0;
+  vertical-align: middle;
+  font-family: inherit;
+}
+
+/*
+input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="color"]):not([type="range"]),
+textarea, select {
+  */
+input, textarea, select {
+  border: 1px solid var(--form-field-border-color);
+  border-radius: var(--border-radius);
+  display: inline-block;
+  font-size: var(--form-field-font-size);    /*margin: var(--block-margin-top) 0 var(--block-margin-bottom) 0;*/
+  max-width: 100%;
+  padding: var(--form-field-padding-y) var(--form-field-padding-x);
+  width: 100%;
+  font-family: inherit;    /*appearance: none;*/
+  background-color: var(--form-field-background-color);
+  color: var(--form-field-color);
+}
+
+/*
+input:focus:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="color"]):not([type="range"]), textarea:focus, select:focus {
+*/
+input:focus, textarea:focus, select:focus {
+  border-color: var(--form-field-focus-border-color);
+}
+
+/*
+  Since we defined our own select:focus styles, we can safetly remove the ugly Firefox dotted border.
+ */
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+/*
+*   TO DO: Since we styled the naked input element, we have to reset every other input type: button, range,
+*   file, radio, checkbox, etc..
+*/
+input[type="range"] {
+  display: block;
+  margin: var(--block-margin-top) 0 var(--block-margin-bottom) 0;
+  max-width: 100%;
+  width: 100%;
+  padding: var(--block-margin-bottom);
+  border: 0 none;
+  background-color: transparent;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+input[type="color"] {
+  border: 1px solid var(--darken-1);
+  border-radius: var(--border-radius);
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+input[type="search"], input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="password"], input[type="url"], select, textarea {
+  appearance: none;
+}
+
+input[type="radio"], input[type="checkbox"] {
+  margin: 0 0 0.2rem;
+  vertical-align: middle;
+  border: 0 none;
+  width: auto;
+  padding: 0;
+}
+
+input[type="reset"], input[type="submit"] {
+  width: auto;
+}
+
+input:disabled {
+  opacity: 0.5;
+}
+
+select {
+
+  /*
+    We are going to use this little hack for selects, at least until there will be
+    more ways to style them more consistently across browsers.
+   */
+  appearance: none;
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDQ4IDQ4IiB3aWR0aD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0LjgzIDE2LjQybDkuMTcgOS4xNyA5LjE3LTkuMTcgMi44MyAyLjgzLTEyIDEyLTEyLTEyeiIvPjxwYXRoIGQ9Ik0wLS43NWg0OHY0OGgtNDh6IiBmaWxsPSJub25lIi8+PC9zdmc+');
+  background-position: 99% center;
+  background-size: auto 50%;
+  background-repeat: no-repeat;
+}
+
+option {
+  font-family: inherit;
+  margin: var(--form-field-padding-y) var(--form-field-padding-x);
+}
+
+optgroup {
+  padding: 0.2rem;
+  font-style: normal;
+  font-family: inherit;
+}
+
+optgroup option {
+  margin: 0;
+}
+
+label {
+  color: var(--form-field-label-color);
+}
+
+fieldset {
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: var(--block-margin-bottom);
+}
