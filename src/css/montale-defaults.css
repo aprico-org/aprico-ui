@@ -19,7 +19,7 @@
 	--heading-line-height: 1.3;
 	--heading-margin-top: 0;
 	--heading-margin-bottom: 1.5rem; /*.5em;*/
-	--monospace-font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
+	--monospace-font-family: "SF Mono", "Menlo", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace, serif;
 	--bold-font-weight: 700;
 	--block-margin-top: 0;
 	--block-margin-bottom: 1.5rem;
@@ -51,7 +51,7 @@
 
 	/* base forms */
 	--form-field-font-size: inherit;
-	--form-field-background-color: var(--white);
+	--form-field-background-color: var(--lighten-1);
 	--form-field-color: var(--black);
 	--form-field-border-color: var(--gray-2);
 	--form-field-focus-border-color: var(--red); /*var(--gray-3);*/
@@ -80,8 +80,8 @@
 		experimental modular typographic scale
 		ref: https://cloudfour.com/thinks/responsive-guide-to-type-sizing/
 	*/
-	--ratio: 1.25;
-	--base: 1.25;
+	--ratio: 1.4;
+    --base: 1.5;
 	--base-rem: calc(var(--base) * 1rem);
 	--ms0:1;
 	--ms1:var(--ratio);
@@ -173,7 +173,7 @@
 	--maroon: #85144B;
 	--white: #FFFFFF;
 	--silver: #DDDDDD;
-	--gray: #848484;
+	--gray: var(--gray-2);
 	--black: #484848;	
 
 	/* neutral colors */
