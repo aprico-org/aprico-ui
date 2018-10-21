@@ -1,6 +1,6 @@
 
 /*
-  Aprico UI:
+  Aprico UI: 
   implementation of Aprico
 
 */
