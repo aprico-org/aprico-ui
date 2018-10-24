@@ -1,5 +1,5 @@
 {
-  "name": "aprico-ui-fix",
+  "name": "aprico-ui",
   "description": "Aprico is a modern, easy to use deterministic password manager.",
   "version": "0.1.1",
   "main": "src/js/aprico-ui.js",
@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-css": "postcss src/css/index.css -d dist/css --config postcss.config.js --verbose",
     "build-js": "browserify -i buffer src/js/main.js | uglifyjs > dist/js/bundle.js",
+    "build": "npm run build-js && npm run build-css",
     "watch": "watchify -i buffer src/js/main.js -o dist/js/bundle.js -v",
-    "prepare": "npm run build-css && npm run build-js"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -16,11 +17,11 @@
   },
   "keywords": [
     "javascript",
-    "password-generator",
-    "scrypt"
+    "password-manager",
+    "aprico"
   ],
   "author": "Pino Ceniccola",
-  "license": "GPL-2.0-or-later",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/aprico-org/aprico-ui/issues"
   },
