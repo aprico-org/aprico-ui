@@ -1,14 +1,14 @@
-
-/*
-  Aprico UI: 
-  implementation of Aprico
-
-*/
+/*!
+ * aprico-ui
+ * Universal UI implementation for the Aprico Password Manager. 
+ * Copyright (c) 2018 Pino Ceniccola | GPLv3
+ * https://aprico.org
+ */
 
 'use strict';
 
 
-const VERSION = '0.1.0';
+const VERSION = '0.1.2';
 
 const aprico = require('aprico-gen');
 
@@ -48,7 +48,7 @@ const isWebExt = (typeof browser !== 'undefined' && browser.runtime && browser.r
  *  name in Edge. 
  */
 
-if (isWebExt && typeof chrome === "undefined") window.chrome = window.browser;
+if (isWebExt && typeof chrome === "undefined") window.chrome = browser;
 
 
 

@@ -1,6 +1,5 @@
 /*
-  Aprico Templates
-
+ * Aprico UI Templates
 */
 
 const templates = {
@@ -10,13 +9,16 @@ const templates = {
       <label class="label">ID</label>
       <input type="text" id="ap-hashid" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   	</div>
+  	<div class="mb2 h6">
+  		<p><strong>Please choose an ID:</strong> it can be your e-mail address, your nickname or a longer passphrase.</p>
+      <p>It will be only asked once, but please, <strong>make sure to remeber it</strong> as there is no way to recover your ID.</p>
+    </div>
   	<div class="mb2">
-  		<p class="h6">Please choose an ID: it can be your e-mail address, your nickname or a longer passphrase.</p>
-		<p class="h6">It will be asked only once, but please, <strong>make sure to remeber it</strong>, there is no way to recover your ID.</p>
-  	</div>
-  	<div class="-mb2">
       <button id="ap-trigger-login" class="btn btn-primary h6 caps white">Start using Aprico</button>
   	</div>
+    <div class="border-top border-gray-2 pt2">
+      <p class="h6"><strong>Aprico</strong> is a deterministic password manager that works 100% in your browser. No data will ever be sent to any server or cloud. You can read more in our super friendly <a href="https://aprico.org/privacy.html">Privacy Policy</a>.</h6>
+    </div>
     </div>
   	`,
 	main: `
