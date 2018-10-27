@@ -1,5 +1,14 @@
 # Changelog
-All notable changes to this project will be documented in this file.
+All notable changes to `aprico-ui` will be documented in this file.
+
+## Unreleased 
+### Added
+- Improved, fully responsive templates.
+- CSS: Custom notice classes for web-ext/brower and for macOS/otherOS.
+- CSS: Improved neutral colors.
+
+### Fixed
+- JS: link in new tab logic for web extension.
 
 ## 0.1.2 - 2018-10-25
 ### Added

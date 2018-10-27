@@ -2,12 +2,37 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Aprico</title>
+  <title>Use Aprico Online: a free deterministic Password Manager</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="dist/css/index.css" rel="stylesheet">
 </head>
 <body>
-<div id="aprico" class="max-width-1 mx-auto"></div>
+<div class="flex flex-column md-flex-row" style="min-height:100vh">
+	<div class="md-col-6 p2 sm-p3 md-flex flex-column justify-between md-bg-gray">
+		<div>
+			<img class="block" style="height:48px" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIwIDI0Ij48ZyBmaWxsPSIjRUYzRDMzIj48cGF0aCBkPSJNOCAxMkgxMlYxNkg4eiIvPjxwYXRoIGQ9Ik04IDE2SDEyVjIwSDh6Ii8+PHBhdGggZD0iTTggMjBIMTJWMjRIOHoiLz48cGF0aCBkPSJNNCA0SDhWOEg0eiIvPjxwYXRoIGQ9Ik0xMiA0SDE2VjhIMTJ6Ii8+PHBhdGggZD0iTTQgMTJIOFYxNkg0eiIvPjxwYXRoIGQ9Ik0xMiAxMkgxNlYxNkgxMnoiLz48cGF0aCBkPSJNNCAyMEg4VjI0SDR6Ii8+PHBhdGggZD0iTTEyIDIwSDE2VjI0SDEyeiIvPjxwYXRoIGQ9Ik0wIDEySDRWMTZIMHoiLz48cGF0aCBkPSJNMTYgMTJIMjBWMTZIMTZ6Ii8+PHBhdGggZD0iTTAgMTZINFYyMEgweiIvPjxwYXRoIGQ9Ik0xNiAxNkgyMFYyMEgxNnoiLz48cGF0aCBkPSJNMCAyMEg0VjI0SDB6Ii8+PHBhdGggZD0iTTE2IDIwSDIwVjI0SDE2eiIvPjxwYXRoIGQ9Ik00IDBIMTZWNEg0eiIvPjwvZz48L3N2Zz4=">
+		</div>
+		<div class="h5 xs-hide sm-hide">
+		<p class="mb3"><strong>aprico</strong> is an open-source deterministic Password Manager. <br>Find out more at <a href="https://aprico.org">aprico.org</a></p>
+		<h4 class="h6 caps weight-700 line-height-2">Try me with <br>your smartphone:</h4>
+		<p class="-flex items-center">
+			<img class="block" style="height:100px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAACvAgMAAAD2/GbmAAAACVBMVEVHcEz///8AAADmzmMiAAAAAXRSTlMAQObYZgAAAaNJREFUeF7t2DtuwzAMBmAiY/ZcQkfxGJQecoSeokuP4D0ZCjA8ZWU+wFiwjLSjpH8JonzyQISSLOAIf/k3ADjnb/IRoS0e+ImWW8aStI6vYcp4QUu/+F7DWeU8FZ+ySwwgVTfMa5Y6Pg0cvfFPPLDkHTywxjvlgZ+Ms+Cc6O5d/NM+TnypYUlUVuZY1ZmON6Bn+3g6wNuwbic2tZaB4+fEUlLpFMFR55jD1CsmwelewcwPXOfgJHPsLymDFoDAsmDEFr5GV5HW8FTBBFCckXG2ThFlc6wjEv0Bcwv4cnX82MMyEC1CYDl7bZPP6QnDO9he0FgaOVZEVVB0t2MaOJEqL6JVPVZLe6RSeB9zGxiOsSb+fB5IxQUCU4mpc0w+7t3txf9GNXqaXvAQL46xTRzVwOuKPwJ7d2usUyzWH9kFHrjM63hie6PrHFMNc2SzfYCfuReMjtjF3C0u7wrukOQsuKmzZh/j3CcubqhY4tgSC0AdD+y9IfFBSZeYNphwquC4CfQ6+8uLZAcPbLkV27El6YMcD0w47dyLFkdC+7Byb/HAv8qzADRCV+u5AAAAAElFTkSuQmCC">
+			<span class="h6 gray-3 monospace">use.aprico.org</span>
+		</p>
+		<h4 class="h6 caps weight-700 line-height-2">Or in your browser:</h4>
+		<p><a class="btn btn-outline h6 mr2 mb2" href="#!">FireFox Extension</a> 
+			<a class="btn btn-outline h6 mb2" href="#!">Chrome Extension</a></p>
+		</div>
+		<pre class="h6 xs-hide sm-hide monospace m0 p0"><code>aprico-gen: v1.0.0
+aprico-ui:  v0.1.2
+aprico-pwa: v0.1.0</code></pre>
+	</div>
+
+	<div class="md-col-6 md-box-shadow flex flex-auto">
+		<div id="aprico" class="col-12 flex"></div>
+	</div>
+</div>
+
 <script src="dist/js/bundle.js"></script>
 </body>
 </html>

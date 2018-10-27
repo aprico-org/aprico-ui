@@ -1,12 +1,20 @@
 /* montale-defaults.css | (c) Pino Ceniccola | MIT License */
-
+/*
 @custom-media --breakpoint-sm (min-width: 40em);
-@custom-media --breakpoint-md (min-width: 47.5em);
+@custom-media --breakpoint-md (min-width: 50em);
+@custom-media --breakpoint-lg (min-width: 64em);
+*/
+@custom-media --breakpoint-sm (min-width: 40em);
+@custom-media --breakpoint-md (min-width: 50.625em);
+
+@custom-media --breakpoint-xs (max-width: 40em);
+@custom-media --breakpoint-sm-md (min-width: 40em) and (max-width: 50.624em);
+@custom-media --breakpoint-md-lg (min-width: 50.625em) and (max-width: 64em);
 @custom-media --breakpoint-lg (min-width: 64em);
 
 :root {
 	--breakpoint-sm-value: 40em;
-	--breakpoint-md-value: 47.5em;
+	--breakpoint-md-value: 50em;
 	--breakpoint-lg-value: 64em;	
 
 	/* base defaults */
@@ -35,12 +43,12 @@
 	--link-text-decoration: none;
 	--link-hover-text-decoration: underline;
 	--pre-color: var(--black);
-	--pre-background-color: var(--gray-1);
+	--pre-background-color: var(--gray);
 	--pre-border-radius: var(--border-radius);
 	--rule-border-style: inset;
 	--rule-border-width: 1px;
-	--rule-border-color: gray;
-	--selection-color: white;
+	--rule-border-color: var(--gray);
+	--selection-color: var(--white);
 	--selection-background-color: var(--red);  
 
 	/* base tables  */
@@ -53,7 +61,7 @@
 	--form-field-font-size: inherit;
 	--form-field-background-color: var(--lighten-1);
 	--form-field-color: var(--black);
-	--form-field-border-color: var(--gray-2);
+	--form-field-border-color: var(--gray);
 	--form-field-focus-border-color: var(--red); /*var(--gray-3);*/
 	--form-field-label-color: var(--black);
 	--form-field-padding-x: 0.5rem;
@@ -147,7 +155,7 @@
 
 	/* darken */
 	--darken-1:rgba(0, 0, 0, .03);
-	--darken-2:rgba(0, 0, 0, .06);
+	--darken-2:rgba(0, 0, 0, .1);
 	--darken-3:rgba(0, 0, 0, .25);
 	--darken-4:rgba(0, 0, 0, .5);	
 
@@ -170,14 +178,14 @@
 	--red: #ef3d33;
 	--fuchsia: #F012BE;
 	--purple: #B10DC9;
-	--maroon: #85144B;
+	--maroon: #af2d26; /* #c9342c;*/
 	--white: #FFFFFF;
 	--silver: #DDDDDD;
-	--gray: var(--gray-2);
+	--gray: #ededed;
 	--black: #484848;	
 
 	/* neutral colors */
-	--gray-1:#FAFAFA;
+	--gray-1:#F6F7F8;
 	--gray-2:#F0F0F0;
 	--gray-3:#aaaaaa;
 	--gray-4:#7E7E7E;

@@ -24,18 +24,16 @@ input, textarea, select {
 	border-bottom: 2px solid var(--form-field-border-color);
 	border-radius: 0;
 	background-color: transparent;
+	caret-color: var(--gray-3);
 }
 
 .bg-identicon {
-
-	/*background-position:center right;*/
 	background-position: 120%;
 	background-repeat: no-repeat;
 	padding-right: 40px;	
 }
 
 .bg-identicon:focus {
-	/*background-size: auto;*/
 	background-position: center right;
 }
 
@@ -45,10 +43,41 @@ label {
 	display: block;
 }
 
+
+/* layout utils */
+
 .hidden {
 	visibility: hidden;
 	pointer-events: none;
 }
+
+@media (--breakpoint-md) {
+	.md-bg-gray {
+		background-color: var(--gray);
+	}
+	.md-flex-row {
+    	flex-direction: row;
+	}
+	.md-box-shadow {
+		box-shadow: var(--darken-2) 0px 20px 60px -10px;
+	}
+}
+
+.h-100 { height: 100%; }
+
+[hidden] {
+	display: none !important;
+}
+
+/* custom notices */
+.browser-notice, .webext-notice, .macOS-notice, .macOS-inline-notice, .otherOS-notice, .otherOS-inline-notice {display:none;}
+.aprico-browser .browser-notice {display:block;}
+.aprico-webext .webext-notice {display:block;}
+.aprico-macOS .macOS-notice {display:block;}
+.aprico-macOS .macOS-inline-notice {display:inline;}
+.aprico-otherOS .otherOS-notice {display:block;}
+.aprico-otherOS .otherOS-inline-notice {display:inline;}
+
 
 /* icons */
 .btn.icon {

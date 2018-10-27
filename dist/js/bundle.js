@@ -1,1 +1,2266 @@
-!function(){return function t(e,n,i){function r(o,a){if(!n[o]){if(!e[o]){var l="function"==typeof require&&require;if(!a&&l)return l(o,!0);if(s)return s(o,!0);var c=new Error("Cannot find module '"+o+"'");throw c.code="MODULE_NOT_FOUND",c}var u=n[o]={exports:{}};e[o][0].call(u.exports,function(t){return r(e[o][1][t]||t)},u,u.exports,t,e,n,i)}return n[o].exports}for(var s="function"==typeof require&&require,o=0;o<i.length;o++)r(i[o]);return r}}()({1:[function(t,e,n){const i=(()=>{"use strict";const n=void 0!==e&&e.exports?t("scrypt-async"):window.scrypt;if("function"!=typeof n)throw new Error("Aprico requires scrypt-async-js library.");const i={N:Math.pow(2,14),r:8,p:1,dkLen:32,encoding:"hex"},r={N:Math.pow(2,5),r:8,p:1,dkLen:32,encoding:"hex"},s="abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ",o="123456789",a="_!$-+";let l={length:20,letters:!0,numbers:!0,symbols:!0,variant:!1};const c=(t,e,n)=>{const i=e.length,r=n.length;let s=0;for(let n=0,r=t.length;n<r;n++)s=s*i+e.indexOf(t.charAt(n));if(s<0)return 0;let o=s%r,a=n.charAt(o),l=Math.floor(s/r);for(;l;)o=l%r,l=Math.floor(l/r),a=n.charAt(o)+a;return a},u=t=>{let e="";l.symbols&&(e+=a),l.numbers&&(e+=o),l.letters&&(e+=s);let i="",u=t.match(/(.{1,7})/g);for(let s=0,o=u.length-1;s<o;s++)l.length>9&&n(t,u[o-s-1],r,function(t){u=t.match(/(.{1,7})/g)}),i+=c(u[s],"0123456789abcdef",e);if(i.length<=l.length)return".";let h=(i.length-l.length)/2|0,f=(i=i.substring(h,h+l.length)).charAt(0);return l.letters&&l.length>6&&!/[a-zA-Z]/.test(f)&&(i=i.replace(f,c(f,a+o,s))),i},h=t=>("http"==(t=t.trim().toLowerCase()).substring(0,4)&&(t=t.substring(t.indexOf("://")+3,t.length)),-1!==t.indexOf(".")&&-1!==t.indexOf("/")&&(t=(t=t.split("/"))[0]),t);return{getPassword:(t,e,s,o)=>{o&&(t=>{for(let e in l)t.hasOwnProperty(e)&&(l[e]=t[e]);if(l.letters=!!l.letters,l.numbers=!!l.numbers,l.symbols=!!l.symbols,!l.letters&&!l.symbols&&!l.numbers)throw new Error("At least one character set (letters, numbers, symbols) must be chosen.");if(l.length=+l.length,"number"!=typeof l.length||l.length<4||l.length>40)throw new Error("Password length must be a number between 4 and 40.")})(o);let a=t+"."+(e=h(e))+"."+l.length+ +l.letters+ +l.symbols+ +l.numbers;l.variant&&"string"==typeof l.variant&&(a+="."+l.variant);let c={};return n(a,s,i,function(t){c.hash=t,c.pass=u(t),c=(t=>{let e=!1;for(;!e;)e=!0,!l.letters||/[a-z]/.test(t.pass)&&/[A-Z]/.test(t.pass)&&!/([A-z])\1{2}/.test(t.pass)||(e=!1),e&&l.numbers&&(!/[\d]/.test(t.pass)||/([\d])\1{2}/.test(t.pass))&&(e=!1),e&&l.symbols&&(!/[!$\-+_]/.test(t.pass)||/([!$\-+_])\1{2}/.test(t.pass))&&(e=!1),e||n(t.hash,t.pass,r,function(e){t.hash=e,t.pass=u(e)});return t})(c)}),c},getHashId:t=>{let e="",r=Math.pow(t.length,(t.match(/[aeiou]/gi)||[0,0,0]).length)+"";return r=c(r,"0123456789.e+Infity",o+a+s)+"",n(t,r,i,function(t){e=t}),e},normalizeService:h,version:"1.0.0"}})();void 0!==e&&e.exports?e.exports=i:window.aprico=i},{"scrypt-async":6}],2:[function(t,e,n){},{}],3:[function(t,e,n){(function(n){!function(){var i;i=void 0!==e&&void 0!==e.exports?t("./pnglib"):window.PNGlib;var r=function(t,e){if("string"!=typeof t||t.length<15)throw"A hash of at least 15 characters is required.";this.defaults={background:[240,240,240,255],margin:.08,size:64,saturation:.7,brightness:.5,format:"png"},this.options="object"==typeof e?e:this.defaults,"number"==typeof arguments[1]&&(this.options.size=arguments[1]),arguments[2]&&(this.options.margin=arguments[2]),this.hash=t,this.background=this.options.background||this.defaults.background,this.size=this.options.size||this.defaults.size,this.format=this.options.format||this.defaults.format,this.margin=void 0!==this.options.margin?this.options.margin:this.defaults.margin;var n=parseInt(this.hash.substr(-7),16)/268435455,i=this.options.saturation||this.defaults.saturation,r=this.options.brightness||this.defaults.brightness;this.foreground=this.options.foreground||this.hsl2rgb(n,i,r)};r.prototype={background:null,foreground:null,hash:null,margin:null,size:null,format:null,image:function(){return this.isSvg()?new s(this.size,this.foreground,this.background):new i(this.size,this.size,256)},render:function(){var t,e,n=this.image(),i=this.size,r=Math.floor(i*this.margin),s=Math.floor((i-2*r)/5),o=Math.floor((i-5*s)/2),a=n.color.apply(n,this.background),l=n.color.apply(n,this.foreground);for(t=0;t<15;t++)e=parseInt(this.hash.charAt(t),16)%2?a:l,t<5?this.rectangle(2*s+o,t*s+o,s,s,e,n):t<10?(this.rectangle(1*s+o,(t-5)*s+o,s,s,e,n),this.rectangle(3*s+o,(t-5)*s+o,s,s,e,n)):t<15&&(this.rectangle(0*s+o,(t-10)*s+o,s,s,e,n),this.rectangle(4*s+o,(t-10)*s+o,s,s,e,n));return n},rectangle:function(t,e,n,i,r,s){var o,a;if(this.isSvg())s.rectangles.push({x:t,y:e,w:n,h:i,color:r});else for(o=t;o<t+n;o++)for(a=e;a<e+i;a++)s.buffer[s.index(o,a)]=r},hsl2rgb:function(t,e,n){return t*=6,[255*(e=[n+=e*=n<.5?n:1-n,n-t%1*e*2,n-=e*=2,n,n+t%1*e,n+e])[~~t%6],255*e[(16|t)%6],255*e[(8|t)%6]]},toString:function(t){return t?this.render().getDump():this.render().getBase64()},isSvg:function(){return this.format.match(/svg/i)}};var s=function(t,e,n){this.size=t,this.foreground=this.color.apply(this,e),this.background=this.color.apply(this,n),this.rectangles=[]};s.prototype={size:null,foreground:null,background:null,rectangles:null,color:function(t,e,n,i){var r=[t,e,n].map(Math.round);return r.push(i>=0&&i<=255?i/255:1),"rgba("+r.join(",")+")"},getDump:function(){var t,e,n,i=this.foreground,r=this.background,s=.005*this.size;for(e="<svg xmlns='http://www.w3.org/2000/svg' width='"+this.size+"' height='"+this.size+"' style='background-color:"+r+";'><g style='fill:"+i+"; stroke:"+i+"; stroke-width:"+s+";'>",t=0;t<this.rectangles.length;t++)(n=this.rectangles[t]).color!=r&&(e+="<rect  x='"+n.x+"' y='"+n.y+"' width='"+n.w+"' height='"+n.h+"'/>");return e+="</g></svg>"},getBase64:function(){if("function"==typeof btoa)return btoa(this.getDump());if(n)return new n(this.getDump(),"binary").toString("base64");throw"Cannot generate base64 output"}},void 0!==e&&void 0!==e.exports?e.exports=r:window.Identicon=r}()}).call(this,t("buffer").Buffer)},{"./pnglib":4,buffer:2}],4:[function(t,e,n){!function(){function t(t,e){for(var n=2;n<arguments.length;n++)for(var i=0;i<arguments[n].length;i++)t[e++]=arguments[n].charAt(i)}function n(t){return String.fromCharCode(t>>24&255,t>>16&255,t>>8&255,255&t)}function i(t){return String.fromCharCode(255&t,t>>8&255)}var r=function(e,r,s){this.width=e,this.height=r,this.depth=s,this.pix_size=r*(e+1),this.data_size=2+this.pix_size+5*Math.floor((65534+this.pix_size)/65535)+4,this.ihdr_offs=0,this.ihdr_size=25,this.plte_offs=this.ihdr_offs+this.ihdr_size,this.plte_size=8+3*s+4,this.trns_offs=this.plte_offs+this.plte_size,this.trns_size=8+s+4,this.idat_offs=this.trns_offs+this.trns_size,this.idat_size=8+this.data_size+4,this.iend_offs=this.idat_offs+this.idat_size,this.iend_size=12,this.buffer_size=this.iend_offs+this.iend_size,this.buffer=new Array,this.palette=new Object,this.pindex=0;for(var o=new Array,a=0;a<this.buffer_size;a++)this.buffer[a]="\0";t(this.buffer,this.ihdr_offs,n(this.ihdr_size-12),"IHDR",n(e),n(r),"\b"),t(this.buffer,this.plte_offs,n(this.plte_size-12),"PLTE"),t(this.buffer,this.trns_offs,n(this.trns_size-12),"tRNS"),t(this.buffer,this.idat_offs,n(this.idat_size-12),"IDAT"),t(this.buffer,this.iend_offs,n(this.iend_size-12),"IEND");var l,c=30912;c+=31-c%31,t(this.buffer,this.idat_offs+8,(l=c,String.fromCharCode(l>>8&255,255&l)));for(a=0;(a<<16)-1<this.pix_size;a++){var u,h;a+65535<this.pix_size?(u=65535,h="\0"):(u=this.pix_size-(a<<16)-a,h=""),t(this.buffer,this.idat_offs+8+2+(a<<16)+(a<<2),h,i(u),i(~u))}for(a=0;a<256;a++){for(var f=a,d=0;d<8;d++)f=1&f?-306674912^f>>1&2147483647:f>>1&2147483647;o[a]=f}this.index=function(t,e){var n=e*(this.width+1)+t+1;return this.idat_offs+8+2+5*Math.floor(n/65535+1)+n},this.color=function(t,e,n,i){var r=(((i=i>=0?i:255)<<8|t)<<8|e)<<8|n;if(void 0===this.palette[r]){if(this.pindex==this.depth)return"\0";var s=this.plte_offs+8+3*this.pindex;this.buffer[s+0]=String.fromCharCode(t),this.buffer[s+1]=String.fromCharCode(e),this.buffer[s+2]=String.fromCharCode(n),this.buffer[this.trns_offs+8+this.pindex]=String.fromCharCode(i),this.palette[r]=String.fromCharCode(this.pindex++)}return this.palette[r]},this.getBase64=function(){var t,e,n,i,r,s,o,a=this.getDump(),l="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",c=a.length,u=0,h="";do{i=(t=a.charCodeAt(u))>>2,r=(3&t)<<4|(e=a.charCodeAt(u+1))>>4,n=a.charCodeAt(u+2),s=c<u+2?64:(15&e)<<2|n>>6,o=c<u+3?64:63&n,h+=l.charAt(i)+l.charAt(r)+l.charAt(s)+l.charAt(o)}while((u+=3)<c);return h},this.getDump=function(){for(var e=1,i=0,r=5552,s=0;s<this.height;s++)for(var a=-1;a<this.width;a++)i+=e+=this.buffer[this.index(a,s)].charCodeAt(0),0==(r-=1)&&(e%=65521,i%=65521,r=5552);function l(e,i,r){for(var s=-1,a=4;a<r-4;a+=1)s=o[255&(s^e[i+a].charCodeAt(0))]^s>>8&16777215;t(e,i+r-4,n(-1^s))}return e%=65521,i%=65521,t(this.buffer,this.idat_offs+this.idat_size-8,n(i<<16|e)),l(this.buffer,this.ihdr_offs,this.ihdr_size),l(this.buffer,this.plte_offs,this.plte_size),l(this.buffer,this.trns_offs,this.trns_size),l(this.buffer,this.idat_offs,this.idat_size),l(this.buffer,this.iend_offs,this.iend_size),"PNG\r\n\n"+this.buffer.join("")}};void 0!==e&&void 0!==e.exports?e.exports=r:window.PNGlib=r}()},{}],5:[function(t,e,n){var i,r,s=e.exports={};function o(){throw new Error("setTimeout has not been defined")}function a(){throw new Error("clearTimeout has not been defined")}function l(t){if(i===setTimeout)return setTimeout(t,0);if((i===o||!i)&&setTimeout)return i=setTimeout,setTimeout(t,0);try{return i(t,0)}catch(e){try{return i.call(null,t,0)}catch(e){return i.call(this,t,0)}}}!function(){try{i="function"==typeof setTimeout?setTimeout:o}catch(t){i=o}try{r="function"==typeof clearTimeout?clearTimeout:a}catch(t){r=a}}();var c,u=[],h=!1,f=-1;function d(){h&&c&&(h=!1,c.length?u=c.concat(u):f=-1,u.length&&p())}function p(){if(!h){var t=l(d);h=!0;for(var e=u.length;e;){for(c=u,u=[];++f<e;)c&&c[f].run();f=-1,e=u.length}c=null,h=!1,function(t){if(r===clearTimeout)return clearTimeout(t);if((r===a||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(t);try{r(t)}catch(e){try{return r.call(null,t)}catch(e){return r.call(this,t)}}}(t)}}function g(t,e){this.fun=t,this.array=e}function b(){}s.nextTick=function(t){var e=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)e[n-1]=arguments[n];u.push(new g(t,e)),1!==u.length||h||l(p)},g.prototype.run=function(){this.fun.apply(null,this.array)},s.title="browser",s.browser=!0,s.env={},s.argv=[],s.version="",s.versions={},s.on=b,s.addListener=b,s.once=b,s.off=b,s.removeListener=b,s.removeAllListeners=b,s.emit=b,s.prependListener=b,s.prependOnceListener=b,s.listeners=function(t){return[]},s.binding=function(t){throw new Error("process.binding is not supported")},s.cwd=function(){return"/"},s.chdir=function(t){throw new Error("process.chdir is not supported")},s.umask=function(){return 0}},{}],6:[function(t,e,n){(function(t){void 0!==e&&(e.exports=function(e,n,i,r,s,o,a,l){"use strict";function c(t){var e=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298],n=1779033703,i=3144134277,r=1013904242,s=2773480762,o=1359893119,a=2600822924,l=528734635,c=1541459225,u=new Array(64);function h(t){for(var h=0,f=t.length;f>=64;){var d,p,g,b,m,v=n,y=i,w=r,x=s,_=o,I=a,k=l,z=c;for(p=0;p<16;p++)g=h+4*p,u[p]=(255&t[g])<<24|(255&t[g+1])<<16|(255&t[g+2])<<8|255&t[g+3];for(p=16;p<64;p++)b=((d=u[p-2])>>>17|d<<15)^(d>>>19|d<<13)^d>>>10,m=((d=u[p-15])>>>7|d<<25)^(d>>>18|d<<14)^d>>>3,u[p]=(b+u[p-7]|0)+(m+u[p-16]|0)|0;for(p=0;p<64;p++)b=(((_>>>6|_<<26)^(_>>>11|_<<21)^(_>>>25|_<<7))+(_&I^~_&k)|0)+(z+(e[p]+u[p]|0)|0)|0,m=((v>>>2|v<<30)^(v>>>13|v<<19)^(v>>>22|v<<10))+(v&y^v&w^y&w)|0,z=k,k=I,I=_,_=x+b|0,x=w,w=y,y=v,v=b+m|0;n=n+v|0,i=i+y|0,r=r+w|0,s=s+x|0,o=o+_|0,a=a+I|0,l=l+k|0,c=c+z|0,h+=64,f-=64}}h(t);var f,d=t.length%64,p=t.length/536870912|0,g=t.length<<3,b=d<56?56:120,m=t.slice(t.length-d,t.length);for(m.push(128),f=d+1;f<b;f++)m.push(0);return m.push(p>>>24&255),m.push(p>>>16&255),m.push(p>>>8&255),m.push(p>>>0&255),m.push(g>>>24&255),m.push(g>>>16&255),m.push(g>>>8&255),m.push(g>>>0&255),h(m),[n>>>24&255,n>>>16&255,n>>>8&255,n>>>0&255,i>>>24&255,i>>>16&255,i>>>8&255,i>>>0&255,r>>>24&255,r>>>16&255,r>>>8&255,r>>>0&255,s>>>24&255,s>>>16&255,s>>>8&255,s>>>0&255,o>>>24&255,o>>>16&255,o>>>8&255,o>>>0&255,a>>>24&255,a>>>16&255,a>>>8&255,a>>>0&255,l>>>24&255,l>>>16&255,l>>>8&255,l>>>0&255,c>>>24&255,c>>>16&255,c>>>8&255,c>>>0&255]}function u(t,e,n){t.length>64&&(t=c(t.push?t:Array.prototype.slice.call(t,0)));var i,r=64+e.length+4,s=new Array(r),o=new Array(64),a=[];for(i=0;i<64;i++)s[i]=54;for(i=0;i<t.length;i++)s[i]^=t[i];for(i=0;i<e.length;i++)s[64+i]=e[i];for(i=r-4;i<r;i++)s[i]=0;for(i=0;i<64;i++)o[i]=92;for(i=0;i<t.length;i++)o[i]^=t[i];function l(){for(var t=r-1;t>=r-4;t--){if(s[t]++,s[t]<=255)return;s[t]=0}}for(;n>=32;)l(),a=a.concat(c(o.concat(c(s)))),n-=32;return n>0&&(l(),a=a.concat(c(o.concat(c(s))).slice(0,n))),a}function h(t,e,n,i){var r,s,o=t[0]^e[n++],a=t[1]^e[n++],l=t[2]^e[n++],c=t[3]^e[n++],u=t[4]^e[n++],h=t[5]^e[n++],f=t[6]^e[n++],d=t[7]^e[n++],p=t[8]^e[n++],g=t[9]^e[n++],b=t[10]^e[n++],m=t[11]^e[n++],v=t[12]^e[n++],y=t[13]^e[n++],w=t[14]^e[n++],x=t[15]^e[n++],_=o,I=a,k=l,z=c,A=u,C=h,T=f,L=d,E=p,S=g,N=b,D=m,j=v,P=y,M=w,O=x;for(s=0;s<8;s+=2)_^=(r=(j^=(r=(E^=(r=(A^=(r=_+j)<<7|r>>>25)+_)<<9|r>>>23)+A)<<13|r>>>19)+E)<<18|r>>>14,C^=(r=(I^=(r=(P^=(r=(S^=(r=C+I)<<7|r>>>25)+C)<<9|r>>>23)+S)<<13|r>>>19)+P)<<18|r>>>14,N^=(r=(T^=(r=(k^=(r=(M^=(r=N+T)<<7|r>>>25)+N)<<9|r>>>23)+M)<<13|r>>>19)+k)<<18|r>>>14,O^=(r=(D^=(r=(L^=(r=(z^=(r=O+D)<<7|r>>>25)+O)<<9|r>>>23)+z)<<13|r>>>19)+L)<<18|r>>>14,_^=(r=(z^=(r=(k^=(r=(I^=(r=_+z)<<7|r>>>25)+_)<<9|r>>>23)+I)<<13|r>>>19)+k)<<18|r>>>14,C^=(r=(A^=(r=(L^=(r=(T^=(r=C+A)<<7|r>>>25)+C)<<9|r>>>23)+T)<<13|r>>>19)+L)<<18|r>>>14,N^=(r=(S^=(r=(E^=(r=(D^=(r=N+S)<<7|r>>>25)+N)<<9|r>>>23)+D)<<13|r>>>19)+E)<<18|r>>>14,O^=(r=(M^=(r=(P^=(r=(j^=(r=O+M)<<7|r>>>25)+O)<<9|r>>>23)+j)<<13|r>>>19)+P)<<18|r>>>14;e[i++]=t[0]=_+o|0,e[i++]=t[1]=I+a|0,e[i++]=t[2]=k+l|0,e[i++]=t[3]=z+c|0,e[i++]=t[4]=A+u|0,e[i++]=t[5]=C+h|0,e[i++]=t[6]=T+f|0,e[i++]=t[7]=L+d|0,e[i++]=t[8]=E+p|0,e[i++]=t[9]=S+g|0,e[i++]=t[10]=N+b|0,e[i++]=t[11]=D+m|0,e[i++]=t[12]=j+v|0,e[i++]=t[13]=P+y|0,e[i++]=t[14]=M+w|0,e[i++]=t[15]=O+x|0}function f(t,e,n,i,r){for(;r--;)t[e++]=n[i++]}function d(t,e,n,i,r){for(;r--;)t[e++]^=n[i++]}function p(t,e,n,i,r){f(t,0,e,n+16*(2*r-1),16);for(var s=0;s<2*r;s+=2)h(t,e,n+16*s,i+8*s),h(t,e,n+16*s+16,i+8*s+16*r)}function g(t,e,n){return t[e+16*(2*n-1)]}function b(t){for(var e=[],n=0;n<t.length;n++){var i=t.charCodeAt(n);if(i<128)e.push(i);else if(i<2048)e.push(192|i>>6),e.push(128|63&i);else if(i<55296)e.push(224|i>>12),e.push(128|i>>6&63),e.push(128|63&i);else{if(n>=t.length-1)throw new Error("invalid string");n++,i=(1023&i)<<10,i|=1023&t.charCodeAt(n),i+=65536,e.push(240|i>>18),e.push(128|i>>12&63),e.push(128|i>>6&63),e.push(128|63&i)}}return e}var m=1;if("object"==typeof i){if(arguments.length>4)throw new Error("scrypt: incorrect number of arguments");var v=i;if(a=r,void 0===(i=v.logN)){if(void 0===v.N)throw new Error("scrypt: missing N parameter");if(v.N<2||v.N>-1>>>0)throw new Error("scrypt: N is out of range");if(0!=(v.N&v.N-1))throw new Error("scrypt: N is not a power of 2");i=Math.log(v.N)/Math.LN2}m=v.p||1,r=v.r,s=v.dkLen||32,o=v.interruptStep||0,l=v.encoding}if(m<1)throw new Error("scrypt: invalid p");if(r<=0)throw new Error("scrypt: invalid r");if(i<1||i>31)throw new Error("scrypt: logN must be between 1 and 31");var y,w,x,_,I=1<<i>>>0;if(r*m>=1<<30||r>(-1>>>0)/128/m||r>(-1>>>0)/256||I>(-1>>>0)/128/r)throw new Error("scrypt: parameters are too large");"string"==typeof e&&(e=b(e)),"string"==typeof n&&(n=b(n)),"undefined"!=typeof Int32Array?(y=new Int32Array(64*r),w=new Int32Array(32*I*r),_=new Int32Array(16)):(y=[],w=[],_=new Array(16)),x=u(e,n,128*m*r);var k=0,z=32*r;function A(t){for(var e=0;e<32*r;e++){var n=t+4*e;y[k+e]=(255&x[n+3])<<24|(255&x[n+2])<<16|(255&x[n+1])<<8|(255&x[n+0])<<0}}function C(t,e){for(var n=t;n<e;n+=2)f(w,n*(32*r),y,k,32*r),p(_,y,k,z,r),f(w,(n+1)*(32*r),y,z,32*r),p(_,y,z,k,r)}function T(t,e){for(var n=t;n<e;n+=2){var i=g(y,k,r)&I-1;d(y,k,w,i*(32*r),32*r),p(_,y,k,z,r),i=g(y,z,r)&I-1,d(y,z,w,i*(32*r),32*r),p(_,y,z,k,r)}}function L(t){for(var e=0;e<32*r;e++){var n=y[k+e];x[t+4*e+0]=n>>>0&255,x[t+4*e+1]=n>>>8&255,x[t+4*e+2]=n>>>16&255,x[t+4*e+3]=n>>>24&255}}var E=void 0!==t?t:setTimeout;function S(t,e,n,i,r){!function s(){E(function(){i(t,t+n<e?t+n:e),(t+=n)<e?s():r()})}()}function N(t){var n=u(e,x,s);return"base64"===t?function(t){for(var e,n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split(""),i=t.length,r=[],s=0;s<i;)e=((s<i?t[s++]:0)<<16)+((s<i?t[s++]:0)<<8)+(s<i?t[s++]:0),r.push(n[e>>>18&63]),r.push(n[e>>>12&63]),r.push(n[e>>>6&63]),r.push(n[e>>>0&63]);return i%3>0&&(r[r.length-1]="=",i%3==1&&(r[r.length-2]="=")),r.join("")}(n):"hex"===t?function(t){for(var e="0123456789abcdef".split(""),n=t.length,i=[],r=0;r<n;r++)i.push(e[t[r]>>>4&15]),i.push(e[t[r]>>>0&15]);return i.join("")}(n):"binary"===t?new Uint8Array(n):n}"function"==typeof o&&(l=a,a=o,o=1e3),o<=0?function(){for(var t=0;t<m;t++)A(128*t*r),C(0,I),T(0,I),L(128*t*r);a(N(l))}():function t(e){A(128*e*r),S(0,I,2*o,C,function(){S(0,I,2*o,T,function(){L(128*e*r),e+1<m?E(function(){t(e+1)}):a(N(l))})})}(0)})}).call(this,t("timers").setImmediate)},{timers:7}],7:[function(t,e,n){(function(e,i){var r=t("process/browser.js").nextTick,s=Function.prototype.apply,o=Array.prototype.slice,a={},l=0;function c(t,e){this._id=t,this._clearFn=e}n.setTimeout=function(){return new c(s.call(setTimeout,window,arguments),clearTimeout)},n.setInterval=function(){return new c(s.call(setInterval,window,arguments),clearInterval)},n.clearTimeout=n.clearInterval=function(t){t.close()},c.prototype.unref=c.prototype.ref=function(){},c.prototype.close=function(){this._clearFn.call(window,this._id)},n.enroll=function(t,e){clearTimeout(t._idleTimeoutId),t._idleTimeout=e},n.unenroll=function(t){clearTimeout(t._idleTimeoutId),t._idleTimeout=-1},n._unrefActive=n.active=function(t){clearTimeout(t._idleTimeoutId);var e=t._idleTimeout;e>=0&&(t._idleTimeoutId=setTimeout(function(){t._onTimeout&&t._onTimeout()},e))},n.setImmediate="function"==typeof e?e:function(t){var e=l++,i=!(arguments.length<2)&&o.call(arguments,1);return a[e]=!0,r(function(){a[e]&&(i?t.apply(null,i):t.call(null),n.clearImmediate(e))}),e},n.clearImmediate="function"==typeof i?i:function(t){delete a[t]}}).call(this,t("timers").setImmediate,t("timers").clearImmediate)},{"process/browser.js":5,timers:7}],8:[function(t,e,n){"use strict";const i=t("aprico-gen"),r={"aprico-gen":i.version,"aprico-ui":"0.1.2"},s=function t(e){function n(t,e){return t>>>e|t<<32-e}for(var i,r,s=Math.pow,o=s(2,32),a="length",l="",c=[],u=8*e[a],h=t.h=t.h||[],f=t.k=t.k||[],d=f[a],p={},g=2;64>d;g++)if(!p[g]){for(i=0;313>i;i+=g)p[i]=g;h[d]=s(g,.5)*o|0,f[d++]=s(g,1/3)*o|0}for(e+="";e[a]%64-56;)e+="\0";for(i=0;i<e[a];i++){if((r=e.charCodeAt(i))>>8)return;c[i>>2]|=r<<(3-i)%4*8}for(c[c[a]]=u/o|0,c[c[a]]=u,r=0;r<c[a];){var b=c.slice(r,r+=16),m=h;for(h=h.slice(0,8),i=0;64>i;i++){var v=b[i-15],y=b[i-2],w=h[0],x=h[4],_=h[7]+(n(x,6)^n(x,11)^n(x,25))+(x&h[5]^~x&h[6])+f[i]+(b[i]=16>i?b[i]:b[i-16]+(n(v,7)^n(v,18)^v>>>3)+b[i-7]+(n(y,17)^n(y,19)^y>>>10)|0);(h=[_+((n(w,2)^n(w,13)^n(w,22))+(w&h[1]^w&h[2]^h[1]&h[2]))|0].concat(h))[4]=h[4]+_|0}for(i=0;8>i;i++)h[i]=h[i]+m[i]|0}for(i=0;8>i;i++)for(r=3;r+1;r--){var I=h[i]>>8*r&255;l+=(16>I?0:"")+I.toString(16)}return l},o=t("identicon.js"),a=t("./templates.js"),l=t("./utils.js"),c="undefined"!=typeof browser&&browser.runtime&&browser.runtime.id||"undefined"!=typeof chrome&&chrome.runtime&&chrome.runtime.id;c&&"undefined"==typeof chrome&&(window.chrome=browser);const u={foreground:[239,61,51,255],background:[255,255,255,255],margin:.24,size:41,format:"svg"};let h,f,d;r["aprico-gen"].replace(/\./g,"_");function p(){f=!1,c?chrome.storage.local.set({hashId:""},b):(localStorage.setItem("hashId",""),b())}function g(t){t&&t.hashId?(f=t.hashId,m()):(f=!1,b())}function b(){let t=l.stringToDom(d.login);h.firstChild&&h.removeChild(h.firstChild),h.appendChild(t),function(){let t=l.getId("ap-hashid"),e=l.getId("ap-trigger-login");t.focus(),e.addEventListener("click",function(e){var n;e.preventDefault(),t.value?(f=i.getHashId(t.value),f=n=f,c?chrome.storage.local.set({hashId:n},m):(localStorage.setItem("hashId",n),m())):t.focus()})}()}function m(){let t=l.stringToDom(d.main);h.firstChild&&h.removeChild(h.firstChild),h.appendChild(t),function(){let t=l.getId("ap-pass"),e=l.getId("ap-service"),n=l.getId("ap-result"),r=l.getId("ap-trigger-gen"),a=l.getId("ap-variant"),h=l.getId("ap-letters"),d=l.getId("ap-numbers"),g=l.getId("ap-symbols"),b=l.getId("ap-length"),m=l.getId("ap-trigger-extra"),v=l.getId("a-pass-label"),y=l.getId("ap-copy"),w=l.getId("ap-show"),x=l.getId("aprico-extra"),_=l.getId("aprico-result"),I=l.getId("aprico-about");c?chrome.tabs.query({active:!0,currentWindow:!0},function(n){n[0].url.indexOf(".")>0?(e.value=i.normalizeService(n[0].url),t.focus()):e.focus()}):e.focus();async function k(s){if(!e.value)return e.focus(),!1;if(!t.value)return t.focus(),!1;let o,c,u;await new Promise(function(t){return v.classList.remove("icon","icon-done","icon-alldone"),y.classList.add("hidden"),w.classList.add("hidden"),n.classList.remove("border-red"),m.classList.remove("bg-gray-1"),z(_),o=setInterval(function(){v.textContent+="."},50),v.classList.add("red"),v.textContent="Generating.",r.disabled=!0,m.disabled=!0,n.value="",setTimeout(t,100)}),await new Promise(function(r){(new Date).getTime();return c=i.getPassword(t.value,e.value,f,{length:+b.value,letters:+h.checked,numbers:+d.checked,symbols:+g.checked,variant:a.value}),n.value=c.pass,c=!1,u=l.copyToClipboard(n),setTimeout(r,100)}),await new Promise(function(t){return n.classList.add("border-red"),v.classList.remove("red"),clearInterval(o),u?(v.classList.add("icon","icon-alldone"),v.textContent="Password copied to clipboard."):(v.classList.add("icon","icon-done"),v.textContent="Password is ready.",y.classList.remove("hidden")),w.classList.remove("hidden"),r.disabled=!1,m.disabled=!1,t()})}function z(t){_.hidden=!0,I.hidden=!0,x.hidden=!0,t.hidden=!1}e.addEventListener("blur",function(t){this.value=i.normalizeService(this.value)}),t.addEventListener("input",function(e){if(this.value.length){let e=btoa(encodeURIComponent(this.value).replace(/%([0-9A-F]{2})/g,function(t,e){return String.fromCharCode(parseInt(e,16))})),n=new o(s(f+e),u).toString();t.style.backgroundImage="url(data:image/svg+xml;base64,"+n+")"}else t.style.backgroundImage=""}),t.addEventListener("keyup",function(t){"Enter"===t.key&&k()}),m.addEventListener("click",function(t){t.preventDefault(),this.classList.contains("bg-gray-1")?(this.classList.remove("bg-gray-1"),z(I)):(this.classList.add("bg-gray-1"),z(x))}),n.addEventListener("focus",function(){this.type="text"}),n.addEventListener("blur",function(){this.type="password"}),r.addEventListener("click",k),y.addEventListener("click",function(t){let e=l.copyToClipboard(n);e&&(v.textContent="Password copied to clipboard.")}),l.getId("ap-delete-hash").addEventListener("click",p),w.addEventListener("click",function(t){n.focus()});let A=document.querySelectorAll("input");Array.from(A).forEach(function(t){t.addEventListener("input",function(){1!=_.hidden&&z(I)})});let C=document.querySelectorAll(".switch-toggle");function T(){let t=Array.prototype.slice.call(C).some(t=>t.checked);t||(this.checked=!0)}[...C].forEach(t=>t.addEventListener("change",T)),b.addEventListener("blur",function(){0==+this.value?this.value=20:+this.value<4?this.value=4:+this.value>40&&(this.value=40)}),l.getId("ap-link-about").addEventListener("click",function(){window.open("https://aprico.org/")})}()}e.exports=function(t,e){if(!(h=document.querySelector(t)))throw new Error("Root element is undefined.");d=e||a,c?(h.classList.add("aprico-webext"),chrome.storage.local.get("hashId",g)):(h.classList.add("aprico-browser"),g({hashId:localStorage.getItem("hashId")}))},e.exports.version=r},{"./templates.js":10,"./utils.js":11,"aprico-gen":1,"identicon.js":3}],9:[function(t,e,n){t("./aprico-ui.js")("#aprico")},{"./aprico-ui.js":8}],10:[function(t,e,n){const i={login:'\n  <div id="aprico-login" class="p2 bg-white">\n\t<div class="mb2">\n      <label class="label">ID</label>\n      <input type="text" id="ap-hashid" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">\n  \t</div>\n  \t<div class="mb2 h6">\n  \t\t<p><strong>Please choose an ID:</strong> it can be your e-mail address, your nickname or a longer passphrase.</p>\n      <p>It will be only asked once, but please, <strong>make sure to remeber it</strong> as there is no way to recover your ID.</p>\n    </div>\n  \t<div class="mb2">\n      <button id="ap-trigger-login" class="btn btn-primary h6 caps white">Start using Aprico</button>\n  \t</div>\n    <div class="border-top border-gray-2 pt2">\n      <p class="h6"><strong>Aprico</strong> is a deterministic password manager that works 100% in your browser. No data will ever be sent to any server or cloud. You can read more in our super friendly <a href="https://aprico.org/privacy.html">Privacy Policy</a>.</h6>\n    </div>\n    </div>\n  \t',main:'\n  <div id="aprico-main">\n  <div class="p2 bg-white">\n  \t<div class="mb2">\n      <label class="label">Service</label>\n      <input type="text" id="ap-service" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">\n  \t</div>\n  \t<div class="mb2">\n      <label class="label">Master Password</label>\n      <input type="password" id="ap-pass" class="bg-identicon">\n  \t</div>\n  \t<div class="-mb2">\n    \t<div class="flex">\n      \t<button id="ap-trigger-gen" class="btn btn-primary white h6 caps" style="margin-left:1px">Get Password</button>\n      \t<span class="flex-auto"></span>\n      \t<button id="ap-trigger-extra" class="btn h6 caps right icon icon-opts px0 border-gray rounded"><span style="opacity:0">More</span></button>\n    \t</div>\n  \t</div>\n  </div>\n\n  <div id="aprico-extra" class="bg-gray-1 p2" hidden>\n    <div class="flex justify-between mb2">\n        <div class="-mb2 col-3 ">\n            <label class="label">Length</label>\n            <input type="number" min="4" max="40" value="20" id="ap-length">\n        </div>\n        <div class="-mb2 col-9 flex-auto pl2">\n            <label class="label">Alphabet</label>\n            <ul class="list-reset flex justify-between center">\n                <li>\n                    <input type="checkbox" checked id="ap-letters" class="switch-toggle switch-toggle-round">\n                    <label for="ap-letters"><span class="mt2 block">Letters</span></label>\n                </li>\n                <li>\n                    <input type="checkbox" checked id="ap-numbers" class="switch-toggle switch-toggle-round">\n                    <label for="ap-numbers"><span class="mt2 block">Numbers</span></label>\n                </li>\n                <li>\n                    <input type="checkbox" checked id="ap-symbols" class="switch-toggle switch-toggle-round">\n                    <label for="ap-symbols"><span class="mt2 block">Symbols</span></label>\n                </li>\n            </ul>\n        </div>\n    </div>\n    <div class="">\n        <div class="-mb2">\n            <label class="label">Variant</label>\n            <input type="text" id="ap-variant">\n        </div>\n    </div>\n  </div>\n\n  <div id="aprico-result" class="-bg-black bg-gray-1 -white p2" hidden>\n  <div class="mb2">\n      <label class="label bold -white mb2" id="a-pass-label">Password</label>\n      <input type="password" id="ap-result" class="monospace" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly="true">\n  </div>\n  <div class="flex">\n  <button class="btn btn-small -white h6 px0 hidden mr2 icon icon-view weight-400" id="ap-show">Show</button>\n  <button class="btn btn-small -white h6 px0 hidden icon icon-copy weight-400" id="ap-copy">Copy</button>\n  </div>\n  </div>\n\n  <div id="aprico-about">\n  <div class="flex flex-column bg-gray-1" style="min-height:126px">\n  <div class="flex-auto p2">\n  <p class="h5">Thank you for using <strong>Aprico</strong>.</p>\n  </div>\n  <div class="flex p2">\n  <button id="ap-link-about" class="btn btn-small h6 px0 mr1 icon icon-open weight-400">About</button>\n  <button id="ap-link-online" class="hide btn btn-small h6 px0 icon icon-open">Online Version</button>\n  <span class="flex-auto"></span>\n  <button class="btn btn-small h6 px0 icon icon-logout" id="ap-delete-hash">Change ID</button>\n  </div>  \n  </div>\n  </div>\n</div>\n\t'};e.exports=i},{}],11:[function(t,e,n){"use strict";const i={getId:function(t){return document.getElementById(t)},stringToDom:function(t){return document.createRange().createContextualFragment(t.trim())},copyToClipboard:function(t){t.type="text",t.select();let e=document.execCommand("copy");return t.type="password",t.selectionEnd=t.selectionStart,t.blur(),e},chainOnTransitionEnd:function(t,e){let n=function(i){i.target.removeEventListener(i.type,n),i.target==e&&t()};return e.addEventListener("transitionend",n),this}};e.exports=i},{}]},{},[9]);
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+/*!
+ * Aprico-gen
+ * Deterministic password generator library based on scrypt algorithm. 
+ * Copyright (c) 2018 Pino Ceniccola | GPLv3
+ * https://aprico.org
+ */
+
+const aprico = (()=> {
+	'use strict';
+
+	const scrypt = (typeof module !== 'undefined' && module.exports) ? require('scrypt-async') : window.scrypt;
+
+	if (typeof scrypt !== 'function')
+		throw new Error("Aprico requires scrypt-async-js library.");
+
+	const VERSION = "1.0.0";
+
+	const SCRYPT_COST = {
+    	N: Math.pow(2,14),
+    	r: 8,
+    	p: 1,
+    	dkLen: 32,
+    	encoding: 'hex'
+	};
+
+	const SCRYPT_COST_FAST = {
+    	N: Math.pow(2,5),
+    	r: 8,
+    	p: 1,
+    	dkLen: 32,
+    	encoding: 'hex'
+	};
+
+	const ALPHABET = {
+		letters : 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ',
+		numbers : '123456789',
+		symbols : '_!$-+'
+	};
+
+	let options = {
+		length : 20,
+		letters : true,
+		numbers : true,
+		symbols	: true,
+		variant : false
+	};
+
+
+	/**
+	* Arbitrary conversion from one character set to another,
+	* using Base 10 as an intermediate base for conversion.
+	* Used by _hashToAlphabet().
+	* (Adapted from: https://rot47.net/base.html)
+	*
+	* @param {string} src 	  	String to convert
+	* @param {string} srctable	Source character set
+	* @param {string} srcdest	Destination character set
+	*
+	* @returns {string} 	   	Converted string
+	*/
+	const _convert = (src, srctable, desttable) => {
+		const srclen = srctable.length;
+		const destlen = desttable.length;
+		// Convert to base 10
+		let val = 0;
+		for (let i=0, numlen = src.length; i<numlen; i++) {
+			val = val * srclen + srctable.indexOf(src.charAt(i));
+		};
+		if (val<0) {return 0;}
+		// Then convert to destination base
+		let r = val % destlen;
+		let res = desttable.charAt(r);
+		let q = Math.floor(val/destlen);
+		while (q) {
+			r = q % destlen;
+			q = Math.floor(q/destlen);
+			res = desttable.charAt(r) + res;
+		}
+		return res;
+	};
+
+
+	/**
+	 * Convert full hex hash to password format
+	 * set by options (alphabet and length)
+	 *
+	 * @param   {string} hash 	Hash in hex format
+	 *
+	 * @returns {string} 		The generated password
+	 */
+	const _hashToAlphabet = (hash) => {
+		let alphabet = '';
+		if (options.symbols) alphabet += ALPHABET.symbols;
+		if (options.numbers) alphabet += ALPHABET.numbers;
+		if (options.letters) alphabet += ALPHABET.letters;
+
+		let result = '';
+
+		// We split the full hash because... 32bit
+		let split = hash.match(/(.{1,7})/g);
+		for (let i = 0, l = split.length-1; i < l; i++) {
+
+    		//[debug] console.log('Split', split);
+
+    		// Re-hash every slice when revealing a potentially
+    		// large chunk of the original hash.
+    		if (options.length > 9) {
+
+    			//[debug] console.log('Re-hashing', hash, split[l-i-1]);
+
+    			scrypt (hash, split[l-i-1], SCRYPT_COST_FAST, function(hash){
+    				split = hash.match(/(.{1,7})/g);
+    			});
+    		}
+
+    		result += _convert(split[i], '0123456789abcdef', alphabet);
+
+		};
+
+		//[debug] console.log('Full converted string', result);
+
+		// Better safe than sorry
+		if (result.length<=options.length) return ".";
+
+		// Trim password to options.length
+		let offset = ((result.length-options.length)/2)|0;
+
+		//[debug] console.log('Trim offset', offset);
+
+		result = result.substring(offset, offset + options.length);
+
+		// Make sure first character is [A-z]
+		// because... silly password rules
+		let firstChar = result.charAt(0);
+		if (options.letters && options.length > 6 && !/[a-zA-Z]/.test(firstChar)) {
+
+			//[debug] console.log('First character to be replaced', result);
+
+			result = result.replace(firstChar, _convert(firstChar, ALPHABET.symbols+ALPHABET.numbers, ALPHABET.letters));
+		}
+
+		return result;
+	};
+
+
+	/**
+	 * Check if the generated password has characters from
+	 * every alphabet set. If not, re-hash until conditions are met.
+	 *
+	 * @param   {object} results	Password + Hash
+	 *
+	 * @returns {object} 			Password + Hash
+	 */
+	const _checkAndIterate = (results) => {
+
+		let success = false;
+
+		while (!success) {
+
+			success = true;
+
+			// Check for...
+			// 1. at least one uppercase, one lowecase letter, no letter repeated three times (eg. aaa)
+			if ( options.letters && ( !/[a-z]/.test(results.pass) || !/[A-Z]/.test(results.pass) || /([A-z])\1{2}/.test(results.pass) ) ) success = false;
+
+			// 2. at least one number and no number repeated three times (eg. 111)
+			if ( success && options.numbers && ( !/[\d]/.test(results.pass) || /([\d])\1{2}/.test(results.pass) ) ) success = false;
+
+			// 3. at least one symbol and no symbol repeated three times (eg. $$$)
+			if ( success && options.symbols && ( !/[!$\-+_]/.test(results.pass) || /([!$\-+_])\1{2}/.test(results.pass) ) ) success = false;
+
+
+			if (!success) {
+
+				//[debug] console.log('Iterating', results);
+
+				// Re-hash until conditions are met.
+				scrypt (results.hash, results.pass, SCRYPT_COST_FAST, function(hash){
+
+					results.hash = hash;
+					results.pass = _hashToAlphabet(hash);
+
+				});
+
+			}
+
+		}
+
+		return results;
+
+	};
+
+
+	/**
+	 * Merge and check user options.
+	 *
+	 * @param   {object} user_options	User options
+	 */
+	const _checkOptions = (user_options) => {
+
+		for (let opt in options)
+			if (user_options.hasOwnProperty(opt))
+				options[opt] = user_options[opt];
+
+		options.letters = !!options.letters;
+		options.numbers = !!options.numbers;
+		options.symbols = !!options.symbols;
+
+		if (!options.letters && !options.symbols && !options.numbers)
+			throw new Error("At least one character set (letters, numbers, symbols) must be chosen.");
+
+		options.length = +options.length;
+
+		if (typeof options.length !== 'number' || options.length < 4 || options.length > 40)
+			throw new Error("Password length must be a number between 4 and 40.");
+
+	};
+
+
+	/**
+	 * Deterministic password generation main function.
+	 *
+	 * @param   {string} password		User Master Password
+	 * @param   {string} service		User service/domain
+	 * @param   {string} hashId			Precomputed hash ID
+	 * @param   {object} user_options	User options
+	 *
+	 * @returns {object} 				Password + Hash
+	 */
+	const getPassword = (password, service, hashId, user_options) => {
+
+		if (user_options) _checkOptions(user_options);
+
+		service = normalizeService(service);
+
+		let pass = password + '.' + service + '.' + options.length + (+options.letters) + (+options.symbols) + (+options.numbers);
+
+		if (options.variant && typeof options.variant === 'string') pass += '.' + options.variant;
+
+		//[debug] console.log('String to hash', pass);
+
+		let results = {};
+
+		scrypt (pass, hashId, SCRYPT_COST, function(hash){
+
+			results.hash = hash;
+			results.pass = _hashToAlphabet(hash);
+
+			results = _checkAndIterate(results);
+
+		});
+		
+		//[debug] console.log('Results', results);
+		
+		return results;
+		
+	};
+
+
+
+	/**
+	 * Generate an hash from the user ID.
+	 *
+	 * @param   {string} id 	User ID
+	 *
+	 * @returns {string} 		Hash ID
+	 */
+	const getHashId = (id) => {
+		let output = '';
+
+		// In order to create an hash from the ID using scrypt,
+		// we need to generate some deterministic salt and it's
+		// not a bad thing.
+		// Rationale: ID is a salt. It's not a secret.
+		// We are not hashing a password.
+		// We are converting ID to an hash more for convenience 
+		// than security here.
+		let salt = Math.pow(id.length, (id.match(/[aeiou]/gi) || [0,0,0]).length)+'';
+		salt = _convert(salt, '0123456789.e+Infity', ALPHABET.numbers+ALPHABET.symbols+ALPHABET.letters)+'';
+
+		//[debug] console.log('Hash ID salt',salt);
+
+		scrypt(id, salt, SCRYPT_COST, function(hash) {
+			output = hash;
+		});
+
+		return output;
+	};
+
+
+	/**
+	 * If Service is a URL, it is stripped down to hostname (and
+	 * perhaps port number) to improve usability.
+	 *
+	 * @param   {string} service 	User Service
+	 *
+	 * @returns {string} 			Normalized Service
+	 */
+	const normalizeService = (service) => {
+
+		service = service.trim().toLowerCase();
+
+		// Strip http(s)://
+		if (service.substring(0, 4) == 'http') {
+			service = service.substring(service.indexOf('://')+3, service.length);
+		}
+
+		// if string contains any "/" take only the first part
+		if (service.indexOf('.') !== -1 && service.indexOf('/') !== -1) {
+			service = service.split('/');
+			service = service[0];
+		}
+
+		//[debug] console.log('Normalized Service', service);
+
+		return service;
+	};
+
+
+	return {
+		getPassword : getPassword,
+		getHashId : getHashId,
+		normalizeService : normalizeService,
+		version : VERSION
+	};
+
+})();
+
+
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = aprico;
+} else {
+	window.aprico = aprico;
+}
+},{"scrypt-async":6}],2:[function(require,module,exports){
+
+},{}],3:[function(require,module,exports){
+(function (Buffer){
+/**
+ * Identicon.js 2.3.3
+ * http://github.com/stewartlord/identicon.js
+ *
+ * PNGLib required for PNG output
+ * http://www.xarg.org/download/pnglib.js
+ *
+ * Copyright 2018, Stewart Lord
+ * Released under the BSD license
+ * http://www.opensource.org/licenses/bsd-license.php
+ */
+
+(function() {
+    var PNGlib;
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        PNGlib = require('./pnglib');
+    } else {
+        PNGlib = window.PNGlib;
+    }
+
+    var Identicon = function(hash, options){
+        if (typeof(hash) !== 'string' || hash.length < 15) {
+            throw 'A hash of at least 15 characters is required.';
+        }
+
+        this.defaults = {
+            background: [240, 240, 240, 255],
+            margin:     0.08,
+            size:       64,
+            saturation: 0.7,
+            brightness: 0.5,
+            format:     'png'
+        };
+
+        this.options = typeof(options) === 'object' ? options : this.defaults;
+
+        // backward compatibility with old constructor (hash, size, margin)
+        if (typeof(arguments[1]) === 'number') { this.options.size   = arguments[1]; }
+        if (arguments[2])                      { this.options.margin = arguments[2]; }
+
+        this.hash        = hash
+        this.background  = this.options.background || this.defaults.background;
+        this.size        = this.options.size       || this.defaults.size;
+        this.format      = this.options.format     || this.defaults.format;
+        this.margin      = this.options.margin !== undefined ? this.options.margin : this.defaults.margin;
+
+        // foreground defaults to last 7 chars as hue at 70% saturation, 50% brightness
+        var hue          = parseInt(this.hash.substr(-7), 16) / 0xfffffff;
+        var saturation   = this.options.saturation || this.defaults.saturation;
+        var brightness   = this.options.brightness || this.defaults.brightness;
+        this.foreground  = this.options.foreground || this.hsl2rgb(hue, saturation, brightness);
+    };
+
+    Identicon.prototype = {
+        background: null,
+        foreground: null,
+        hash:       null,
+        margin:     null,
+        size:       null,
+        format:     null,
+
+        image: function(){
+            return this.isSvg()
+                ? new Svg(this.size, this.foreground, this.background)
+                : new PNGlib(this.size, this.size, 256);
+        },
+
+        render: function(){
+            var image      = this.image(),
+                size       = this.size,
+                baseMargin = Math.floor(size * this.margin),
+                cell       = Math.floor((size - (baseMargin * 2)) / 5),
+                margin     = Math.floor((size - cell * 5) / 2),
+                bg         = image.color.apply(image, this.background),
+                fg         = image.color.apply(image, this.foreground);
+
+            // the first 15 characters of the hash control the pixels (even/odd)
+            // they are drawn down the middle first, then mirrored outwards
+            var i, color;
+            for (i = 0; i < 15; i++) {
+                color = parseInt(this.hash.charAt(i), 16) % 2 ? bg : fg;
+                if (i < 5) {
+                    this.rectangle(2 * cell + margin, i * cell + margin, cell, cell, color, image);
+                } else if (i < 10) {
+                    this.rectangle(1 * cell + margin, (i - 5) * cell + margin, cell, cell, color, image);
+                    this.rectangle(3 * cell + margin, (i - 5) * cell + margin, cell, cell, color, image);
+                } else if (i < 15) {
+                    this.rectangle(0 * cell + margin, (i - 10) * cell + margin, cell, cell, color, image);
+                    this.rectangle(4 * cell + margin, (i - 10) * cell + margin, cell, cell, color, image);
+                }
+            }
+
+            return image;
+        },
+
+        rectangle: function(x, y, w, h, color, image){
+            if (this.isSvg()) {
+                image.rectangles.push({x: x, y: y, w: w, h: h, color: color});
+            } else {
+                var i, j;
+                for (i = x; i < x + w; i++) {
+                    for (j = y; j < y + h; j++) {
+                        image.buffer[image.index(i, j)] = color;
+                    }
+                }
+            }
+        },
+
+        // adapted from: https://gist.github.com/aemkei/1325937
+        hsl2rgb: function(h, s, b){
+            h *= 6;
+            s = [
+                b += s *= b < .5 ? b : 1 - b,
+                b - h % 1 * s * 2,
+                b -= s *= 2,
+                b,
+                b + h % 1 * s,
+                b + s
+            ];
+
+            return[
+                s[ ~~h    % 6 ] * 255, // red
+                s[ (h|16) % 6 ] * 255, // green
+                s[ (h|8)  % 6 ] * 255  // blue
+            ];
+        },
+
+        toString: function(raw){
+            // backward compatibility with old toString, default to base64
+            if (raw) {
+                return this.render().getDump();
+            } else {
+                return this.render().getBase64();
+            }
+        },
+
+        isSvg: function(){
+            return this.format.match(/svg/i)
+        }
+    };
+
+    var Svg = function(size, foreground, background){
+        this.size       = size;
+        this.foreground = this.color.apply(this, foreground);
+        this.background = this.color.apply(this, background);
+        this.rectangles = [];
+    };
+
+    Svg.prototype = {
+        size:       null,
+        foreground: null,
+        background: null,
+        rectangles: null,
+
+        color: function(r, g, b, a){
+            var values = [r, g, b].map(Math.round);
+            values.push((a >= 0) && (a <= 255) ? a/255 : 1);
+            return 'rgba(' + values.join(',') + ')';
+        },
+
+        getDump: function(){
+          var i,
+                xml,
+                rect,
+                fg     = this.foreground,
+                bg     = this.background,
+                stroke = this.size * 0.005;
+
+            xml = "<svg xmlns='http://www.w3.org/2000/svg'"
+                + " width='" + this.size + "' height='" + this.size + "'"
+                + " style='background-color:" + bg + ";'>"
+                + "<g style='fill:" + fg + "; stroke:" + fg + "; stroke-width:" + stroke + ";'>";
+
+            for (i = 0; i < this.rectangles.length; i++) {
+                rect = this.rectangles[i];
+                if (rect.color == bg) continue;
+                xml += "<rect "
+                    + " x='"      + rect.x + "'"
+                    + " y='"      + rect.y + "'"
+                    + " width='"  + rect.w + "'"
+                    + " height='" + rect.h + "'"
+                    + "/>";
+            }
+            xml += "</g></svg>"
+
+            return xml;
+        },
+
+        getBase64: function(){
+            if ('function' === typeof btoa) {
+                return btoa(this.getDump());
+            } else if (Buffer) {
+                return new Buffer(this.getDump(), 'binary').toString('base64');
+            } else {
+                throw 'Cannot generate base64 output';
+            }
+        }
+    };
+
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = Identicon;
+    } else {
+        window.Identicon = Identicon;
+    }
+})();
+
+}).call(this,require("buffer").Buffer)
+},{"./pnglib":4,"buffer":2}],4:[function(require,module,exports){
+/**
+* A handy class to calculate color values.
+*
+* @version 1.0
+* @author Robert Eisele <robert@xarg.org>
+* @copyright Copyright (c) 2010, Robert Eisele
+* @link http://www.xarg.org/2010/03/generate-client-side-png-files-using-javascript/
+* @license http://www.opensource.org/licenses/bsd-license.php BSD License
+*
+*/
+
+(function() {
+
+	// helper functions for that ctx
+	function write(buffer, offs) {
+		for (var i = 2; i < arguments.length; i++) {
+			for (var j = 0; j < arguments[i].length; j++) {
+				buffer[offs++] = arguments[i].charAt(j);
+			}
+		}
+	}
+
+	function byte2(w) {
+		return String.fromCharCode((w >> 8) & 255, w & 255);
+	}
+
+	function byte4(w) {
+		return String.fromCharCode((w >> 24) & 255, (w >> 16) & 255, (w >> 8) & 255, w & 255);
+	}
+
+	function byte2lsb(w) {
+		return String.fromCharCode(w & 255, (w >> 8) & 255);
+	}
+
+	// modified from original source to support NPM
+	var PNGlib = function(width,height,depth) {
+
+		this.width   = width;
+		this.height  = height;
+		this.depth   = depth;
+
+		// pixel data and row filter identifier size
+		this.pix_size = height * (width + 1);
+
+		// deflate header, pix_size, block headers, adler32 checksum
+		this.data_size = 2 + this.pix_size + 5 * Math.floor((0xfffe + this.pix_size) / 0xffff) + 4;
+
+		// offsets and sizes of Png chunks
+		this.ihdr_offs = 0;									// IHDR offset and size
+		this.ihdr_size = 4 + 4 + 13 + 4;
+		this.plte_offs = this.ihdr_offs + this.ihdr_size;	// PLTE offset and size
+		this.plte_size = 4 + 4 + 3 * depth + 4;
+		this.trns_offs = this.plte_offs + this.plte_size;	// tRNS offset and size
+		this.trns_size = 4 + 4 + depth + 4;
+		this.idat_offs = this.trns_offs + this.trns_size;	// IDAT offset and size
+		this.idat_size = 4 + 4 + this.data_size + 4;
+		this.iend_offs = this.idat_offs + this.idat_size;	// IEND offset and size
+		this.iend_size = 4 + 4 + 4;
+		this.buffer_size  = this.iend_offs + this.iend_size;	// total PNG size
+
+		this.buffer  = new Array();
+		this.palette = new Object();
+		this.pindex  = 0;
+
+		var _crc32 = new Array();
+
+		// initialize buffer with zero bytes
+		for (var i = 0; i < this.buffer_size; i++) {
+			this.buffer[i] = "\x00";
+		}
+
+		// initialize non-zero elements
+		write(this.buffer, this.ihdr_offs, byte4(this.ihdr_size - 12), 'IHDR', byte4(width), byte4(height), "\x08\x03");
+		write(this.buffer, this.plte_offs, byte4(this.plte_size - 12), 'PLTE');
+		write(this.buffer, this.trns_offs, byte4(this.trns_size - 12), 'tRNS');
+		write(this.buffer, this.idat_offs, byte4(this.idat_size - 12), 'IDAT');
+		write(this.buffer, this.iend_offs, byte4(this.iend_size - 12), 'IEND');
+
+		// initialize deflate header
+		var header = ((8 + (7 << 4)) << 8) | (3 << 6);
+		header+= 31 - (header % 31);
+
+		write(this.buffer, this.idat_offs + 8, byte2(header));
+
+		// initialize deflate block headers
+		for (var i = 0; (i << 16) - 1 < this.pix_size; i++) {
+			var size, bits;
+			if (i + 0xffff < this.pix_size) {
+				size = 0xffff;
+				bits = "\x00";
+			} else {
+				size = this.pix_size - (i << 16) - i;
+				bits = "\x01";
+			}
+			write(this.buffer, this.idat_offs + 8 + 2 + (i << 16) + (i << 2), bits, byte2lsb(size), byte2lsb(~size));
+		}
+
+		/* Create crc32 lookup table */
+		for (var i = 0; i < 256; i++) {
+			var c = i;
+			for (var j = 0; j < 8; j++) {
+				if (c & 1) {
+					c = -306674912 ^ ((c >> 1) & 0x7fffffff);
+				} else {
+					c = (c >> 1) & 0x7fffffff;
+				}
+			}
+			_crc32[i] = c;
+		}
+
+		// compute the index into a png for a given pixel
+		this.index = function(x,y) {
+			var i = y * (this.width + 1) + x + 1;
+			var j = this.idat_offs + 8 + 2 + 5 * Math.floor((i / 0xffff) + 1) + i;
+			return j;
+		}
+
+		// convert a color and build up the palette
+		this.color = function(red, green, blue, alpha) {
+
+			alpha = alpha >= 0 ? alpha : 255;
+			var color = (((((alpha << 8) | red) << 8) | green) << 8) | blue;
+
+			if (typeof this.palette[color] == "undefined") {
+				if (this.pindex == this.depth) return "\x00";
+
+				var ndx = this.plte_offs + 8 + 3 * this.pindex;
+
+				this.buffer[ndx + 0] = String.fromCharCode(red);
+				this.buffer[ndx + 1] = String.fromCharCode(green);
+				this.buffer[ndx + 2] = String.fromCharCode(blue);
+				this.buffer[this.trns_offs+8+this.pindex] = String.fromCharCode(alpha);
+
+				this.palette[color] = String.fromCharCode(this.pindex++);
+			}
+			return this.palette[color];
+		}
+
+		// output a PNG string, Base64 encoded
+		this.getBase64 = function() {
+
+			var s = this.getDump();
+
+			var ch = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+			var c1, c2, c3, e1, e2, e3, e4;
+			var l = s.length;
+			var i = 0;
+			var r = "";
+
+			do {
+				c1 = s.charCodeAt(i);
+				e1 = c1 >> 2;
+				c2 = s.charCodeAt(i+1);
+				e2 = ((c1 & 3) << 4) | (c2 >> 4);
+				c3 = s.charCodeAt(i+2);
+				if (l < i+2) { e3 = 64; } else { e3 = ((c2 & 0xf) << 2) | (c3 >> 6); }
+				if (l < i+3) { e4 = 64; } else { e4 = c3 & 0x3f; }
+				r+= ch.charAt(e1) + ch.charAt(e2) + ch.charAt(e3) + ch.charAt(e4);
+			} while ((i+= 3) < l);
+			return r;
+		}
+
+		// output a PNG string
+		this.getDump = function() {
+
+			// compute adler32 of output pixels + row filter bytes
+			var BASE = 65521; /* largest prime smaller than 65536 */
+			var NMAX = 5552;  /* NMAX is the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
+			var s1 = 1;
+			var s2 = 0;
+			var n = NMAX;
+
+			for (var y = 0; y < this.height; y++) {
+				for (var x = -1; x < this.width; x++) {
+					s1+= this.buffer[this.index(x, y)].charCodeAt(0);
+					s2+= s1;
+					if ((n-= 1) == 0) {
+						s1%= BASE;
+						s2%= BASE;
+						n = NMAX;
+					}
+				}
+			}
+			s1%= BASE;
+			s2%= BASE;
+			write(this.buffer, this.idat_offs + this.idat_size - 8, byte4((s2 << 16) | s1));
+
+			// compute crc32 of the PNG chunks
+			function crc32(png, offs, size) {
+				var crc = -1;
+				for (var i = 4; i < size-4; i += 1) {
+					crc = _crc32[(crc ^ png[offs+i].charCodeAt(0)) & 0xff] ^ ((crc >> 8) & 0x00ffffff);
+				}
+				write(png, offs+size-4, byte4(crc ^ -1));
+			}
+
+			crc32(this.buffer, this.ihdr_offs, this.ihdr_size);
+			crc32(this.buffer, this.plte_offs, this.plte_size);
+			crc32(this.buffer, this.trns_offs, this.trns_size);
+			crc32(this.buffer, this.idat_offs, this.idat_size);
+			crc32(this.buffer, this.iend_offs, this.iend_size);
+
+			// convert PNG to string
+			return "\x89PNG\r\n\x1a\n"+this.buffer.join('');
+		}
+	}
+
+	// modified from original source to support NPM
+	if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+		module.exports = PNGlib;
+	} else {
+		window.PNGlib = PNGlib;
+	}
+})();
+
+},{}],5:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],6:[function(require,module,exports){
+(function (setImmediate){
+/*!
+ * Fast "async" scrypt implementation in JavaScript.
+ * Copyright (c) 2013-2016 Dmitry Chestnykh | BSD License
+ * https://github.com/dchest/scrypt-async-js
+ */
+
+/**
+ * scrypt(password, salt, options, callback)
+ *
+ * where
+ *
+ * password and salt are strings or arrays of bytes (Array of Uint8Array)
+ * options is
+ *
+ * {
+ *    N:      // CPU/memory cost parameter, must be power of two
+ *            // (alternatively, you can specify logN)
+ *    r:      // block size
+ *    p:      // parallelization parameter
+ *    dkLen:  // length of derived key, default = 32
+ *    encoding: // optional encoding:
+ *                    "base64" - standard Base64 encoding
+ *                    "hex" — hex encoding,
+ *                    "binary" — Uint8Array,
+ *                    undefined/null - Array of bytes
+ *    interruptStep: // optional, steps to split calculations (default is 0)
+ * }
+ *
+ * Derives a key from password and salt and calls callback
+ * with derived key as the only argument.
+ *
+ * Calculations are interrupted with setImmediate (or zero setTimeout) at the
+ * given interruptSteps to avoid freezing the browser. If it's undefined or zero,
+ * the callback is called immediately after the calculation, avoiding setImmediate.
+ *
+ * Legacy way (only supports p = 1) to call this function is:
+ *
+ * scrypt(password, salt, logN, r, dkLen, [interruptStep], callback, [encoding])
+ *
+ * In legacy API, if interruptStep is not given, it defaults to 1000.
+ * Pass 0 to have callback called immediately.
+ *
+ */
+function scrypt(password, salt, logN, r, dkLen, interruptStep, callback, encoding) {
+  'use strict';
+
+  function SHA256(m) {
+    /** @const */ var K = [
+      0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b,
+      0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01,
+      0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7,
+      0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
+      0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152,
+      0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147,
+      0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc,
+      0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+      0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819,
+      0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08,
+      0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f,
+      0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
+      0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+    ];
+
+    var h0 = 0x6a09e667, h1 = 0xbb67ae85, h2 = 0x3c6ef372, h3 = 0xa54ff53a,
+        h4 = 0x510e527f, h5 = 0x9b05688c, h6 = 0x1f83d9ab, h7 = 0x5be0cd19,
+        w = new Array(64);
+
+    function blocks(p) {
+      var off = 0, len = p.length;
+      while (len >= 64) {
+        var a = h0, b = h1, c = h2, d = h3, e = h4, f = h5, g = h6, h = h7,
+            u, i, j, t1, t2;
+
+        for (i = 0; i < 16; i++) {
+          j = off + i*4;
+          w[i] = ((p[j] & 0xff)<<24) | ((p[j+1] & 0xff)<<16) |
+                 ((p[j+2] & 0xff)<<8) | (p[j+3] & 0xff);
+        }
+
+        for (i = 16; i < 64; i++) {
+          u = w[i-2];
+          t1 = ((u>>>17) | (u<<(32-17))) ^ ((u>>>19) | (u<<(32-19))) ^ (u>>>10);
+
+          u = w[i-15];
+          t2 = ((u>>>7) | (u<<(32-7))) ^ ((u>>>18) | (u<<(32-18))) ^ (u>>>3);
+
+          w[i] = (((t1 + w[i-7]) | 0) + ((t2 + w[i-16]) | 0)) | 0;
+        }
+
+        for (i = 0; i < 64; i++) {
+          t1 = ((((((e>>>6) | (e<<(32-6))) ^ ((e>>>11) | (e<<(32-11))) ^
+               ((e>>>25) | (e<<(32-25)))) + ((e & f) ^ (~e & g))) | 0) +
+               ((h + ((K[i] + w[i]) | 0)) | 0)) | 0;
+
+          t2 = ((((a>>>2) | (a<<(32-2))) ^ ((a>>>13) | (a<<(32-13))) ^
+               ((a>>>22) | (a<<(32-22)))) + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+
+          h = g;
+          g = f;
+          f = e;
+          e = (d + t1) | 0;
+          d = c;
+          c = b;
+          b = a;
+          a = (t1 + t2) | 0;
+        }
+
+        h0 = (h0 + a) | 0;
+        h1 = (h1 + b) | 0;
+        h2 = (h2 + c) | 0;
+        h3 = (h3 + d) | 0;
+        h4 = (h4 + e) | 0;
+        h5 = (h5 + f) | 0;
+        h6 = (h6 + g) | 0;
+        h7 = (h7 + h) | 0;
+
+        off += 64;
+        len -= 64;
+      }
+    }
+
+    blocks(m);
+
+    var i, bytesLeft = m.length % 64,
+        bitLenHi = (m.length / 0x20000000) | 0,
+        bitLenLo = m.length << 3,
+        numZeros = (bytesLeft < 56) ? 56 : 120,
+        p = m.slice(m.length - bytesLeft, m.length);
+
+    p.push(0x80);
+    for (i = bytesLeft + 1; i < numZeros; i++) p.push(0);
+    p.push((bitLenHi>>>24) & 0xff);
+    p.push((bitLenHi>>>16) & 0xff);
+    p.push((bitLenHi>>>8)  & 0xff);
+    p.push((bitLenHi>>>0)  & 0xff);
+    p.push((bitLenLo>>>24) & 0xff);
+    p.push((bitLenLo>>>16) & 0xff);
+    p.push((bitLenLo>>>8)  & 0xff);
+    p.push((bitLenLo>>>0)  & 0xff);
+
+    blocks(p);
+
+    return [
+      (h0>>>24) & 0xff, (h0>>>16) & 0xff, (h0>>>8) & 0xff, (h0>>>0) & 0xff,
+      (h1>>>24) & 0xff, (h1>>>16) & 0xff, (h1>>>8) & 0xff, (h1>>>0) & 0xff,
+      (h2>>>24) & 0xff, (h2>>>16) & 0xff, (h2>>>8) & 0xff, (h2>>>0) & 0xff,
+      (h3>>>24) & 0xff, (h3>>>16) & 0xff, (h3>>>8) & 0xff, (h3>>>0) & 0xff,
+      (h4>>>24) & 0xff, (h4>>>16) & 0xff, (h4>>>8) & 0xff, (h4>>>0) & 0xff,
+      (h5>>>24) & 0xff, (h5>>>16) & 0xff, (h5>>>8) & 0xff, (h5>>>0) & 0xff,
+      (h6>>>24) & 0xff, (h6>>>16) & 0xff, (h6>>>8) & 0xff, (h6>>>0) & 0xff,
+      (h7>>>24) & 0xff, (h7>>>16) & 0xff, (h7>>>8) & 0xff, (h7>>>0) & 0xff
+    ];
+  }
+
+  function PBKDF2_HMAC_SHA256_OneIter(password, salt, dkLen) {
+    // compress password if it's longer than hash block length
+    if(password.length > 64) {
+      // SHA256 expects password to be an Array. If it's not
+      // (i.e. it doesn't have .push method), convert it to one.
+      password = SHA256(password.push ? password : Array.prototype.slice.call(password, 0));
+    }
+
+    var i, innerLen = 64 + salt.length + 4,
+        inner = new Array(innerLen),
+        outerKey = new Array(64),
+        dk = [];
+
+    // inner = (password ^ ipad) || salt || counter
+    for (i = 0; i < 64; i++) inner[i] = 0x36;
+    for (i = 0; i < password.length; i++) inner[i] ^= password[i];
+    for (i = 0; i < salt.length; i++) inner[64+i] = salt[i];
+    for (i = innerLen - 4; i < innerLen; i++) inner[i] = 0;
+
+    // outerKey = password ^ opad
+    for (i = 0; i < 64; i++) outerKey[i] = 0x5c;
+    for (i = 0; i < password.length; i++) outerKey[i] ^= password[i];
+
+    // increments counter inside inner
+    function incrementCounter() {
+      for (var i = innerLen-1; i >= innerLen-4; i--) {
+        inner[i]++;
+        if (inner[i] <= 0xff) return;
+        inner[i] = 0;
+      }
+    }
+
+    // output blocks = SHA256(outerKey || SHA256(inner)) ...
+    while (dkLen >= 32) {
+      incrementCounter();
+      dk = dk.concat(SHA256(outerKey.concat(SHA256(inner))));
+      dkLen -= 32;
+    }
+    if (dkLen > 0) {
+      incrementCounter();
+      dk = dk.concat(SHA256(outerKey.concat(SHA256(inner))).slice(0, dkLen));
+    }
+    return dk;
+  }
+
+  function salsaXOR(tmp, B, bin, bout) {
+    var j0  = tmp[0]  ^ B[bin++],
+        j1  = tmp[1]  ^ B[bin++],
+        j2  = tmp[2]  ^ B[bin++],
+        j3  = tmp[3]  ^ B[bin++],
+        j4  = tmp[4]  ^ B[bin++],
+        j5  = tmp[5]  ^ B[bin++],
+        j6  = tmp[6]  ^ B[bin++],
+        j7  = tmp[7]  ^ B[bin++],
+        j8  = tmp[8]  ^ B[bin++],
+        j9  = tmp[9]  ^ B[bin++],
+        j10 = tmp[10] ^ B[bin++],
+        j11 = tmp[11] ^ B[bin++],
+        j12 = tmp[12] ^ B[bin++],
+        j13 = tmp[13] ^ B[bin++],
+        j14 = tmp[14] ^ B[bin++],
+        j15 = tmp[15] ^ B[bin++],
+        u, i;
+
+    var x0 = j0, x1 = j1, x2 = j2, x3 = j3, x4 = j4, x5 = j5, x6 = j6, x7 = j7,
+        x8 = j8, x9 = j9, x10 = j10, x11 = j11, x12 = j12, x13 = j13, x14 = j14,
+        x15 = j15;
+
+    for (i = 0; i < 8; i += 2) {
+      u =  x0 + x12;   x4 ^= u<<7  | u>>>(32-7);
+      u =  x4 +  x0;   x8 ^= u<<9  | u>>>(32-9);
+      u =  x8 +  x4;  x12 ^= u<<13 | u>>>(32-13);
+      u = x12 +  x8;   x0 ^= u<<18 | u>>>(32-18);
+
+      u =  x5 +  x1;   x9 ^= u<<7  | u>>>(32-7);
+      u =  x9 +  x5;  x13 ^= u<<9  | u>>>(32-9);
+      u = x13 +  x9;   x1 ^= u<<13 | u>>>(32-13);
+      u =  x1 + x13;   x5 ^= u<<18 | u>>>(32-18);
+
+      u = x10 +  x6;  x14 ^= u<<7  | u>>>(32-7);
+      u = x14 + x10;   x2 ^= u<<9  | u>>>(32-9);
+      u =  x2 + x14;   x6 ^= u<<13 | u>>>(32-13);
+      u =  x6 +  x2;  x10 ^= u<<18 | u>>>(32-18);
+
+      u = x15 + x11;   x3 ^= u<<7  | u>>>(32-7);
+      u =  x3 + x15;   x7 ^= u<<9  | u>>>(32-9);
+      u =  x7 +  x3;  x11 ^= u<<13 | u>>>(32-13);
+      u = x11 +  x7;  x15 ^= u<<18 | u>>>(32-18);
+
+      u =  x0 +  x3;   x1 ^= u<<7  | u>>>(32-7);
+      u =  x1 +  x0;   x2 ^= u<<9  | u>>>(32-9);
+      u =  x2 +  x1;   x3 ^= u<<13 | u>>>(32-13);
+      u =  x3 +  x2;   x0 ^= u<<18 | u>>>(32-18);
+
+      u =  x5 +  x4;   x6 ^= u<<7  | u>>>(32-7);
+      u =  x6 +  x5;   x7 ^= u<<9  | u>>>(32-9);
+      u =  x7 +  x6;   x4 ^= u<<13 | u>>>(32-13);
+      u =  x4 +  x7;   x5 ^= u<<18 | u>>>(32-18);
+
+      u = x10 +  x9;  x11 ^= u<<7  | u>>>(32-7);
+      u = x11 + x10;   x8 ^= u<<9  | u>>>(32-9);
+      u =  x8 + x11;   x9 ^= u<<13 | u>>>(32-13);
+      u =  x9 +  x8;  x10 ^= u<<18 | u>>>(32-18);
+
+      u = x15 + x14;  x12 ^= u<<7  | u>>>(32-7);
+      u = x12 + x15;  x13 ^= u<<9  | u>>>(32-9);
+      u = x13 + x12;  x14 ^= u<<13 | u>>>(32-13);
+      u = x14 + x13;  x15 ^= u<<18 | u>>>(32-18);
+    }
+
+    B[bout++] = tmp[0]  = (x0  + j0)  | 0;
+    B[bout++] = tmp[1]  = (x1  + j1)  | 0;
+    B[bout++] = tmp[2]  = (x2  + j2)  | 0;
+    B[bout++] = tmp[3]  = (x3  + j3)  | 0;
+    B[bout++] = tmp[4]  = (x4  + j4)  | 0;
+    B[bout++] = tmp[5]  = (x5  + j5)  | 0;
+    B[bout++] = tmp[6]  = (x6  + j6)  | 0;
+    B[bout++] = tmp[7]  = (x7  + j7)  | 0;
+    B[bout++] = tmp[8]  = (x8  + j8)  | 0;
+    B[bout++] = tmp[9]  = (x9  + j9)  | 0;
+    B[bout++] = tmp[10] = (x10 + j10) | 0;
+    B[bout++] = tmp[11] = (x11 + j11) | 0;
+    B[bout++] = tmp[12] = (x12 + j12) | 0;
+    B[bout++] = tmp[13] = (x13 + j13) | 0;
+    B[bout++] = tmp[14] = (x14 + j14) | 0;
+    B[bout++] = tmp[15] = (x15 + j15) | 0;
+  }
+
+  function blockCopy(dst, di, src, si, len) {
+    while (len--) dst[di++] = src[si++];
+  }
+
+  function blockXOR(dst, di, src, si, len) {
+    while (len--) dst[di++] ^= src[si++];
+  }
+
+  function blockMix(tmp, B, bin, bout, r) {
+    blockCopy(tmp, 0, B, bin + (2*r-1)*16, 16);
+    for (var i = 0; i < 2*r; i += 2) {
+      salsaXOR(tmp, B, bin + i*16,      bout + i*8);
+      salsaXOR(tmp, B, bin + i*16 + 16, bout + i*8 + r*16);
+    }
+  }
+
+  function integerify(B, bi, r) {
+    return B[bi+(2*r-1)*16];
+  }
+
+  function stringToUTF8Bytes(s) {
+    var arr = [];
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charCodeAt(i);
+      if (c < 0x80) {
+        arr.push(c);
+      } else if (c < 0x800) {
+        arr.push(0xc0 | c >> 6);
+        arr.push(0x80 | c & 0x3f);
+      } else if (c < 0xd800) {
+        arr.push(0xe0 | c >> 12);
+        arr.push(0x80 | (c >> 6) & 0x3f);
+        arr.push(0x80 | c & 0x3f);
+      } else {
+        if (i >= s.length - 1) {
+          throw new Error('invalid string');
+        }
+        i++; // get one more character
+        c = (c & 0x3ff) << 10;
+        c |= s.charCodeAt(i) & 0x3ff;
+        c += 0x10000;
+
+        arr.push(0xf0 | c >> 18);
+        arr.push(0x80 | (c >> 12) & 0x3f);
+        arr.push(0x80 | (c >> 6) & 0x3f);
+        arr.push(0x80 | c & 0x3f);
+      }
+    }
+    return arr;
+  }
+
+  function bytesToHex(p) {
+    /** @const */
+    var enc = '0123456789abcdef'.split('');
+
+    var len = p.length,
+        arr = [],
+        i = 0;
+
+    for (; i < len; i++) {
+        arr.push(enc[(p[i]>>>4) & 15]);
+        arr.push(enc[(p[i]>>>0) & 15]);
+    }
+    return arr.join('');
+  }
+
+  function bytesToBase64(p) {
+    /** @const */
+    var enc = ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' +
+              '0123456789+/').split('');
+
+    var len = p.length,
+        arr = [],
+        i = 0,
+        a, b, c, t;
+
+    while (i < len) {
+      a = i < len ? p[i++] : 0;
+      b = i < len ? p[i++] : 0;
+      c = i < len ? p[i++] : 0;
+      t = (a << 16) + (b << 8) + c;
+      arr.push(enc[(t >>> 3 * 6) & 63]);
+      arr.push(enc[(t >>> 2 * 6) & 63]);
+      arr.push(enc[(t >>> 1 * 6) & 63]);
+      arr.push(enc[(t >>> 0 * 6) & 63]);
+    }
+    if (len % 3 > 0) {
+      arr[arr.length-1] = '=';
+      if (len % 3 === 1) arr[arr.length-2] = '=';
+    }
+    return arr.join('');
+  }
+
+
+  // Generate key.
+
+  var MAX_UINT = (-1)>>>0,
+      p = 1;
+
+  if (typeof logN === "object") {
+    // Called as: scrypt(password, salt, opts, callback)
+    if (arguments.length > 4) {
+      throw new Error('scrypt: incorrect number of arguments');
+    }
+
+    var opts = logN;
+
+    callback = r;
+    logN = opts.logN;
+    if (typeof logN === 'undefined') {
+      if (typeof opts.N !== 'undefined') {
+        if (opts.N < 2 || opts.N > MAX_UINT)
+          throw new Error('scrypt: N is out of range');
+
+        if ((opts.N & (opts.N - 1)) !== 0)
+          throw new Error('scrypt: N is not a power of 2');
+
+        logN = Math.log(opts.N) / Math.LN2;
+      } else {
+        throw new Error('scrypt: missing N parameter');
+      }
+    }
+
+    // XXX: If opts.p or opts.dkLen is 0, it will be set to the default value
+    // instead of throwing due to incorrect value. To avoid breaking
+    // compatibility, this will only be changed in the next major version.
+    p = opts.p || 1;
+    r = opts.r;
+    dkLen = opts.dkLen || 32;
+    interruptStep = opts.interruptStep || 0;
+    encoding = opts.encoding;
+  }
+
+  if (p < 1)
+    throw new Error('scrypt: invalid p');
+
+  if (r <= 0)
+    throw new Error('scrypt: invalid r');
+
+  if (logN < 1 || logN > 31)
+    throw new Error('scrypt: logN must be between 1 and 31');
+
+
+  var N = (1<<logN)>>>0,
+      XY, V, B, tmp;
+
+  if (r*p >= 1<<30 || r > MAX_UINT/128/p || r > MAX_UINT/256 || N > MAX_UINT/128/r)
+    throw new Error('scrypt: parameters are too large');
+
+  // Decode strings.
+  if (typeof password === 'string')
+    password = stringToUTF8Bytes(password);
+  if (typeof salt === 'string')
+    salt = stringToUTF8Bytes(salt);
+
+  if (typeof Int32Array !== 'undefined') {
+    //XXX We can use Uint32Array, but Int32Array is faster in Safari.
+    XY = new Int32Array(64*r);
+    V = new Int32Array(32*N*r);
+    tmp = new Int32Array(16);
+  } else {
+    XY = [];
+    V = [];
+    tmp = new Array(16);
+  }
+  B = PBKDF2_HMAC_SHA256_OneIter(password, salt, p*128*r);
+
+  var xi = 0, yi = 32 * r;
+
+  function smixStart(pos) {
+    for (var i = 0; i < 32*r; i++) {
+      var j = pos + i*4;
+      XY[xi+i] = ((B[j+3] & 0xff)<<24) | ((B[j+2] & 0xff)<<16) |
+                 ((B[j+1] & 0xff)<<8)  | ((B[j+0] & 0xff)<<0);
+    }
+  }
+
+  function smixStep1(start, end) {
+    for (var i = start; i < end; i += 2) {
+      blockCopy(V, i*(32*r), XY, xi, 32*r);
+      blockMix(tmp, XY, xi, yi, r);
+
+      blockCopy(V, (i+1)*(32*r), XY, yi, 32*r);
+      blockMix(tmp, XY, yi, xi, r);
+    }
+  }
+
+  function smixStep2(start, end) {
+    for (var i = start; i < end; i += 2) {
+      var j = integerify(XY, xi, r) & (N-1);
+      blockXOR(XY, xi, V, j*(32*r), 32*r);
+      blockMix(tmp, XY, xi, yi, r);
+
+      j = integerify(XY, yi, r) & (N-1);
+      blockXOR(XY, yi, V, j*(32*r), 32*r);
+      blockMix(tmp, XY, yi, xi, r);
+    }
+  }
+
+  function smixFinish(pos) {
+    for (var i = 0; i < 32*r; i++) {
+      var j = XY[xi+i];
+      B[pos + i*4 + 0] = (j>>>0)  & 0xff;
+      B[pos + i*4 + 1] = (j>>>8)  & 0xff;
+      B[pos + i*4 + 2] = (j>>>16) & 0xff;
+      B[pos + i*4 + 3] = (j>>>24) & 0xff;
+    }
+  }
+
+  var nextTick = (typeof setImmediate !== 'undefined') ? setImmediate : setTimeout;
+
+  function interruptedFor(start, end, step, fn, donefn) {
+    (function performStep() {
+      nextTick(function() {
+        fn(start, start + step < end ? start + step : end);
+        start += step;
+        if (start < end)
+          performStep();
+        else
+          donefn();
+        });
+    })();
+  }
+
+  function getResult(enc) {
+      var result = PBKDF2_HMAC_SHA256_OneIter(password, B, dkLen);
+      if (enc === 'base64')
+        return bytesToBase64(result);
+      else if (enc === 'hex')
+        return bytesToHex(result);
+      else if (enc === 'binary')
+        return new Uint8Array(result);
+      else
+        return result;
+  }
+
+  // Blocking variant.
+  function calculateSync() {
+    for (var i = 0; i < p; i++) {
+      smixStart(i*128*r);
+      smixStep1(0, N);
+      smixStep2(0, N);
+      smixFinish(i*128*r);
+    }
+    callback(getResult(encoding));
+  }
+
+  // Async variant.
+  function calculateAsync(i) {
+      smixStart(i*128*r);
+      interruptedFor(0, N, interruptStep*2, smixStep1, function() {
+        interruptedFor(0, N, interruptStep*2, smixStep2, function () {
+          smixFinish(i*128*r);
+          if (i + 1 < p) {
+            nextTick(function() { calculateAsync(i + 1); });
+          } else {
+            callback(getResult(encoding));
+          }
+        });
+      });
+  }
+
+  if (typeof interruptStep === 'function') {
+    // Called as: scrypt(...,      callback, [encoding])
+    //  shifting: scrypt(..., interruptStep,  callback, [encoding])
+    encoding = callback;
+    callback = interruptStep;
+    interruptStep = 1000;
+  }
+
+  if (interruptStep <= 0) {
+    calculateSync();
+  } else {
+    calculateAsync(0);
+  }
+}
+
+if (typeof module !== 'undefined') module.exports = scrypt;
+
+}).call(this,require("timers").setImmediate)
+},{"timers":7}],7:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":5,"timers":7}],8:[function(require,module,exports){
+/*!
+ * aprico-ui
+ * Universal UI implementation for the Aprico Password Manager. 
+ * Copyright (c) 2018 Pino Ceniccola | GPLv3
+ * https://aprico.org
+ */
+
+'use strict';
+
+
+const VERSION = '0.1.2';
+
+const aprico = require('aprico-gen');
+
+const VERSION_TREE = {
+  'aprico-gen' : aprico.version,
+  'aprico-ui' : VERSION
+}
+
+// Save a few bytes because tiny-sha256 includes... its source code in a var
+// const sha256 = require('tiny-sha256');
+const sha256 = function a(b){function c(a,b){return a>>>b|a<<32-b}for(var d,e,f=Math.pow,g=f(2,32),h="length",i="",j=[],k=8*b[h],l=a.h=a.h||[],m=a.k=a.k||[],n=m[h],o={},p=2;64>n;p++)if(!o[p]){for(d=0;313>d;d+=p)o[d]=p;l[n]=f(p,.5)*g|0,m[n++]=f(p,1/3)*g|0}for(b+="\x80";b[h]%64-56;)b+="\x00";for(d=0;d<b[h];d++){if(e=b.charCodeAt(d),e>>8)return;j[d>>2]|=e<<(3-d)%4*8}for(j[j[h]]=k/g|0,j[j[h]]=k,e=0;e<j[h];){var q=j.slice(e,e+=16),r=l;for(l=l.slice(0,8),d=0;64>d;d++){var s=q[d-15],t=q[d-2],u=l[0],v=l[4],w=l[7]+(c(v,6)^c(v,11)^c(v,25))+(v&l[5]^~v&l[6])+m[d]+(q[d]=16>d?q[d]:q[d-16]+(c(s,7)^c(s,18)^s>>>3)+q[d-7]+(c(t,17)^c(t,19)^t>>>10)|0),x=(c(u,2)^c(u,13)^c(u,22))+(u&l[1]^u&l[2]^l[1]&l[2]);l=[w+x|0].concat(l),l[4]=l[4]+w|0}for(d=0;8>d;d++)l[d]=l[d]+r[d]|0}for(d=0;8>d;d++)for(e=3;e+1;e--){var y=l[d]>>8*e&255;i+=(16>y?0:"")+y.toString(16)}return i};
+
+const Identicon = require('identicon.js');
+
+const DEFAULT_TEMPLATES = require('./templates.js');
+
+const utils = require('./utils.js');
+
+
+
+const isWebExt = (typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
+
+/**
+ *  Web Extension API, state of the art.
+ *  We're going to use the "chrome" APIs based on callbacks
+ *  until this mess is cleared:
+ *  https://github.com/mozilla/webextension-polyfill/issues/3
+ *  https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/9421085/
+ *
+ *  Long story short: Microsoft did it wrong again using the new 
+ *  standard "browser" namespace but based on the old "chrome" APIs
+ *  (using callbacks instead of promises).
+ *
+ *  Temporary fix: Firefox supports both "browser" (promise based) and
+ *  "chrome" (callback based), Edge supports only "browser" but callback
+ *  based. So, use "chrome" where available and call things with its
+ *  name in Edge. 
+ */
+
+if (isWebExt && typeof chrome === "undefined") window.chrome = browser;
+
+
+
+
+const IDENTICON_OPTIONS = {
+  foreground: [239, 61, 51, 255],
+  background: [255, 255, 255, 255],
+  margin: 0.24,
+  size: 41,
+  format: 'svg'
+};
+
+
+let _root;
+let _hashId;
+let template;
+
+const hashIdKey = 'hashId_' + VERSION_TREE['aprico-gen'].replace(/\./g , "_");
+
+
+
+
+
+
+
+
+
+
+
+
+function setHashId(hashId) {
+  _hashId = hashId;
+  if (isWebExt) {
+    chrome.storage.local.set({'hashId': hashId}, renderMain);
+  } else {
+    localStorage.setItem('hashId', hashId);
+    renderMain();
+  }
+}
+
+function resetHashId() {
+  _hashId = false;
+  if (isWebExt) {
+    chrome.storage.local.set({'hashId': ''}, renderLogin);
+  } else {
+    localStorage.setItem('hashId', '');
+    renderLogin();
+  }
+}
+
+
+function onHashId(result) {
+  //console.log(result);
+  if (result && result.hashId) {
+    _hashId = result.hashId;
+    renderMain();
+  } else {
+    _hashId = false;
+    renderLogin();
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function bootstrap(element, user_template){
+
+  _root = document.querySelector(element);
+
+  if (!_root) throw new Error("Root element is undefined.");
+
+  template = (user_template) ? user_template : DEFAULT_TEMPLATES;
+
+  if (isWebExt) {
+    _root.classList.add('aprico-webext');
+    chrome.storage.local.get('hashId', onHashId);
+  } else {
+    _root.classList.add('aprico-browser');
+    let hashId = localStorage.getItem('hashId');
+    onHashId({ 'hashId' : hashId });
+  }
+
+  if (navigator.platform.toUpperCase().indexOf('MAC')>=0) {
+    _root.classList.add('aprico-macOS');
+  } else {
+    _root.classList.add('aprico-otherOS');
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function renderLogin() {
+
+  let node = utils.stringToDom(template.login);
+
+  if (_root.firstChild) _root.removeChild(_root.firstChild);
+
+  _root.appendChild(node);
+  
+  setupLogin();
+  setupCommon();
+}
+
+
+function renderMain() {
+
+  let node = utils.stringToDom(template.main);
+
+  if (_root.firstChild) _root.removeChild(_root.firstChild);
+
+  _root.appendChild(node);
+
+  setupMain();
+  setupCommon();
+}
+
+
+
+function setupLogin(){
+
+  let $hashId = utils.getId('ap-hashid');
+  let $login = utils.getId('ap-trigger-login');
+  $hashId.focus();
+  $login.addEventListener('click',function(e){
+      e.preventDefault();
+      if ($hashId.value) {
+        _hashId = aprico.getHashId($hashId.value);
+        setHashId(_hashId);
+      } else {
+        $hashId.focus();
+      }
+  });
+
+};
+
+
+function setupMain(){
+
+  let $pass         = utils.getId('ap-pass');
+  let $service      = utils.getId('ap-service');
+  let $result       = utils.getId('ap-result');
+  let $trigger      = utils.getId('ap-trigger-gen');
+
+  // extra fields
+  let $variant      = utils.getId('ap-variant');
+  let $letters      = utils.getId('ap-letters');
+  let $numbers      = utils.getId('ap-numbers');
+  let $symbols      = utils.getId('ap-symbols');
+  let $length       = utils.getId('ap-length');
+  
+  let $triggerExtra = utils.getId('ap-trigger-extra');
+  let $label        = utils.getId('a-pass-label');
+
+  let $triggerCopy  = utils.getId('ap-copy');
+  let $triggerShow  = utils.getId('ap-show');
+
+  let $extraDiv     = utils.getId('aprico-extra');
+  let $resultDiv    = utils.getId('aprico-result');
+  let $aboutDiv     = utils.getId('aprico-about');
+
+  // Autofocus Service or Password inputs
+  if (isWebExt) {
+    chrome.tabs.query({active:true,currentWindow:true}, function(tabs){
+      if (tabs[0].url.indexOf('.') > 0) {
+        $service.value = aprico.normalizeService(tabs[0].url);
+        $pass.focus();
+      } else {
+        $service.focus();
+      }
+    });
+  } else {
+    $service.focus();
+  }
+  
+
+  // Normalize Service on blur
+  $service.addEventListener('blur',function(e){
+    this.value = aprico.normalizeService(this.value);
+  });
+
+
+  // Identicon support
+  $pass.addEventListener('input',function(e){
+    if (this.value.length) {
+      // this.value to base64 because tiny-sha256 works with ASCII only
+      let value64 = btoa(encodeURIComponent(this.value).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+          return String.fromCharCode(parseInt(p1, 16));
+      }));
+      let data = new Identicon(sha256(_hashId+value64), IDENTICON_OPTIONS).toString();
+      $pass.style.backgroundImage = 'url(data:image/svg+xml;base64,' + data + ')';
+    } else {
+      $pass.style.backgroundImage = '';
+    }
+  });
+
+
+  // Simulate submission
+  $pass.addEventListener('keyup',function(e){
+     if (e.key === "Enter") generate();
+  });
+
+
+  // Extra
+  $triggerExtra.addEventListener('click',function(e){
+    e.preventDefault();
+    if (this.classList.contains('bg-gray-2')) {
+      this.classList.remove('bg-gray-2');
+      show($aboutDiv);
+    } else {
+      this.classList.add('bg-gray-2');
+      show($extraDiv);
+    }
+    
+  });
+
+
+  // Switch Password type
+  $result.addEventListener('focus', function(){
+    this.type = 'text';
+  });
+  $result.addEventListener('blur', function(){
+    this.type = 'password';
+  });
+
+
+
+  // Generating Password
+  $trigger.addEventListener('click', generate);
+
+  async function generate(e) {
+    // 0. Validate fields
+    if (!$service.value) {$service.focus();return false;}
+    if (!$pass.value) {$pass.focus();return false;}
+    
+    let timerId,
+        results,
+        copy;
+
+
+    // 1. Prepare UI
+    let step1 = await new Promise(function(resolve) {
+
+      $label.classList.remove('icon','icon-done','icon-alldone');
+      $triggerCopy.classList.add('hidden');
+      $triggerShow.classList.add('hidden');
+      $result.classList.remove('border-red');
+
+      $triggerExtra.classList.remove('bg-gray-2');
+
+      show($resultDiv);
+
+      //utils.getId('aprico-result').classList.add('bg-black');
+
+      timerId = setInterval(function(){
+        $label.textContent += '.';
+      },50);
+
+      $label.classList.add('red');
+      $label.textContent = 'Generating.';
+          
+      $trigger.disabled = true;
+      $triggerExtra.disabled = true;
+      $result.value = '';
+
+      return setTimeout(resolve,100);
+    });
+
+    // 2. Generate Password
+    let step2 = await new Promise(function(resolve){
+      
+      let time = new Date().getTime();
+
+      results = aprico.getPassword($pass.value, $service.value, _hashId, {
+        length:  +$length.value,
+        letters: +$letters.checked,
+        numbers: +$numbers.checked,
+        symbols: +$symbols.checked,
+        variant: $variant.value
+      });
+
+      //console.log((new Date().getTime()) - time);
+
+      // in step 2 because... timing
+      $result.value = results.pass;
+      results = false;
+      copy = utils.copyToClipboard($result);
+
+      return setTimeout(resolve,100);
+    });
+
+    // 3. Resolve UI
+    let step3 = await new Promise(function(resolve){
+
+      $result.classList.add('border-red');
+
+      $label.classList.remove('red');
+
+      clearInterval(timerId);
+
+      if (copy) {
+        $label.classList.add('icon','icon-alldone');
+        $label.textContent = 'Password copied to clipboard.';
+      } else {
+        $label.classList.add('icon','icon-done');
+        $label.textContent = 'Password is ready.';
+        $triggerCopy.classList.remove('hidden');
+      }
+
+      $triggerShow.classList.remove('hidden');
+      
+      $trigger.disabled = false;
+      $triggerExtra.disabled = false;
+
+      return resolve();
+    });
+
+  
+  };
+
+
+
+  $triggerCopy.addEventListener('click',function(e){
+    let copy = utils.copyToClipboard($result);
+    if (copy) $label.textContent = 'Password copied to clipboard.';
+  });
+
+
+  // Reset hashId
+  let $reset = utils.getId('ap-delete-hash');
+  $reset.addEventListener('click',resetHashId);
+
+  // Show Password
+  $triggerShow.addEventListener('click',function(e){
+    $result.focus();
+  });
+
+  // Switch About/Results
+  function show(section){
+    $resultDiv.hidden = true;
+    $aboutDiv.hidden = true;
+    $extraDiv.hidden = true;
+    section.hidden = false;
+  };
+
+  // hide results on form change
+  let formEls = document.querySelectorAll('input');
+  Array.from(formEls).forEach(function(el){
+    el.addEventListener('input',function(){
+      if ($resultDiv.hidden != true) show($aboutDiv);
+    });
+  });
+
+  // At least one checkbox selected
+  let checkboxes = document.querySelectorAll('.switch-toggle');
+  Array.from(checkboxes).forEach(checkbox => checkbox.addEventListener('change', checkboxOnChange));
+  function checkboxOnChange(){
+    let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+    if (!checkedOne) this.checked = true;
+  };
+
+  // Validate characters count
+  $length.addEventListener('blur', function(){
+    if (+this.value == 0) this.value = 20;
+    else if (+this.value < 4) this.value = 4;
+    else if (+this.value > 40) this.value = 40;
+  });
+
+}
+
+
+function setupCommon(){
+
+  // links in new window in web-ext
+  if (isWebExt) {
+    Array.from(document.querySelectorAll('.webext-newlink')).forEach(
+      _link => _link.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(_link.getAttribute('href'));
+      })
+    );
+  }
+
+}
+
+module.exports = bootstrap;
+module.exports.version = VERSION_TREE;
+
+},{"./templates.js":10,"./utils.js":11,"aprico-gen":1,"identicon.js":3}],9:[function(require,module,exports){
+
+
+const apricoUi = require('./aprico-ui.js');
+
+apricoUi('#aprico');
+},{"./aprico-ui.js":8}],10:[function(require,module,exports){
+/*
+ * Aprico UI Templates
+*/
+
+const templates = {
+	login: `
+  <div id="aprico-login" class="p2 md-p3 bg-white">
+	<div class="mb2">
+      <label class="label">ID</label>
+      <input class="sm-h3" type="text" id="ap-hashid" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  	</div>
+  	<div class="mb2 h6">
+  		<p class="md-h5"><strong>Please choose an ID:</strong> it can be your e-mail address, your nickname or a longer passphrase.</p>
+      <p>It will be only asked once, but please <strong>make sure to remember it</strong> as there is no way to recover your ID.</p>
+    </div>
+  	<div class="mb2">
+      <button id="ap-trigger-login" class="btn btn-primary h6 caps white">Start using Aprico</button>
+  	</div>
+    <div class="border-top border-gray pt2">
+      <p class="h6 m0"><strong>aprico</strong> is a deterministic password manager that works 100% in your browser. No data will ever be sent to any server or cloud. You can read more in our super friendly <a class="webext-newlink" href="https://aprico.org/privacy.html">Privacy Policy</a>.</h6>
+    </div>
+    </div>
+  	`,
+	main: `
+  <div id="aprico-main" class="flex flex-column col-12">
+  <div class="p2 sm-p3 bg-white">
+  	<div class="mb2">
+      <label class="label">Service</label>
+      <input class="sm-h3 sm-mb2" type="text" placeholder="site.com or appname" id="ap-service" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  	</div>
+  	<div class="mb2">
+      <label class="label">Master Password</label>
+      <input class="sm-h3 sm-mb2 bg-identicon" type="password" id="ap-pass">
+  	</div>
+  	<div class="sm-mb2">
+    	<div class="flex">
+      	<button id="ap-trigger-gen" class="btn btn-primary white h6 caps" style="margin-left:1px">Get Password</button>
+      	<span class="flex-auto"></span>
+      	<button id="ap-trigger-extra" class="btn h6 caps right icon icon-opts px0 border-gray rounded"><span style="opacity:0">More</span></button>
+    	</div>
+  	</div>
+  </div>
+
+  <div class="flex-auto flex flex-column bg-gray-1 border-top border-gray-2" style="min-height:200px">
+
+  <div id="aprico-extra" class="p2 sm-p3" hidden>
+    <div class="flex justify-between mb2">
+        <div class="sm-mb2 col-3 ">
+            <label class="label">Length</label>
+            <input class="lg-h3" type="number" min="4" max="40" value="20" id="ap-length">
+        </div>
+        <div class="sm-mb2 col-9 flex-auto pl2 sm-pl4 md-pl2 lg-pl4">
+            <label class="label">Alphabet</label>
+            <ul class="list-reset flex justify-between center">
+                <li>
+                    <input type="checkbox" checked id="ap-letters" class="switch-toggle switch-toggle-round">
+                    <label for="ap-letters"><span class="mt2 block">Letters</span></label>
+                </li>
+                <li>
+                    <input type="checkbox" checked id="ap-numbers" class="switch-toggle switch-toggle-round">
+                    <label for="ap-numbers"><span class="mt2 block">Numbers</span></label>
+                </li>
+                <li>
+                    <input type="checkbox" checked id="ap-symbols" class="switch-toggle switch-toggle-round">
+                    <label for="ap-symbols"><span class="mt2 block">Symbols</span></label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="">
+        <div class="-mb2">
+            <label class="label">Variant</label>
+            <input class="sm-h3" type="text" id="ap-variant">
+        </div>
+    </div>
+  </div>
+
+  <div id="aprico-result" class="p2 sm-p3" hidden>
+  <div class="mb2">
+      <label class="label bold mb2" id="a-pass-label">Password</label>
+      <input class="sm-h3 sm-mb2 monospace" type="password" id="ap-result" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly="true">
+  </div>
+  <div class="flex">
+  <button class="btn btn-small h6 px0 hidden mr2 icon icon-view weight-400" id="ap-show">Show</button>
+  <button class="btn btn-small h6 px0 hidden icon icon-copy weight-400" id="ap-copy">Copy</button>
+  </div>
+  </div>
+
+  <div id="aprico-about" class="flex-auto flex flex-column col-12">
+  <!-- <div class="flex flex-column bg-gray-1"> -->
+  <div class="p2 sm-p3">
+    <p class="h5">Thank you for using <strong>aprico</strong>.</p>
+    <div class="webext-notice h6">
+      <p class="m0"><strong>Tip:</strong> Easily access aprico with 
+      <code><span class="macOS-inline-notice">cmd</span><span class="otherOS-inline-notice">ctrl</span></code> + <code>space</code>.</p>
+    </div>
+  </div>
+  <span class="flex-auto"></span>
+  <div class="flex p2 sm-p3">
+  <a class="btn btn-small h6 px0 icon icon-open weight-400 webext-newlink" href="https://aprico.org">About</a>
+  <a class="btn btn-small h6 px0 icon icon-open weight-400  ml2 webext-newlink" href="mailto:pino@aprico.org?subject=Feedback%20about%20aprico">Feedback</a>
+
+  <button id="ap-link-online" class="hide btn btn-small h6 px0 icon icon-open">Online Version</button>
+  <span class="flex-auto"></span>
+  <button class="btn btn-small h6 px0 icon icon-logout" id="ap-delete-hash">Change ID</button>
+  </div>  
+  <!-- </div> -->
+  </div>
+
+  </div>
+</div>
+	`
+}
+
+module.exports = templates;
+},{}],11:[function(require,module,exports){
+
+'use strict';
+
+
+const utils = {};
+
+utils.getId = function(id){
+    return document.getElementById(id);
+}
+
+utils.stringToDom = function(string){
+    return document.createRange().createContextualFragment(string.trim());
+}
+
+/**
+ * Copy to clipboard, state of the art.
+ * 
+ * For Web Extensions: Always require permission (clipboardWrite).
+ *
+ * For Browsers:
+ * - Chrome + Safari (check quirks) allow async copy, this let
+ *   us change the UI without freezing the browser.
+ *    
+ * - Firefox + Edge don't allow async copy, only solution to date
+ *   is to degrade gracefully to click-to-copy only (no autocopy
+ *   after generation).
+ *
+ * Reference:
+ * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7728456/
+ * http://hansifer.com/clipboardCopyTest.html
+ * https://bugzilla.mozilla.org/show_bug.cgi?id=1012662#c51
+ */
+utils.copyToClipboard = function(element) {
+ 
+  element.type = 'text';
+
+  // copy to clipboard
+  element.select();
+
+  // TO DO: ios quirks...
+  // ref: https://stackoverflow.com/questions/34045777/copy-to-clipboard-using-javascript-in-ios
+/*
+            let range = document.createRange();
+            range.selectNodeContents(element);
+            let selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            element.setSelectionRange(0, 999999);  
+*/
+  let success = document.execCommand("copy");
+
+ 	//console.log('copy', success);
+
+	element.type = 'password';
+
+  // deselect
+  //var activeEl = document.activeElement;
+  //if ('selectionStart' in activeEl) {
+  //  element.selectionEnd = activeEl.selectionStart;
+  //}
+
+  //if ('selectionStart' in activeEl) {
+    element.selectionEnd = element.selectionStart;
+  //}
+  
+  //selection.removeAllRanges();
+
+ 	element.blur();
+
+	return success;
+}
+
+
+
+
+
+utils.chainOnTransitionEnd = function( callback, _this ) {
+
+	let runOnce = function(e){
+		e.target.removeEventListener( e.type, runOnce );
+		if (e.target == _this) callback();
+	}
+
+	_this.addEventListener( 'transitionend', runOnce );
+	// if no transition
+	// if ( getComputedStyle( this )[ 'transition-duration' ] == '0s' ) callback();
+	return this;
+};
+
+
+module.exports = utils;
+},{}]},{},[9]);

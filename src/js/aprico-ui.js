@@ -139,6 +139,13 @@ function bootstrap(element, user_template){
     onHashId({ 'hashId' : hashId });
   }
 
+  if (navigator.platform.toUpperCase().indexOf('MAC')>=0) {
+    _root.classList.add('aprico-macOS');
+  } else {
+    _root.classList.add('aprico-otherOS');
+  }
+
+
 }
 
 
@@ -163,6 +170,7 @@ function renderLogin() {
   _root.appendChild(node);
   
   setupLogin();
+  setupCommon();
 }
 
 
@@ -175,6 +183,7 @@ function renderMain() {
   _root.appendChild(node);
 
   setupMain();
+  setupCommon();
 }
 
 
@@ -266,11 +275,11 @@ function setupMain(){
   // Extra
   $triggerExtra.addEventListener('click',function(e){
     e.preventDefault();
-    if (this.classList.contains('bg-gray-1')) {
-      this.classList.remove('bg-gray-1');
+    if (this.classList.contains('bg-gray-2')) {
+      this.classList.remove('bg-gray-2');
       show($aboutDiv);
     } else {
-      this.classList.add('bg-gray-1');
+      this.classList.add('bg-gray-2');
       show($extraDiv);
     }
     
@@ -308,7 +317,7 @@ function setupMain(){
       $triggerShow.classList.add('hidden');
       $result.classList.remove('border-red');
 
-      $triggerExtra.classList.remove('bg-gray-1');
+      $triggerExtra.classList.remove('bg-gray-2');
 
       show($resultDiv);
 
@@ -403,7 +412,7 @@ function setupMain(){
     $aboutDiv.hidden = true;
     $extraDiv.hidden = true;
     section.hidden = false;
-  }
+  };
 
   // hide results on form change
   let formEls = document.querySelectorAll('input');
@@ -415,9 +424,7 @@ function setupMain(){
 
   // At least one checkbox selected
   let checkboxes = document.querySelectorAll('.switch-toggle');
-
-  [...checkboxes].forEach(checkbox => checkbox.addEventListener('change', checkboxOnChange));
-  
+  Array.from(checkboxes).forEach(checkbox => checkbox.addEventListener('change', checkboxOnChange));
   function checkboxOnChange(){
     let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
     if (!checkedOne) this.checked = true;
@@ -429,13 +436,23 @@ function setupMain(){
     else if (+this.value < 4) this.value = 4;
     else if (+this.value > 40) this.value = 40;
   });
-  
 
-  // links
-  let $aboutLink = utils.getId('ap-link-about');
-  $aboutLink.addEventListener('click', function(){window.open("https://aprico.org/")});
 }
 
+
+function setupCommon(){
+
+  // links in new window in web-ext
+  if (isWebExt) {
+    Array.from(document.querySelectorAll('.webext-newlink')).forEach(
+      _link => _link.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(_link.getAttribute('href'));
+      })
+    );
+  }
+
+}
 
 module.exports = bootstrap;
 module.exports.version = VERSION_TREE;

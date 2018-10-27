@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Use Aprico Online: a free deterministic Password Manager</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="dist/css/index.css" rel="stylesheet">
+</head>
+<body>
+<div class="flex flex-column md-flex-row" style="min-height:100vh">
+	<div class="md-col-6 p2 md-p3 md-flex flex-column justify-between md-bg-gray">
+		<div>
+			<img class="block" src="https://aprico.org/assets/aprico-48.png">
+		</div>
+		<div class="h5 xs-hide sm-hide">
+		<p class="mb3"><strong>aprico</strong> is an open-source deterministic Password Manager. <br>Find out more at <a href="https://aprico.org">aprico.org</a></p>
+		<h4 class="h6 caps weight-700 line-height-2">Try me with <br>your smartphone:</h4>
+		<p><img style="height:100px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAACvAgMAAAD2/GbmAAAACVBMVEVHcEz///8AAADmzmMiAAAAAXRSTlMAQObYZgAAAaNJREFUeF7t2DtuwzAMBmAiY/ZcQkfxGJQecoSeokuP4D0ZCjA8ZWU+wFiwjLSjpH8JonzyQISSLOAIf/k3ADjnb/IRoS0e+ImWW8aStI6vYcp4QUu/+F7DWeU8FZ+ySwwgVTfMa5Y6Pg0cvfFPPLDkHTywxjvlgZ+Ms+Cc6O5d/NM+TnypYUlUVuZY1ZmON6Bn+3g6wNuwbic2tZaB4+fEUlLpFMFR55jD1CsmwelewcwPXOfgJHPsLymDFoDAsmDEFr5GV5HW8FTBBFCckXG2ThFlc6wjEv0Bcwv4cnX82MMyEC1CYDl7bZPP6QnDO9he0FgaOVZEVVB0t2MaOJEqL6JVPVZLe6RSeB9zGxiOsSb+fB5IxQUCU4mpc0w+7t3txf9GNXqaXvAQL46xTRzVwOuKPwJ7d2usUyzWH9kFHrjM63hie6PrHFMNc2SzfYCfuReMjtjF3C0u7wrukOQsuKmzZh/j3CcubqhY4tgSC0AdD+y9IfFBSZeYNphwquC4CfQ6+8uLZAcPbLkV27El6YMcD0w47dyLFkdC+7Byb/HAv8qzADRCV+u5AAAAAElFTkSuQmCC"></p>
+		<h4 class="h6 caps weight-700 line-height-2">Or in your browser:</h4>
+		<p><a class="btn btn-outline h6 mr2 mb2" href="#!">FireFox Extension</a> 
+			<a class="btn btn-outline h6 mb2" href="#!">Chrome Extension</a></p>
+		</div>
+		<div class="h6 xs-hide sm-hide monospace">
+			<span class="block">aprico-gen: v1.0.0</span>
+			<span class="block">aprico-ui:  v0.1.2</span>
+			<span class="block">aprico-pwa: v0.1.0</span>
+		</div>
+	</div>
+
+	<div class="md-col-6 md-box-shadow flex flex-auto">
+		<div id="aprico" class="col-12 flex"></div>
+	</div>
+</div>
+
+<script src="dist/js/bundle.js"></script>
+</body>
+</html>
