@@ -43,6 +43,31 @@ label {
 	display: block;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+	background: rgba(239, 61, 51, 0.1);
+	box-shadow: 0 0 transparent;
+	-webkit-box-shadow: 0 0 0 1000px white inset;
+  	-webkit-text-fill-color: rgba(239, 61, 51,0.5);
+}
+
+input::placeholder {
+	font-size: var(--h5);
+	line-height: 2rem;
+	color: var(--gray-3);
+	opacity: 0;
+	padding-left: 5px;
+}
+input:focus::placeholder {
+	opacity: 1;
+}
+
+@media (--breakpoint-sm) {
+	input::placeholder {
+		line-height: 3.3rem
+	}
+}
 
 /* layout utils */
 

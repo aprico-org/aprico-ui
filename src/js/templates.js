@@ -4,13 +4,13 @@
 
 const templates = {
 	login: `
-  <div id="aprico-login" class="p2 md-p3 bg-white">
+  <div id="aprico-login" class="p2 sm-p3 bg-white">
 	<div class="mb2">
-      <label class="label">ID</label>
+      <label class="label" for="ap-hashid">ID</label>
       <input class="sm-h3" type="text" id="ap-hashid" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   	</div>
   	<div class="mb2 h6">
-  		<p class="md-h5"><strong>Please choose an ID:</strong> it can be your e-mail address, your nickname or a longer passphrase.</p>
+  		<p class="sm-h5"><strong>Please choose an ID:</strong> it can be your e-mail address, your nickname or a longer passphrase.</p>
       <p>It will be only asked once, but please <strong>make sure to remember it</strong> as there is no way to recover your ID.</p>
     </div>
   	<div class="mb2">
@@ -26,11 +26,14 @@ const templates = {
   <div class="p2 sm-p3 bg-white">
   	<div class="mb2">
       <label class="label">Service</label>
-      <input class="sm-h3 sm-mb2" type="text" placeholder="site.com or appname" id="ap-service" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <input class="sm-h3 sm-mb2" type="text" placeholder="website.com or appname" id="ap-service" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   	</div>
   	<div class="mb2">
+      <form onsubmit="return false;">
+      <input id="fake-user-text-field" type="hidden" autocomplete="username" value="aprico master password">
       <label class="label">Master Password</label>
-      <input class="sm-h3 sm-mb2 bg-identicon" type="password" id="ap-pass">
+      <input id="ap-pass" class="sm-h3 sm-mb2 bg-identicon" type="password" autocomplete="password">
+      </form>
   	</div>
   	<div class="sm-mb2">
     	<div class="flex">
@@ -98,7 +101,7 @@ const templates = {
   <span class="flex-auto"></span>
   <div class="flex p2 sm-p3">
   <a class="btn btn-small h6 px0 icon icon-open weight-400 webext-newlink" href="https://aprico.org">About</a>
-  <a class="btn btn-small h6 px0 icon icon-open weight-400  ml2 webext-newlink" href="mailto:pino@aprico.org?subject=Feedback%20about%20aprico">Feedback</a>
+  <a class="hide btn btn-small h6 px0 icon icon-open weight-400  ml2 webext-newlink" href="mailto:pino@aprico.org?subject=Feedback%20about%20aprico">Feedback</a>
 
   <button id="ap-link-online" class="hide btn btn-small h6 px0 icon icon-open">Online Version</button>
   <span class="flex-auto"></span>

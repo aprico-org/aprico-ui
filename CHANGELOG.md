@@ -6,6 +6,8 @@ All notable changes to `aprico-ui` will be documented in this file.
 - Improved, fully responsive templates.
 - CSS: Custom notice classes for web-ext/brower and for macOS/otherOS.
 - CSS: Improved neutral colors.
+- CSS: Placeholder and autofill colors
+- Template: Mobile Autofill support for master password
 
 ### Fixed
 - JS: link in new tab logic for web extension.
