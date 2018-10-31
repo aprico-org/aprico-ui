@@ -30,44 +30,55 @@ utils.stringToDom = function(string){
  * http://hansifer.com/clipboardCopyTest.html
  * https://bugzilla.mozilla.org/show_bug.cgi?id=1012662#c51
  */
-utils.copyToClipboard = function(element) {
+utils.copyToClipboard = function(el) {
  
-  element.type = 'text';
+  el.type = 'text';
 
-  // copy to clipboard
-  element.select();
+  // handle iOS quirks
+  // https://stackoverflow.com/questions/34045777/copy-to-clipboard-using-javascript-in-ios
+  if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
 
-  // TO DO: ios quirks...
-  // ref: https://stackoverflow.com/questions/34045777/copy-to-clipboard-using-javascript-in-ios
-/*
-            let range = document.createRange();
-            range.selectNodeContents(element);
-            let selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            element.setSelectionRange(0, 999999);  
-*/
+    // save current contentEditable/readOnly status
+    var editable = el.contentEditable;
+    var readOnly = el.readOnly;
+
+    // convert to editable with readonly to stop iOS keyboard opening
+    el.contentEditable = true;
+    el.readOnly = true;
+
+    // create a selectable range
+    var range = document.createRange();
+    range.selectNodeContents(el);
+
+    // select the range
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    el.setSelectionRange(0, 999999);
+
+    // restore contentEditable/readOnly to original state
+    el.contentEditable = editable;
+    el.readOnly = readOnly;
+
+  } else {
+    // select for other os/devices
+    el.select();
+  }
+
   let success = document.execCommand("copy");
 
- 	//console.log('copy', success);
+  //console.log('copy', success);
 
-	element.type = 'password';
+  el.type = 'password';
 
   // deselect
-  //var activeEl = document.activeElement;
-  //if ('selectionStart' in activeEl) {
-  //  element.selectionEnd = activeEl.selectionStart;
-  //}
-
-  //if ('selectionStart' in activeEl) {
-    element.selectionEnd = element.selectionStart;
-  //}
+  if ('selectionStart' in el) {
+    el.selectionEnd = el.selectionStart;
+  }
   
-  //selection.removeAllRanges();
+  el.blur();
 
- 	element.blur();
-
-	return success;
+  return success;
 }
 
 
