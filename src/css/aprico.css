@@ -1,5 +1,7 @@
 /* Aprico extends */
 
+html, body {height:100%;}
+
 .btn, label {
 	-webkit-user-select: none;
 	-webkit-touch-callout: none;
