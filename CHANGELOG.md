@@ -8,6 +8,7 @@ All notable changes to `aprico-ui` will be documented in this file.
 - CSS: Improved neutral colors.
 - CSS: Placeholder and autofill colors
 - Template: Mobile Autofill support for master password
+- DEV: genversion module
 
 ### Fixed
 - JS: link in new tab logic for web extension.

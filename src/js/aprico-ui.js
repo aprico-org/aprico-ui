@@ -8,7 +8,7 @@
 'use strict';
 
 
-const VERSION = '0.1.2';
+const VERSION = require('./version.js');
 
 const aprico = require('aprico-gen');
 
