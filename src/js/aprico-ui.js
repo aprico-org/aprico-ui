@@ -1,6 +1,6 @@
 /*!
  * aprico-ui
- * Universal UI implementation for the Aprico Password Manager. 
+ * Universal UI component for Aprico Password Manager. 
  * Copyright (c) 2018 Pino Ceniccola | GPLv3
  * https://aprico.org
  */

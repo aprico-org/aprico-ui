@@ -1592,7 +1592,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 },{"process/browser.js":5,"timers":7}],8:[function(require,module,exports){
 /*!
  * aprico-ui
- * Universal UI implementation for the Aprico Password Manager. 
+ * Universal UI component for Aprico Password Manager. 
  * Copyright (c) 2018 Pino Ceniccola | GPLv3
  * https://aprico.org
  */
@@ -2050,11 +2050,29 @@ module.exports = bootstrap;
 module.exports.version = VERSION_TREE;
 
 },{"./templates.js":10,"./utils.js":11,"./version.js":12,"aprico-gen":1,"identicon.js":3}],9:[function(require,module,exports){
+/*
+ *  Logic for test index.html page
+ */
 
+
+// 1. Render aprico-ui
 
 const apricoUi = require('./aprico-ui.js');
 
 apricoUi('#aprico');
+
+
+// 2. Display version table
+
+let versions = JSON.stringify(
+	apricoUi.version, 
+	(key, value) => (typeof value === "string") ? " v" + value : value, 
+	""
+);
+
+versions = versions.replace(/{|}|"/g, '');
+
+document.getElementById('aprico-version').textContent = versions.replace(/,/g, "\r\n");
 },{"./aprico-ui.js":8}],10:[function(require,module,exports){
 /*
  * Aprico UI Templates
