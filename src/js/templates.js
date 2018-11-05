@@ -58,15 +58,15 @@ const templates = {
             <label class="label">Alphabet</label>
             <ul class="list-reset flex justify-between center">
                 <li>
-                    <input type="checkbox" checked id="ap-letters" class="switch-toggle switch-toggle-round">
+                    <input type="checkbox" checked value="1" id="ap-letters" class="switch-toggle switch-toggle-round">
                     <label for="ap-letters"><span class="mt2 block">Letters</span></label>
                 </li>
                 <li>
-                    <input type="checkbox" checked id="ap-numbers" class="switch-toggle switch-toggle-round">
+                    <input type="checkbox" checked value="1" id="ap-numbers" class="switch-toggle switch-toggle-round">
                     <label for="ap-numbers"><span class="mt2 block">Numbers</span></label>
                 </li>
                 <li>
-                    <input type="checkbox" checked id="ap-symbols" class="switch-toggle switch-toggle-round">
+                    <input type="checkbox" checked value="1" id="ap-symbols" class="switch-toggle switch-toggle-round">
                     <label for="ap-symbols"><span class="mt2 block">Symbols</span></label>
                 </li>
             </ul>

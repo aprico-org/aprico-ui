@@ -17,6 +17,21 @@ html, body {height:100%;}
 	font-weight: 400;
 }
 
+.btn-mod-notify {
+	position: relative;
+}
+
+.btn-mod-notify:after{
+	position: absolute;
+	top: -3px;
+	right: -4px;
+	content: '';
+	background-color:var(--red);
+	border-radius:50%;
+	width: 8px;
+	height: 8px;
+}
+
 input:focus, select:focus, textarea:focus, button:focus {
 	outline: none;
 }
