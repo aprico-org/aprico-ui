@@ -1,6 +1,7 @@
 /* Aprico extends */
 
-html, body {height:100%;}
+body, html {min-height: 100%;}
+html {height: 100%;}
 
 .btn, label {
 	-webkit-user-select: none;

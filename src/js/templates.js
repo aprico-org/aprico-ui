@@ -46,7 +46,7 @@ const templates = {
     </form>
   </div>
 
-  <div class="flex-auto flex flex-column bg-gray-1 border-top border-gray-2" style="min-height:200px">
+  <div class="flex-auto flex flex-column bg-gray-1 border-top border-gray-2" style="min-height:220px">
 
   <div id="aprico-extra" class="p2 sm-p3" hidden>
     <div class="flex justify-between mb2">
