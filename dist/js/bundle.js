@@ -1858,12 +1858,6 @@ function setupMain(){
   });
 
 
-  // Simulate submission
-  $pass.addEventListener('keyup',function(e){
-     if (e.key === "Enter") generate();
-  });
-
-
   // Extra
   $triggerExtra.addEventListener('click',function(e){
     e.preventDefault();
@@ -1889,7 +1883,6 @@ function setupMain(){
 
 
   // Generating Password
-  $trigger.addEventListener('click', generate);
 
   async function generate(e) {
     // 0. Validate fields
@@ -2006,7 +1999,7 @@ function setupMain(){
     section.hidden = false;
   };
 
-  // hide results on form change
+  // Hide results on form change
   let formEls = document.querySelectorAll('input');
   Array.from(formEls).forEach(function(el){
     el.addEventListener('input',function(){
@@ -2029,6 +2022,17 @@ function setupMain(){
     else if (+this.value > 40) this.value = 40;
   });
 
+  // Setup fake form submission
+  utils.getId('fake-form').addEventListener('submit', (e) => {
+    e.preventDefault(); 
+
+    // if PWA trigger Save Passord?
+    // Note: not needed in iOS, Android needs tests.
+    // history.replaceState({success:true}, 'aprico', "/success.html");
+    
+    generate();
+
+  });
 }
 
 
@@ -2064,15 +2068,15 @@ apricoUi('#aprico');
 
 // 2. Display version table
 
-let versions = JSON.stringify(
+let versionTable = JSON.stringify(
 	apricoUi.version, 
 	(key, value) => (typeof value === "string") ? " v" + value : value, 
 	""
 );
 
-versions = versions.replace(/{|}|"/g, '');
+versionTable = versionTable.replace(/{|}|"/g, '');
 
-document.getElementById('aprico-version').textContent = versions.replace(/,/g, "\r\n");
+document.getElementById('aprico-version').textContent = versionTable.replace(/,/g, "\r\n");
 },{"./aprico-ui.js":8}],10:[function(require,module,exports){
 /*
  * Aprico UI Templates
@@ -2104,20 +2108,22 @@ const templates = {
       <label class="label">Service</label>
       <input class="sm-h3 sm-mb2" type="text" placeholder="website.com or appname" id="ap-service" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   	</div>
-  	<div class="mb2">
-      <form onsubmit="return false;">
+  	<form id="fake-form" action="login">
+    <div class="mb2">
+      
       <input id="fake-user-text-field" type="hidden" autocomplete="username" value="aprico master password">
       <label class="label">Master Password</label>
       <input id="ap-pass" class="sm-h3 sm-mb2 bg-identicon" type="password" autocomplete="password">
-      </form>
+      
   	</div>
   	<div class="sm-mb2">
     	<div class="flex">
-      	<button id="ap-trigger-gen" class="btn btn-primary white h6 caps" style="margin-left:1px">Get Password</button>
+      	<button type="submit" id="ap-trigger-gen" class="btn btn-primary white h6 caps" style="margin-left:1px">Get Password</button>
       	<span class="flex-auto"></span>
       	<button id="ap-trigger-extra" class="btn h6 caps right icon icon-opts px0 border-gray rounded"><span style="opacity:0">More</span></button>
     	</div>
   	</div>
+    </form>
   </div>
 
   <div class="flex-auto flex flex-column bg-gray-1 border-top border-gray-2" style="min-height:200px">

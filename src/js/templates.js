@@ -28,20 +28,22 @@ const templates = {
       <label class="label">Service</label>
       <input class="sm-h3 sm-mb2" type="text" placeholder="website.com or appname" id="ap-service" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   	</div>
-  	<div class="mb2">
-      <form onsubmit="return false;">
+  	<form id="fake-form" action="login">
+    <div class="mb2">
+      
       <input id="fake-user-text-field" type="hidden" autocomplete="username" value="aprico master password">
       <label class="label">Master Password</label>
       <input id="ap-pass" class="sm-h3 sm-mb2 bg-identicon" type="password" autocomplete="password">
-      </form>
+      
   	</div>
   	<div class="sm-mb2">
     	<div class="flex">
-      	<button id="ap-trigger-gen" class="btn btn-primary white h6 caps" style="margin-left:1px">Get Password</button>
+      	<button type="submit" id="ap-trigger-gen" class="btn btn-primary white h6 caps" style="margin-left:1px">Get Password</button>
       	<span class="flex-auto"></span>
       	<button id="ap-trigger-extra" class="btn h6 caps right icon icon-opts px0 border-gray rounded"><span style="opacity:0">More</span></button>
     	</div>
   	</div>
+    </form>
   </div>
 
   <div class="flex-auto flex flex-column bg-gray-1 border-top border-gray-2" style="min-height:200px">

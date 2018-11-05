@@ -266,12 +266,6 @@ function setupMain(){
   });
 
 
-  // Simulate submission
-  $pass.addEventListener('keyup',function(e){
-     if (e.key === "Enter") generate();
-  });
-
-
   // Extra
   $triggerExtra.addEventListener('click',function(e){
     e.preventDefault();
@@ -297,7 +291,6 @@ function setupMain(){
 
 
   // Generating Password
-  $trigger.addEventListener('click', generate);
 
   async function generate(e) {
     // 0. Validate fields
@@ -414,7 +407,7 @@ function setupMain(){
     section.hidden = false;
   };
 
-  // hide results on form change
+  // Hide results on form change
   let formEls = document.querySelectorAll('input');
   Array.from(formEls).forEach(function(el){
     el.addEventListener('input',function(){
@@ -437,6 +430,17 @@ function setupMain(){
     else if (+this.value > 40) this.value = 40;
   });
 
+  // Setup fake form submission
+  utils.getId('fake-form').addEventListener('submit', (e) => {
+    e.preventDefault(); 
+
+    // if PWA trigger Save Passord?
+    // Note: not needed in iOS, Android needs tests.
+    // history.replaceState({success:true}, 'aprico', "/success.html");
+    
+    generate();
+
+  });
 }
 
 

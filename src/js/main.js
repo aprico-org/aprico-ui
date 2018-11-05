@@ -12,12 +12,12 @@ apricoUi('#aprico');
 
 // 2. Display version table
 
-let versions = JSON.stringify(
+let versionTable = JSON.stringify(
 	apricoUi.version, 
 	(key, value) => (typeof value === "string") ? " v" + value : value, 
 	""
 );
 
-versions = versions.replace(/{|}|"/g, '');
+versionTable = versionTable.replace(/{|}|"/g, '');
 
-document.getElementById('aprico-version').textContent = versions.replace(/,/g, "\r\n");
+document.getElementById('aprico-version').textContent = versionTable.replace(/,/g, "\r\n");
