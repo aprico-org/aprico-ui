@@ -1978,7 +1978,8 @@ function setupMain(){
 
   $triggerCopy.addEventListener('click',function(e){
     let copy = utils.copyToClipboard($result);
-    if (copy) $label.textContent = 'Password copied to clipboard.';
+    if (copy) $label.textContent = 'Password copied to clipboard.'
+      else alert('There was an error with the clipboard copy.')
   });
 
 
@@ -2008,12 +2009,16 @@ function setupMain(){
   });
 
   // At least one checkbox selected
+  // Note: Safari doesn't support 'input' event on checkboxes
   let checkboxes = document.querySelectorAll('.switch-toggle');
-  Array.from(checkboxes).forEach(checkbox => checkbox.addEventListener('input', checkboxOnChange));
+  Array.from(checkboxes).forEach(checkbox => checkbox.addEventListener('change', checkboxOnChange));
   function checkboxOnChange(){
     let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
     if (!checkedOne) this.checked = true;
     this.value = this.checked ? 1 : 0;
+
+    // Redundant, but needed for Safari
+    $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
   };
 
   // Setup fake form submission
