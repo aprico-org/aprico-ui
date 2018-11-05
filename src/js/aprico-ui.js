@@ -417,7 +417,7 @@ function setupMain(){
 
   // At least one checkbox selected
   let checkboxes = document.querySelectorAll('.switch-toggle');
-  Array.from(checkboxes).forEach(checkbox => checkbox.addEventListener('change', checkboxOnChange));
+  Array.from(checkboxes).forEach(checkbox => checkbox.addEventListener('input', checkboxOnChange));
   function checkboxOnChange(){
     let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
     if (!checkedOne) this.checked = true;
@@ -436,36 +436,34 @@ function setupMain(){
 
   });
 
+  // Validate characters count
+  $length.addEventListener('change', () => {
+    if (+$length.value == 0) $length.value = 20;
+    else if (+$length.value < 4) $length.value = 4;
+    else if (+$length.value > 40) $length.value = 40;
+
+    $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
+    $length.classList.toggle('border-red', $length.dataset.origValue !== $length.value );
+  });
+
   // Add notification icon on extra fields change
   let $extraInputs = document.querySelectorAll('#aprico-extra input');
 
-  function initChangeDetection(form) {
-    Array.from(form).forEach(el => {
-      el.dataset.origValue = el.value;
-      el.addEventListener('change',e => {
-        let hasChanged = formHasChanges($extraInputs);
-        $triggerExtra.classList.toggle('btn-mod-notify', hasChanged);
-        el.classList.toggle('border-red', (el.dataset.origValue !== el.value));
-      });
+  Array.from($extraInputs).forEach(el => {
+    el.dataset.origValue = el.value;
+    el.addEventListener('input',e => {
+      $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
+      el.classList.toggle('border-red', (el.dataset.origValue !== el.value));
     });
-  }
+  });
+
   function formHasChanges(form) {
     return Array.from(form).some(el => 'origValue' in el.dataset && el.dataset.origValue !== el.value );
   }
 
-  initChangeDetection($extraInputs);
 
 
-  // Validate characters count
-  $length.addEventListener('blur', function(){
-    if (+this.value == 0) this.value = 20;
-    else if (+this.value < 4) this.value = 4;
-    else if (+this.value > 40) this.value = 40;
 
-    let hasChanged = (this.dataset.origValue !== this.value);
-    $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
-    this.classList.toggle('border-red', this.dataset.origValue !== this.value );
-  });
 
 
 }
