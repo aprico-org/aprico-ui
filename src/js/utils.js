@@ -99,4 +99,30 @@ utils.chainOnTransitionEnd = function( callback, _this ) {
 };
 
 
+
+utils.detectPlatform = function() {
+  
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+  let platform = {};
+
+  platform.webext = !!(typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || !!(typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
+
+  platform.macos = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+
+  platform.mobile = !platform.webext && /mobi/i.test(userAgent);
+
+  platform.standalone = platform.mobile && ( (window.navigator.standalone == true) || (window.matchMedia('(display-mode: standalone)').matches) );
+  
+  platform.ios = platform.mobile && (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream);
+
+  platform.android = platform.mobile && (/android/i.test(userAgent) && !window.MSStream);
+
+  return platform;
+
+}
+
+
+
+
 module.exports = utils;

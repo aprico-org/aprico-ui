@@ -1619,9 +1619,10 @@ const DEFAULT_TEMPLATES = require('./templates.js');
 
 const utils = require('./utils.js');
 
+const platform = utils.detectPlatform();
+console.log(platform);
 
-
-const isWebExt = (typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
+//const isWebExt = (typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
 
 /**
  *  Web Extension API, state of the art.
@@ -1640,7 +1641,7 @@ const isWebExt = (typeof browser !== 'undefined' && browser.runtime && browser.r
  *  name in Edge. 
  */
 
-if (isWebExt && typeof chrome === "undefined") window.chrome = browser;
+if (platform.webext && typeof chrome === "undefined") window.chrome = browser;
 
 
 
@@ -1673,7 +1674,7 @@ const hashIdKey = 'hashId_' + VERSION_TREE['aprico-gen'].replace(/\./g , "_");
 
 function setHashId(hashId) {
   _hashId = hashId;
-  if (isWebExt) {
+  if (platform.webext) {
     chrome.storage.local.set({'hashId': hashId}, renderMain);
   } else {
     localStorage.setItem('hashId', hashId);
@@ -1683,7 +1684,7 @@ function setHashId(hashId) {
 
 function resetHashId() {
   _hashId = false;
-  if (isWebExt) {
+  if (platform.webext) {
     chrome.storage.local.set({'hashId': ''}, renderLogin);
   } else {
     localStorage.setItem('hashId', '');
@@ -1722,31 +1723,45 @@ function bootstrap(element, user_template){
 
   template = (user_template) ? user_template : DEFAULT_TEMPLATES;
 
-  if (isWebExt) {
-    _root.classList.add('aprico-webext');
+  platformCssClasses();
+
+  if (platform.webext) {
+    //_root.classList.add('aprico-webext');
     chrome.storage.local.get('hashId', onHashId);
   } else {
-    _root.classList.add('aprico-browser');
+    //_root.classList.add('aprico-browser');
     let hashId = localStorage.getItem('hashId');
     onHashId({ 'hashId' : hashId });
   }
 
+/*
   if (navigator.platform.toUpperCase().indexOf('MAC')>=0) {
     _root.classList.add('aprico-macOS');
   } else {
     _root.classList.add('aprico-otherOS');
   }
-
+*/
 
 }
 
 
 
+function platformCssClasses() {
 
+  platform.webext ? _root.classList.add('aprico-webext') : _root.classList.add('aprico-browser');
 
+  platform.macos ? _root.classList.add('aprico-macOS') : _root.classList.add('aprico-otherOS');
 
+  platform.mobile ? _root.classList.add('aprico-mobile') : _root.classList.add('aprico-desktop');
 
+  if (platform.mobile) {
 
+    platform.standalone ? _root.classList.add('aprico-mobile-app') : _root.classList.add('aprico-mobile-browser');
+  
+    if (platform.ios) { _root.classList.add('aprico-iOS') } 
+      else if (platform.android) { _root.classList.add('aprico-android') }
+  }
+}
 
 
 
@@ -1823,7 +1838,7 @@ function setupMain(){
   let $aboutDiv     = utils.getId('aprico-about');
 
   // Autofocus Service or Password inputs
-  if (isWebExt) {
+  if (platform.webext) {
     chrome.tabs.query({active:true,currentWindow:true}, function(tabs){
       if (tabs[0].url.indexOf('.') > 0) {
         $service.value = aprico.normalizeService(tabs[0].url);
@@ -2069,7 +2084,7 @@ function setupMain(){
 function setupCommon(){
 
   // links in new window in web-ext
-  if (isWebExt) {
+  if (platform.webext) {
     Array.from(document.querySelectorAll('.webext-newlink')).forEach(
       _link => _link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -2328,6 +2343,32 @@ utils.chainOnTransitionEnd = function( callback, _this ) {
 	// if ( getComputedStyle( this )[ 'transition-duration' ] == '0s' ) callback();
 	return this;
 };
+
+
+
+utils.detectPlatform = function() {
+  
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+  let platform = {};
+
+  platform.webext = !!(typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || !!(typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
+
+  platform.macos = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+
+  platform.mobile = !platform.webext && /mobi/i.test(userAgent);
+
+  platform.standalone = platform.mobile && ( (window.navigator.standalone == true) || (window.matchMedia('(display-mode: standalone)').matches) );
+  
+  platform.ios = platform.mobile && (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream);
+
+  platform.android = platform.mobile && (/android/i.test(userAgent) && !window.MSStream);
+
+  return platform;
+
+}
+
+
 
 
 module.exports = utils;

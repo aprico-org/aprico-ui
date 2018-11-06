@@ -3,6 +3,7 @@ All notable changes to `aprico-ui` will be documented in this file.
 
 ## Unreleased 
 ### Added
+- JS: Platform detection utility.
 - Improved, fully responsive templates.
 - Notification icon on extra options change.
 - CSS: Custom notice classes for web-ext/brower and for macOS/otherOS.
