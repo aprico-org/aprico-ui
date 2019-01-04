@@ -94,16 +94,12 @@ const templates = {
   <div id="aprico-about" class="flex-auto flex flex-column col-12">
   <!-- <div class="flex flex-column bg-gray-1"> -->
   <div class="p2 sm-p3">
-    <p class="h5">Thank you for using <strong>aprico</strong>.</p>
-    <div class="webext-notice h6">
-      <p class="m0"><strong>Tip:</strong> Easily access aprico with 
-      <code><span class="macOS-inline-notice">cmd</span><span class="otherOS-inline-notice">ctrl</span></code> + <code>space</code>.</p>
-    </div>
+    <p id="aprico-tips" class="h6 md-h5"></p>
   </div>
   <span class="flex-auto"></span>
   <div class="flex p2 sm-p3">
-  <a class="btn btn-small h6 px0 icon icon-open weight-400 webext-newlink" href="https://aprico.org">About</a>
-  <a class="hide btn btn-small h6 px0 icon icon-open weight-400  ml2 webext-newlink" href="mailto:pino@aprico.org?subject=Feedback%20about%20aprico">Feedback</a>
+  <a class="btn btn-small h6 px0 icon icon-open weight-400 external-link" href="https://aprico.org">About</a>
+  <a class="hide btn btn-small h6 px0 icon icon-open weight-400  ml2 external-link" href="mailto:pino@aprico.org?subject=Feedback%20about%20aprico">Feedback</a>
 
   <button id="ap-link-online" class="hide btn btn-small h6 px0 icon icon-open">Online Version</button>
   <span class="flex-auto"></span>

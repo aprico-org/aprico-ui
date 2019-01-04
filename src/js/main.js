@@ -20,4 +20,4 @@ let versionTable = JSON.stringify(
 
 versionTable = versionTable.replace(/{|}|"/g, '');
 
-document.getElementById('aprico-version').textContent = versionTable.replace(/,/g, "\r\n");
+if (document.getElementById('aprico-version')) document.getElementById('aprico-version').textContent = versionTable.replace(/,/g, "\r\n");

@@ -122,7 +122,25 @@ utils.detectPlatform = function() {
 
 }
 
+utils.setPlatformCSSClasses = function (platform, element) {
 
+  platform = platform || utils.detectPlatform();
+  element = element || document.body;
+
+  platform.webext ? element.classList.add('platform-webext') : element.classList.add('platform-browser');
+
+  platform.macos ? element.classList.add('platform-macOS') : element.classList.add('platform-otherOS');
+
+  platform.mobile ? element.classList.add('platform-mobile') : element.classList.add('platform-desktop');
+
+  if (platform.mobile) {
+
+    platform.standalone ? element.classList.add('platform-mobile-app') : element.classList.add('platform-mobile-browser');
+  
+    if (platform.ios) { element.classList.add('platform-iOS') } 
+      else if (platform.android) { element.classList.add('platform-android') }
+  }
+}
 
 
 module.exports = utils;

@@ -114,12 +114,12 @@ input:focus::placeholder {
 
 /* custom notices */
 .browser-notice, .webext-notice, .macOS-notice, .macOS-inline-notice, .otherOS-notice, .otherOS-inline-notice {display:none;}
-.aprico-browser .browser-notice {display:block;}
-.aprico-webext .webext-notice {display:block;}
-.aprico-macOS .macOS-notice {display:block;}
-.aprico-macOS .macOS-inline-notice {display:inline;}
-.aprico-otherOS .otherOS-notice {display:block;}
-.aprico-otherOS .otherOS-inline-notice {display:inline;}
+.platform-browser .browser-notice {display:block;}
+.platform-webext .webext-notice {display:block;}
+.platform-macOS .macOS-notice {display:block;}
+.platform-macOS .macOS-inline-notice {display:inline;}
+.platform-otherOS .otherOS-notice {display:block;}
+.platform-otherOS .otherOS-inline-notice {display:inline;}
 
 
 /* icons */

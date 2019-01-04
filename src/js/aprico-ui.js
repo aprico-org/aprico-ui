@@ -25,12 +25,13 @@ const Identicon = require('identicon.js');
 
 const DEFAULT_TEMPLATES = require('./templates.js');
 
+// Temporary, to be replaced with proper i18n someday
+const TIPS = require('./tips.js');
+
 const utils = require('./utils.js');
 
 const platform = utils.detectPlatform();
-console.log(platform);
 
-//const isWebExt = (typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
 
 /**
  *  Web Extension API, state of the art.
@@ -78,25 +79,23 @@ const hashIdKey = 'hashId_' + VERSION_TREE['aprico-gen'].replace(/\./g , "_");
 
 
 
-
-
 function setHashId(hashId) {
   _hashId = hashId;
   if (platform.webext) {
-    chrome.storage.local.set({'hashId': hashId}, renderMain);
+	chrome.storage.local.set({'hashId': hashId}, renderMain);
   } else {
-    localStorage.setItem('hashId', hashId);
-    renderMain();
+	localStorage.setItem('hashId', hashId);
+	renderMain();
   }
 }
 
 function resetHashId() {
   _hashId = false;
   if (platform.webext) {
-    chrome.storage.local.set({'hashId': ''}, renderLogin);
+	chrome.storage.local.set({'hashId': ''}, renderLogin);
   } else {
-    localStorage.setItem('hashId', '');
-    renderLogin();
+	localStorage.setItem('hashId', '');
+	renderLogin();
   }
 }
 
@@ -104,11 +103,11 @@ function resetHashId() {
 function onHashId(result) {
   //console.log(result);
   if (result && result.hashId) {
-    _hashId = result.hashId;
-    renderMain();
+	_hashId = result.hashId;
+	renderMain();
   } else {
-    _hashId = false;
-    renderLogin();
+	_hashId = false;
+	renderLogin();
   }
 }
 
@@ -131,45 +130,20 @@ function bootstrap(element, user_template){
 
   template = (user_template) ? user_template : DEFAULT_TEMPLATES;
 
-  platformCssClasses();
+  utils.setPlatformCSSClasses(platform, _root);
 
   if (platform.webext) {
-    //_root.classList.add('aprico-webext');
-    chrome.storage.local.get('hashId', onHashId);
+	chrome.storage.local.get('hashId', onHashId);
   } else {
-    //_root.classList.add('aprico-browser');
-    let hashId = localStorage.getItem('hashId');
-    onHashId({ 'hashId' : hashId });
+	let hashId = localStorage.getItem('hashId');
+	onHashId({ 'hashId' : hashId });
   }
 
-/*
-  if (navigator.platform.toUpperCase().indexOf('MAC')>=0) {
-    _root.classList.add('aprico-macOS');
-  } else {
-    _root.classList.add('aprico-otherOS');
-  }
-*/
 
 }
 
 
 
-function platformCssClasses() {
-
-  platform.webext ? _root.classList.add('aprico-webext') : _root.classList.add('aprico-browser');
-
-  platform.macos ? _root.classList.add('aprico-macOS') : _root.classList.add('aprico-otherOS');
-
-  platform.mobile ? _root.classList.add('aprico-mobile') : _root.classList.add('aprico-desktop');
-
-  if (platform.mobile) {
-
-    platform.standalone ? _root.classList.add('aprico-mobile-app') : _root.classList.add('aprico-mobile-browser');
-  
-    if (platform.ios) { _root.classList.add('aprico-iOS') } 
-      else if (platform.android) { _root.classList.add('aprico-android') }
-  }
-}
 
 
 
@@ -209,13 +183,13 @@ function setupLogin(){
   let $login = utils.getId('ap-trigger-login');
   $hashId.focus();
   $login.addEventListener('click',function(e){
-      e.preventDefault();
-      if ($hashId.value) {
-        _hashId = aprico.getHashId($hashId.value);
-        setHashId(_hashId);
-      } else {
-        $hashId.focus();
-      }
+	  e.preventDefault();
+	  if ($hashId.value) {
+		_hashId = aprico.getHashId($hashId.value);
+		setHashId(_hashId);
+	  } else {
+		$hashId.focus();
+	  }
   });
 
 };
@@ -245,62 +219,65 @@ function setupMain(){
   let $resultDiv    = utils.getId('aprico-result');
   let $aboutDiv     = utils.getId('aprico-about');
 
+  // Render random tip
+  randomTip();
+
   // Autofocus Service or Password inputs
   if (platform.webext) {
-    chrome.tabs.query({active:true,currentWindow:true}, function(tabs){
-      if (tabs[0].url.indexOf('.') > 0) {
-        $service.value = aprico.normalizeService(tabs[0].url);
-        $pass.focus();
-      } else {
-        $service.focus();
-      }
-    });
+	chrome.tabs.query({active:true,currentWindow:true}, function(tabs){
+	  if (tabs[0].url.indexOf('.') > 0) {
+		$service.value = aprico.normalizeService(tabs[0].url);
+		$pass.focus();
+	  } else {
+		$service.focus();
+	  }
+	});
   } else {
-    $service.focus();
+	$service.focus();
   }
   
 
   // Normalize Service on blur
   $service.addEventListener('blur',function(e){
-    this.value = aprico.normalizeService(this.value);
+	this.value = aprico.normalizeService(this.value);
   });
 
 
   // Identicon support
   $pass.addEventListener('input',function(e){
-    if (this.value.length) {
-      // this.value to base64 because tiny-sha256 works with ASCII only
-      let value64 = btoa(encodeURIComponent(this.value).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-          return String.fromCharCode(parseInt(p1, 16));
-      }));
-      let data = new Identicon(sha256(_hashId+value64), IDENTICON_OPTIONS).toString();
-      $pass.style.backgroundImage = 'url(data:image/svg+xml;base64,' + data + ')';
-    } else {
-      $pass.style.backgroundImage = '';
-    }
+	if (this.value.length) {
+	  // this.value to base64 because tiny-sha256 works with ASCII only
+	  let value64 = btoa(encodeURIComponent(this.value).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+		  return String.fromCharCode(parseInt(p1, 16));
+	  }));
+	  let data = new Identicon(sha256(_hashId+value64), IDENTICON_OPTIONS).toString();
+	  $pass.style.backgroundImage = 'url(data:image/svg+xml;base64,' + data + ')';
+	} else {
+	  $pass.style.backgroundImage = '';
+	}
   });
 
 
   // Extra
   $triggerExtra.addEventListener('click',function(e){
-    e.preventDefault();
-    if (this.classList.contains('bg-gray-2')) {
-      this.classList.remove('bg-gray-2');
-      show($aboutDiv);
-    } else {
-      this.classList.add('bg-gray-2');
-      show($extraDiv);
-    }
-    
+	e.preventDefault();
+	if (this.classList.contains('bg-gray-2')) {
+	  this.classList.remove('bg-gray-2');
+	  show($aboutDiv);
+	} else {
+	  this.classList.add('bg-gray-2');
+	  show($extraDiv);
+	}
+	
   });
 
 
   // Switch Password type
   $result.addEventListener('focus', function(){
-    this.type = 'text';
+	this.type = 'text';
   });
   $result.addEventListener('blur', function(){
-    this.type = 'password';
+	this.type = 'password';
   });
 
 
@@ -308,101 +285,100 @@ function setupMain(){
   // Generating Password
 
   async function generate(e) {
-    // 0. Validate fields
-    if (!$service.value) {$service.focus();return false;}
-    if (!$pass.value) {$pass.focus();return false;}
-    
-    let timerId,
-        results,
-        copy;
+	// 0. Validate fields
+	if (!$service.value) {$service.focus();return false;}
+	if (!$pass.value) {$pass.focus();return false;}
+	
+	let timerId,
+		results,
+		copy;
 
 
-    // 1. Prepare UI
-    let step1 = await new Promise(function(resolve) {
+	// 1. Prepare UI
+	let step1 = await new Promise(function(resolve) {
 
-      $label.classList.remove('icon','icon-done','icon-alldone');
-      $triggerCopy.classList.add('hidden');
-      $triggerShow.classList.add('hidden');
-      $result.classList.remove('border-red');
+	  $label.classList.remove('icon','icon-done','icon-alldone');
+	  $triggerCopy.classList.add('hidden');
+	  $triggerShow.classList.add('hidden');
+	  $result.classList.remove('border-red');
 
-      $triggerExtra.classList.remove('bg-gray-2');
+	  $triggerExtra.classList.remove('bg-gray-2');
 
-      show($resultDiv);
+	  show($resultDiv);
 
-      //utils.getId('aprico-result').classList.add('bg-black');
+	  //utils.getId('aprico-result').classList.add('bg-black');
 
-      timerId = setInterval(function(){
-        $label.textContent += '.';
-      },50);
+	  timerId = setInterval(function(){
+		$label.textContent += '.';
+	  },50);
 
-      $label.classList.add('red');
-      $label.textContent = 'Generating.';
-          
-      $trigger.disabled = true;
-      $triggerExtra.disabled = true;
-      $result.value = '';
+	  $label.classList.add('red');
+	  $label.textContent = 'Generating.';
+		  
+	  $trigger.disabled = true;
+	  $triggerExtra.disabled = true;
+	  $result.value = '';
 
-      return setTimeout(resolve,100);
-    });
+	  return setTimeout(resolve,100);
+	});
 
-    // 2. Generate Password
-    let step2 = await new Promise(function(resolve){
-      
-      let time = new Date().getTime();
+	// 2. Generate Password
+	let step2 = await new Promise(function(resolve){
+	  
+	  let time = new Date().getTime();
 
-      results = aprico.getPassword($pass.value, $service.value, _hashId, {
-        length:  +$length.value,
-        letters: +$letters.checked,
-        numbers: +$numbers.checked,
-        symbols: +$symbols.checked,
-        variant: $variant.value
-      });
+	  results = aprico.getPassword($pass.value, $service.value, _hashId, {
+		length:  +$length.value,
+		letters: +$letters.checked,
+		numbers: +$numbers.checked,
+		symbols: +$symbols.checked,
+		variant: $variant.value
+	  });
 
-      //console.log((new Date().getTime()) - time);
+	  //console.log((new Date().getTime()) - time);
 
-      // in step 2 because... timing
-      $result.value = results.pass;
-      results = false;
-      copy = utils.copyToClipboard($result);
+	  // in step 2 because... timing
+	  $result.value = results.pass;
+	  results = false;
+	  copy = utils.copyToClipboard($result);
 
-      return setTimeout(resolve,100);
-    });
+	  return setTimeout(resolve,100);
+	});
 
-    // 3. Resolve UI
-    let step3 = await new Promise(function(resolve){
+	// 3. Resolve UI
+	let step3 = await new Promise(function(resolve){
 
-      $result.classList.add('border-red');
+	  $result.classList.add('border-red');
 
-      $label.classList.remove('red');
+	  $label.classList.remove('red');
 
-      clearInterval(timerId);
+	  clearInterval(timerId);
 
-      if (copy) {
-        $label.classList.add('icon','icon-alldone');
-        $label.textContent = 'Password copied to clipboard.';
-      } else {
-        $label.classList.add('icon','icon-done');
-        $label.textContent = 'Password is ready.';
-        $triggerCopy.classList.remove('hidden');
-      }
+	  if (copy) {
+		$label.classList.add('icon','icon-alldone');
+		$label.textContent = 'Password copied to clipboard.';
+	  } else {
+		$label.classList.add('icon','icon-done');
+		$label.textContent = 'Password is ready.';
+		$triggerCopy.classList.remove('hidden');
+	  }
 
-      $triggerShow.classList.remove('hidden');
-      
-      $trigger.disabled = false;
-      $triggerExtra.disabled = false;
+	  $triggerShow.classList.remove('hidden');
+	  
+	  $trigger.disabled = false;
+	  $triggerExtra.disabled = false;
 
-      return resolve();
-    });
+	  return resolve();
+	});
 
-  
   };
 
 
 
   $triggerCopy.addEventListener('click',function(e){
-    let copy = utils.copyToClipboard($result);
-    if (copy) $label.textContent = 'Password copied to clipboard.'
-      else alert('There was an error with the clipboard copy.')
+	let copy = utils.copyToClipboard($result);
+	if (copy) $label.textContent = 'Password copied to clipboard.'
+	  else alert('There was an error with the clipboard copy.')
   });
 
 
@@ -412,23 +388,23 @@ function setupMain(){
 
   // Show Password
   $triggerShow.addEventListener('click',function(e){
-    $result.focus();
+	$result.focus();
   });
 
   // Switch About/Results
   function show(section){
-    $resultDiv.hidden = true;
-    $aboutDiv.hidden = true;
-    $extraDiv.hidden = true;
-    section.hidden = false;
+	$resultDiv.hidden = true;
+	$aboutDiv.hidden = true;
+	$extraDiv.hidden = true;
+	section.hidden = false;
   };
 
   // Hide results on form change
   let formEls = document.querySelectorAll('input');
   Array.from(formEls).forEach(function(el){
-    el.addEventListener('input',function(){
-      if ($resultDiv.hidden != true) show($aboutDiv);
-    });
+	el.addEventListener('input',function(){
+	  if ($resultDiv.hidden != true) show($aboutDiv);
+	});
   });
 
   // At least one checkbox selected
@@ -436,54 +412,68 @@ function setupMain(){
   let checkboxes = document.querySelectorAll('.switch-toggle');
   Array.from(checkboxes).forEach(checkbox => checkbox.addEventListener('change', checkboxOnChange));
   function checkboxOnChange(){
-    let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
-    if (!checkedOne) this.checked = true;
-    this.value = this.checked ? 1 : 0;
+	let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+	if (!checkedOne) this.checked = true;
+	this.value = this.checked ? 1 : 0;
 
-    // Redundant, but needed for Safari
-    $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
+	// Redundant, but needed for Safari
+	$triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
   };
 
   // Setup fake form submission
   utils.getId('fake-form').addEventListener('submit', (e) => {
-    e.preventDefault(); 
+	e.preventDefault(); 
 
-    // if PWA trigger Save Passord?
-    // Note: not needed in iOS, Android needs tests.
-    // history.replaceState({success:true}, 'aprico', "/success.html");
-    
-    generate();
+	// if PWA trigger Save Passord?
+	// Note: not needed in iOS, Android needs tests.
+	// history.replaceState({success:true}, 'aprico', "/success.html");
+	
+	generate();
 
   });
 
   // Validate characters count
   $length.addEventListener('change', () => {
-    if (+$length.value == 0) $length.value = 20;
-    else if (+$length.value < 4) $length.value = 4;
-    else if (+$length.value > 40) $length.value = 40;
+	if (+$length.value == 0) $length.value = 20;
+	else if (+$length.value < 4) $length.value = 4;
+	else if (+$length.value > 40) $length.value = 40;
 
-    $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
-    $length.classList.toggle('border-red', $length.dataset.origValue !== $length.value );
+	$triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
+	$length.classList.toggle('border-red', $length.dataset.origValue !== $length.value );
   });
 
   // Add notification icon on extra fields change
   let $extraInputs = document.querySelectorAll('#aprico-extra input');
 
   Array.from($extraInputs).forEach(el => {
-    el.dataset.origValue = el.value;
-    el.addEventListener('input',e => {
-      $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
-      el.classList.toggle('border-red', (el.dataset.origValue !== el.value));
-    });
+	el.dataset.origValue = el.value;
+	el.addEventListener('input',e => {
+	  $triggerExtra.classList.toggle('btn-mod-notify', formHasChanges($extraInputs));
+	  el.classList.toggle('border-red', (el.dataset.origValue !== el.value));
+	});
   });
 
   function formHasChanges(form) {
-    return Array.from(form).some(el => 'origValue' in el.dataset && el.dataset.origValue !== el.value );
+	return Array.from(form).some(el => 'origValue' in el.dataset && el.dataset.origValue !== el.value );
   }
 
 
 
+  // Tips logic
+  function randomTip() {
+	let _tips = TIPS['common'];
 
+	// Web Extension
+	if (platform.webext) _tips = [..._tips, ...TIPS['webext']];
+	// Mobile but not standalone
+	if (platform.mobile && !platform.standalone) _tips = [..._tips, ...TIPS['mobile']];
+	// Desktop but not web extension
+	if (!platform.mobile && !platform.webext) _tips = [..._tips, ...TIPS['desktop']];
+
+	let tip = _tips[Math.random() * _tips.length | 0];
+
+	utils.getId('aprico-tips').appendChild( utils.stringToDom(tip) );
+  }
 
 
 }
@@ -492,13 +482,13 @@ function setupMain(){
 function setupCommon(){
 
   // links in new window in web-ext
-  if (platform.webext) {
-    Array.from(document.querySelectorAll('.webext-newlink')).forEach(
-      _link => _link.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(_link.getAttribute('href'));
-      })
-    );
+  if (platform.webext || platform.standalone) {
+	Array.from(document.querySelectorAll('.external-link')).forEach(
+	  _link => _link.addEventListener('click', (e) => {
+		e.preventDefault();
+		window.open(_link.getAttribute('href'));
+	  })
+	);
   }
 
 }
