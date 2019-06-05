@@ -378,7 +378,7 @@ function setupMain(){
   $triggerCopy.addEventListener('click',function(e){
 	let copy = utils.copyToClipboard($result);
 	if (copy) $label.textContent = 'Password copied to clipboard.'
-	  else alert('There was an error with the clipboard copy.')
+	  else alert('There was an error with the clipboard copy.');
   });
 
 
@@ -393,6 +393,9 @@ function setupMain(){
 
   // Switch About/Results
   function show(section){
+	
+	if (section.id == "aprico-about") randomTip();
+	
 	$resultDiv.hidden = true;
 	$aboutDiv.hidden = true;
 	$extraDiv.hidden = true;
@@ -424,7 +427,7 @@ function setupMain(){
   utils.getId('fake-form').addEventListener('submit', (e) => {
 	e.preventDefault(); 
 
-	// if PWA trigger Save Passord?
+	// if PWA trigger Save Password?
 	// Note: not needed in iOS, Android needs tests.
 	// history.replaceState({success:true}, 'aprico', "/success.html");
 	
@@ -472,7 +475,9 @@ function setupMain(){
 
 	let tip = _tips[Math.random() * _tips.length | 0];
 
-	utils.getId('aprico-tips').appendChild( utils.stringToDom(tip) );
+	let $tip = utils.getId('aprico-tips');
+	while ($tip.firstChild) $tip.removeChild($tip.firstChild);
+	$tip.appendChild( utils.stringToDom(tip) );
   }
 
 

@@ -1,8 +1,10 @@
 # Changelog
 All notable changes to `aprico-ui` will be documented in this file.
 
-## Unreleased 
+## 0.2.0 - 2019-06-05
 ### Added
+- Updated aprico-gen to 1.1.0
+- Copy: More clarity about the importance to remember the ID
 - JS: Random tip logic
 - JS: Platform detection utility.
 - Improved, fully responsive templates.

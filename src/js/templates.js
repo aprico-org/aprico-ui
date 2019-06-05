@@ -10,14 +10,14 @@ const templates = {
       <input class="sm-h3" type="text" id="ap-hashid" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   	</div>
   	<div class="mb2 h6">
-  		<p class="sm-h5"><strong>Please choose an ID:</strong> it can be your e-mail address, your nickname or a longer passphrase.</p>
-      <p>It will be only asked once, but please <strong>make sure to remember it</strong> as there is no way to recover your ID.</p>
+  		<p class="h5"><strong>Please choose an ID:</strong> It can be your email address, your nickname or a longer passphrase.</p>
+      <p><strong>Important:</strong> The ID will be asked only once, <strong>make sure to remember it</strong>, since there is no way to recover it. Without your ID, all the generated passwords will be lost.</p>
     </div>
   	<div class="mb2">
       <button id="ap-trigger-login" class="btn btn-primary h6 caps white">Start using Aprico</button>
   	</div>
     <div class="border-top border-gray pt2">
-      <p class="h6 m0"><strong>aprico</strong> is a deterministic password manager that works 100% in your browser. No data will ever be sent to any server or cloud. You can read more in our super friendly <a class="webext-newlink" href="https://aprico.org/privacy.html">Privacy Policy</a>.</h6>
+      <p class="h6 m0"><strong>aprico</strong> is a deterministic password manager that works 100% in your browser. No data will ever be sent to any server or cloud. Read more in our user-friendly <a class="external-link" href="https://aprico.org/privacy.html">Privacy Policy</a>.</h6>
     </div>
     </div>
   	`,
@@ -94,7 +94,7 @@ const templates = {
   <div id="aprico-about" class="flex-auto flex flex-column col-12">
   <!-- <div class="flex flex-column bg-gray-1"> -->
   <div class="p2 sm-p3">
-    <p id="aprico-tips" class="h6 md-h5"></p>
+    <p id="aprico-tips" class="h6 md-h5 m0"></p>
   </div>
   <span class="flex-auto"></span>
   <div class="flex p2 sm-p3">
