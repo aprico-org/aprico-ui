@@ -1,7 +1,7 @@
 {
   "name": "aprico-ui",
   "description": "Universal UI implementation for the Aprico Password Manager.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "src/js/aprico-ui.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
