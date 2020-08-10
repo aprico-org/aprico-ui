@@ -160,6 +160,12 @@ function renderLogin() {
   
   setupLogin();
   setupCommon();
+
+  // fire custom event
+  if (!platform.webext) {
+  	const _event = new Event('aprico:login');
+  	_root.dispatchEvent(_event);
+  }
 }
 
 
@@ -173,6 +179,12 @@ function renderMain() {
 
   setupMain();
   setupCommon();
+
+  // fire custom event
+  if (!platform.webext) {
+  	const _event = new Event('aprico:main');
+  	_root.dispatchEvent(_event);
+  }
 }
 
 

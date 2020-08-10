@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to `aprico-ui` will be documented in this file.
 
+## 0.2.1 - 2020-08-10
+### Added
+- JS: Custom events
+- UI: new copy to clipboard icon
+
+### Fixed
+- DEV: updated dev dependencies
+
 ## 0.2.0 - 2019-06-05
 ### Added
 - Updated aprico-gen to 1.1.0
