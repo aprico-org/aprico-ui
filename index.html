@@ -1,45 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8">
-	<title>aprico</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link href="dist/css/index.css" rel="stylesheet">
-
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="format-detection" content="telephone=no">
-
+		<meta charset="utf-8">
+		<title>aprico</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<link href="dist/css/index.css" rel="stylesheet">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
 </head>
+
 <body class="flex flex-column">
-<div class="flex-auto flex flex-column md-flex-row" style="height:calc(100%-0)">
-	<div class="md-col-6 p2 sm-p3 md-flex flex-column justify-between md-bg-gray">
-		<div>
-			<img class="block" style="height:48px" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIwIDI0Ij48ZyBmaWxsPSIjRUYzRDMzIj48cGF0aCBkPSJNOCAxMkgxMlYxNkg4eiIvPjxwYXRoIGQ9Ik04IDE2SDEyVjIwSDh6Ii8+PHBhdGggZD0iTTggMjBIMTJWMjRIOHoiLz48cGF0aCBkPSJNNCA0SDhWOEg0eiIvPjxwYXRoIGQ9Ik0xMiA0SDE2VjhIMTJ6Ii8+PHBhdGggZD0iTTQgMTJIOFYxNkg0eiIvPjxwYXRoIGQ9Ik0xMiAxMkgxNlYxNkgxMnoiLz48cGF0aCBkPSJNNCAyMEg4VjI0SDR6Ii8+PHBhdGggZD0iTTEyIDIwSDE2VjI0SDEyeiIvPjxwYXRoIGQ9Ik0wIDEySDRWMTZIMHoiLz48cGF0aCBkPSJNMTYgMTJIMjBWMTZIMTZ6Ii8+PHBhdGggZD0iTTAgMTZINFYyMEgweiIvPjxwYXRoIGQ9Ik0xNiAxNkgyMFYyMEgxNnoiLz48cGF0aCBkPSJNMCAyMEg0VjI0SDB6Ii8+PHBhdGggZD0iTTE2IDIwSDIwVjI0SDE2eiIvPjxwYXRoIGQ9Ik00IDBIMTZWNEg0eiIvPjwvZz48L3N2Zz4=">
+		<div class="flex-auto flex flex-column md-flex-row" style="height:calc(100%-0)">
+				<div class="md-col-6 p2 sm-p3 md-flex flex-column justify-between md-bg-gray">
+						<div>
+								<img class="block" style="height:48px" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIwIDI0Ij48ZyBmaWxsPSIjRUYzRDMzIj48cGF0aCBkPSJNOCAxMkgxMlYxNkg4eiIvPjxwYXRoIGQ9Ik04IDE2SDEyVjIwSDh6Ii8+PHBhdGggZD0iTTggMjBIMTJWMjRIOHoiLz48cGF0aCBkPSJNNCA0SDhWOEg0eiIvPjxwYXRoIGQ9Ik0xMiA0SDE2VjhIMTJ6Ii8+PHBhdGggZD0iTTQgMTJIOFYxNkg0eiIvPjxwYXRoIGQ9Ik0xMiAxMkgxNlYxNkgxMnoiLz48cGF0aCBkPSJNNCAyMEg4VjI0SDR6Ii8+PHBhdGggZD0iTTEyIDIwSDE2VjI0SDEyeiIvPjxwYXRoIGQ9Ik0wIDEySDRWMTZIMHoiLz48cGF0aCBkPSJNMTYgMTJIMjBWMTZIMTZ6Ii8+PHBhdGggZD0iTTAgMTZINFYyMEgweiIvPjxwYXRoIGQ9Ik0xNiAxNkgyMFYyMEgxNnoiLz48cGF0aCBkPSJNMCAyMEg0VjI0SDB6Ii8+PHBhdGggZD0iTTE2IDIwSDIwVjI0SDE2eiIvPjxwYXRoIGQ9Ik00IDBIMTZWNEg0eiIvPjwvZz48L3N2Zz4=">
+						</div>
+						<div class="h5 xs-hide sm-hide">
+								<h1 class="h5 md-h4"><strong>aprico</strong> is an open-source deterministic password manager.</h1>
+								<p>This page is for testing, development or personal use only.</p>
+								<p>For the full implementation, please see <a href="https://aprico.org">aprico.org</a>.</p>
+								<p>This software is released under the terms of the <strong>GNU GPLv3</strong> license. You can find the source code on <a href="https://github.com/aprico-org">GitHub</a>.</p>
+						</div>
+						<pre class="h6 xs-hide sm-hide monospace m0 p0"><code id="aprico-version"></code></pre>
+				</div>
+				<div class="md-col-6 md-box-shadow flex flex-auto">
+						<div id="aprico" class="col-12 flex"></div>
+				</div>
 		</div>
-		<div class="h5 xs-hide sm-hide">
-		<p class="mb3"><strong>aprico</strong> is an open-source deterministic password manager. </p>
-		<p>This is a page for testing <code class="px0">aprico-ui</code>. Please use <a href="https://aprico.org">aprico.org</a> for the full version.</p>
-
-		<!--
-		<h4 class="h6 caps weight-700 line-height-2">Try me with <br>your smartphone:</h4>
-		<p class="-flex items-center">
-			<img class="block" style="height:100px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAACvAgMAAAD2/GbmAAAACVBMVEVHcEz///8AAADmzmMiAAAAAXRSTlMAQObYZgAAAaNJREFUeF7t2DtuwzAMBmAiY/ZcQkfxGJQecoSeokuP4D0ZCjA8ZWU+wFiwjLSjpH8JonzyQISSLOAIf/k3ADjnb/IRoS0e+ImWW8aStI6vYcp4QUu/+F7DWeU8FZ+ySwwgVTfMa5Y6Pg0cvfFPPLDkHTywxjvlgZ+Ms+Cc6O5d/NM+TnypYUlUVuZY1ZmON6Bn+3g6wNuwbic2tZaB4+fEUlLpFMFR55jD1CsmwelewcwPXOfgJHPsLymDFoDAsmDEFr5GV5HW8FTBBFCckXG2ThFlc6wjEv0Bcwv4cnX82MMyEC1CYDl7bZPP6QnDO9he0FgaOVZEVVB0t2MaOJEqL6JVPVZLe6RSeB9zGxiOsSb+fB5IxQUCU4mpc0w+7t3txf9GNXqaXvAQL46xTRzVwOuKPwJ7d2usUyzWH9kFHrjM63hie6PrHFMNc2SzfYCfuReMjtjF3C0u7wrukOQsuKmzZh/j3CcubqhY4tgSC0AdD+y9IfFBSZeYNphwquC4CfQ6+8uLZAcPbLkV27El6YMcD0w47dyLFkdC+7Byb/HAv8qzADRCV+u5AAAAAElFTkSuQmCC">
-			<span class="h6 gray-3 monospace">use.aprico.org</span>
-		</p>
-		<h4 class="h6 caps weight-700 line-height-2">Or in your browser:</h4>
-		<p><a class="btn btn-outline h6 mr2 mb2" href="#!">FireFox Extension</a> 
-			<a class="btn btn-outline h6 mb2" href="#!">Chrome Extension</a></p>
-		-->
-		</div>
-		<pre class="h6 xs-hide sm-hide monospace m0 p0"><code id="aprico-version"></code></pre>
-	</div>
-
-	<div class="md-col-6 md-box-shadow flex flex-auto">
-		<div id="aprico" class="col-12 flex"></div>
-	</div>
-</div>
-
-<script src="dist/js/bundle.js"></script>
+		<script src="dist/js/bundle.js"></script>
 </body>
+
 </html>
