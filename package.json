@@ -37,7 +37,7 @@
     "browserify": "^16.2.3",
     "cssnano": "^4.1.10",
     "genversion": "^2.2.1",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.10",
     "postcss-calc": "^7.0.3",
     "postcss-cli": "^7.1.1",
     "postcss-color-function": "^4.1.0",
