@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-css": "postcss src/css/index.css -d dist/css --config postcss.config.js --verbose",
-    "build-js": "genversion src/js/version.js && browserify -i buffer src/js/main.js | uglifyjs -cm > dist/js/bundle.js",
+    "build-js": "genversion src/js/version.js && browserify -i buffer src/js/main.js | terser -cm > dist/js/bundle.js",
     "build": "npm run build-js && npm run build-css",
     "watch-js": "watchify -i buffer src/js/main.js -o dist/js/bundle.js -v",
     "prepare": "npm run build"
@@ -26,26 +26,28 @@
     "url": "https://github.com/aprico-org/aprico-ui/issues"
   },
   "homepage": "https://github.com/aprico-org/aprico-ui",
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "iOS >= 18"
+  ],
   "dependencies": {
-    "aprico-gen": "^1.1.0",
+    "aprico-gen": "^1.1.1",
     "identicon.js": "^2.3.3"
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.6",
+    "autoprefixer": "^10.5.4",
     "basscss": "^8.1.0",
     "basscss-addons": "^1.0.0",
-    "browserify": "^16.2.3",
-    "cssnano": "^4.1.10",
-    "genversion": "^2.2.1",
-    "postcss": "^7.0.32",
-    "postcss-calc": "^7.0.3",
-    "postcss-cli": "^7.1.1",
-    "postcss-color-function": "^4.1.0",
-    "postcss-custom-media": "^7.0.8",
-    "postcss-custom-properties": "^9.1.1",
-    "postcss-import": "^12.0.1",
-    "postcss-remove-root": "0.0.2",
-    "uglify-es": "^3.3.9",
-    "watchify": "^3.11.1"
+    "browserify": "^17.0.1",
+    "cssnano": "^8.0.2",
+    "genversion": "^3.2.0",
+    "postcss": "^8.5.24",
+    "postcss-cli": "^11.0.1",
+    "postcss-custom-media": "^12.0.1",
+    "postcss-custom-properties": "^15.0.1",
+    "postcss-import": "^16.1.1",
+    "terser": "^5.49.0",
+    "watchify": "^4.0.0"
   }
 }

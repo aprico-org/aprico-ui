@@ -38,7 +38,7 @@
 	--body-color: var(--black);/*color(var(--body-background-color) contrast(70%));*/
 	--heading-color: inherit;
 	--link-color: var(--blue);
-	--link-hover-color: color(var(--link-color) lightness(+10%));
+	--link-hover-color: #0F8FFF; /* was color(var(--link-color) lightness(+10%)) */
 	--link-visited-color: inherit; /*color(var(--link-color) blackness(10%));*/
 	--link-text-decoration: none;
 	--link-hover-text-decoration: underline;

@@ -303,6 +303,7 @@ function setupMain(){
 	
 	let timerId,
 		results,
+		copyPromise,
 		copy;
 
 
@@ -352,10 +353,15 @@ function setupMain(){
 	  // in step 2 because... timing
 	  $result.value = results.pass;
 	  results = false;
-	  copy = utils.copyToClipboard($result);
+	  // fire the copy here but await it in step 3: the clipboard write has
+	  // to start as early as possible to stay inside the user activation
+	  // window Safari/Firefox require.
+	  copyPromise = utils.copyToClipboard($result);
 
 	  return setTimeout(resolve,100);
 	});
+
+	copy = await copyPromise;
 
 	// 3. Resolve UI
 	let step3 = await new Promise(function(resolve){
@@ -387,8 +393,8 @@ function setupMain(){
 
 
 
-  $triggerCopy.addEventListener('click',function(e){
-	let copy = utils.copyToClipboard($result);
+  $triggerCopy.addEventListener('click',async function(e){
+	let copy = await utils.copyToClipboard($result);
 	if (copy) $label.textContent = 'Password copied to clipboard.'
 	  else alert('There was an error with the clipboard copy.');
   });
